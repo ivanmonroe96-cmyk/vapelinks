@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6C5CE7;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#3D2D8F;stop-opacity:1"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#bg)"/>
+  <g transform="translate(400,190)" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Pod device (left) -->
+    <rect x="-110" y="-70" width="40" height="110" rx="10" fill="rgba(255,255,255,0.12)" stroke="#fff"/>
+    <rect x="-104" y="-55" width="28" height="30" rx="4" fill="rgba(255,255,255,0.15)" stroke="#fff" stroke-width="2"/>
+    <circle cx="-90" cy="15" r="4" fill="rgba(255,255,255,0.2)" stroke="#fff" stroke-width="2"/>
+    <line x1="-90" y1="-75" x2="-90" y2="-70" stroke="#fff" stroke-width="2.5"/>
+    <!-- VS text -->
+    <text x="0" y="8" text-anchor="middle" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="22" fill="rgba(255,255,255,0.5)" font-weight="bold" stroke="none">VS</text>
+    <!-- Box mod (right) -->
+    <rect x="60" y="-80" width="60" height="130" rx="8" fill="rgba(255,255,255,0.12)" stroke="#fff"/>
+    <rect x="70" y="-65" width="40" height="35" rx="4" fill="rgba(255,255,255,0.15)" stroke="#fff" stroke-width="2"/>
+    <text x="90" y="-40" text-anchor="middle" font-family="monospace" font-size="11" fill="rgba(255,255,255,0.5)" stroke="none">50W</text>
+    <circle cx="80" cy="5" r="5" fill="rgba(255,255,255,0.2)" stroke="#fff" stroke-width="2"/>
+    <circle cx="100" cy="5" r="5" fill="rgba(255,255,255,0.2)" stroke="#fff" stroke-width="2"/>
+    <rect x="75" y="20" width="30" height="12" rx="3" fill="rgba(255,255,255,0.15)" stroke="#fff" stroke-width="2"/>
+    <!-- Tank on top -->
+    <rect x="72" y="-105" width="36" height="25" rx="5" fill="rgba(255,255,255,0.1)" stroke="#fff" stroke-width="2.5"/>
+    <line x1="80" y1="-105" x2="80" y2="-80" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+    <line x1="100" y1="-105" x2="100" y2="-80" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+  </g>
+  <text x="400" y="400" text-anchor="middle" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="18" fill="rgba(255,255,255,0.7)" letter-spacing="2">POD VS BOX MOD</text>
+</svg>

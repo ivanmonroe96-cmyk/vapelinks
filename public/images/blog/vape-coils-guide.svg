@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0ABFBC;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#066B6A;stop-opacity:1"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#bg)"/>
+  <g transform="translate(400,185)" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Coil spring -->
+    <ellipse cx="0" cy="-65" rx="35" ry="10" fill="none" stroke="#fff" stroke-width="2.5" opacity="0.5"/>
+    <path d="M-35,-55 C-35,-45 35,-45 35,-55" stroke="#fff" stroke-width="2.5"/>
+    <path d="M-35,-45 C-35,-35 35,-35 35,-45" stroke="#fff" stroke-width="2.5"/>
+    <path d="M-35,-35 C-35,-25 35,-25 35,-35" stroke="#fff" stroke-width="2.5"/>
+    <path d="M-35,-25 C-35,-15 35,-15 35,-25" stroke="#fff" stroke-width="2.5"/>
+    <path d="M-35,-15 C-35,-5 35,-5 35,-15" stroke="#fff" stroke-width="2.5"/>
+    <path d="M-35,-5 C-35,5 35,5 35,-5" stroke="#fff" stroke-width="2.5"/>
+    <path d="M-35,5 C-35,15 35,15 35,5" stroke="#fff" stroke-width="2.5"/>
+    <path d="M-35,15 C-35,25 35,25 35,15" stroke="#fff" stroke-width="2.5"/>
+    <ellipse cx="0" cy="25" rx="35" ry="10" fill="none" stroke="#fff" stroke-width="2.5" opacity="0.5"/>
+    <!-- Leads -->
+    <line x1="-35" y1="25" x2="-35" y2="55" stroke="#fff" stroke-width="3"/>
+    <line x1="35" y1="25" x2="35" y2="55" stroke="#fff" stroke-width="3"/>
+    <!-- Connectors -->
+    <circle cx="-35" cy="58" r="5" fill="rgba(255,255,255,0.2)" stroke="#fff" stroke-width="2"/>
+    <circle cx="35" cy="58" r="5" fill="rgba(255,255,255,0.2)" stroke="#fff" stroke-width="2"/>
+    <!-- Glow effect -->
+    <ellipse cx="0" cy="-20" rx="25" ry="40" fill="rgba(255,150,50,0.08)" stroke="none"/>
+  </g>
+  <text x="400" y="400" text-anchor="middle" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="18" fill="rgba(255,255,255,0.7)" letter-spacing="2">VAPE COILS GUIDE</text>
+</svg>

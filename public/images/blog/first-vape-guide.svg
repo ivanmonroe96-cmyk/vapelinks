@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4A90D9;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#2C5F8A;stop-opacity:1"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#bg)" rx="0"/>
+  <g transform="translate(400,190)" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Rocket body -->
+    <path d="M0,-80 C-20,-60 -20,20 0,60 C20,20 20,-60 0,-80Z" fill="rgba(255,255,255,0.15)" stroke="#fff"/>
+    <!-- Nose cone highlight -->
+    <ellipse cx="0" cy="-20" rx="8" ry="12" fill="rgba(255,255,255,0.2)"/>
+    <!-- Window -->
+    <circle cx="0" cy="-10" r="10" fill="rgba(255,255,255,0.25)" stroke="#fff" stroke-width="2.5"/>
+    <!-- Left fin -->
+    <path d="M-18,30 L-38,60 L-14,50Z" fill="rgba(255,255,255,0.15)" stroke="#fff" stroke-width="2.5"/>
+    <!-- Right fin -->
+    <path d="M18,30 L38,60 L14,50Z" fill="rgba(255,255,255,0.15)" stroke="#fff" stroke-width="2.5"/>
+    <!-- Flames -->
+    <path d="M-10,60 Q-8,85 0,95 Q8,85 10,60" fill="rgba(255,200,100,0.4)" stroke="rgba(255,200,100,0.8)" stroke-width="2"/>
+    <path d="M-5,60 Q-3,78 0,85 Q3,78 5,60" fill="rgba(255,160,60,0.5)" stroke="rgba(255,180,80,0.8)" stroke-width="2"/>
+    <!-- Stars -->
+    <circle cx="-80" cy="-50" r="2.5" fill="#fff" opacity="0.6"/>
+    <circle cx="70" cy="-60" r="2" fill="#fff" opacity="0.5"/>
+    <circle cx="90" cy="10" r="3" fill="#fff" opacity="0.4"/>
+    <circle cx="-100" cy="20" r="2" fill="#fff" opacity="0.5"/>
+    <circle cx="-60" cy="40" r="1.5" fill="#fff" opacity="0.4"/>
+    <circle cx="60" cy="50" r="2" fill="#fff" opacity="0.3"/>
+  </g>
+  <text x="400" y="400" text-anchor="middle" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="18" fill="rgba(255,255,255,0.7)" letter-spacing="2">YOUR FIRST VAPE GUIDE</text>
+</svg>

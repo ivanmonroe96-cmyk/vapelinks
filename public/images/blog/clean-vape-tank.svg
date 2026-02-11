@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00B894;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#006B57;stop-opacity:1"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#bg)"/>
+  <g transform="translate(400,180)" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Tank body -->
+    <rect x="-30" y="-50" width="60" height="90" rx="6" fill="rgba(255,255,255,0.12)" stroke="#fff" stroke-width="2.5"/>
+    <!-- Tank top cap -->
+    <rect x="-35" y="-55" width="70" height="12" rx="4" fill="rgba(255,255,255,0.15)" stroke="#fff" stroke-width="2.5"/>
+    <!-- Tank bottom cap -->
+    <rect x="-35" y="35" width="70" height="12" rx="4" fill="rgba(255,255,255,0.15)" stroke="#fff" stroke-width="2.5"/>
+    <!-- Drip tip -->
+    <rect x="-10" y="-70" width="20" height="18" rx="5" fill="rgba(255,255,255,0.12)" stroke="#fff" stroke-width="2"/>
+    <!-- Glass lines -->
+    <line x1="-25" y1="-35" x2="-25" y2="30" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+    <line x1="25" y1="-35" x2="25" y2="30" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+    <!-- Sparkles -->
+    <g stroke="#fff" stroke-width="2" opacity="0.8">
+      <!-- Sparkle 1 -->
+      <line x1="55" y1="-60" x2="55" y2="-45"/>
+      <line x1="48" y1="-52" x2="62" y2="-52"/>
+      <line x1="50" y1="-58" x2="60" y2="-47"/>
+      <line x1="60" y1="-58" x2="50" y2="-47"/>
+      <!-- Sparkle 2 -->
+      <line x1="-55" y1="-40" x2="-55" y2="-30" opacity="0.6"/>
+      <line x1="-60" y1="-35" x2="-50" y2="-35" opacity="0.6"/>
+      <!-- Sparkle 3 -->
+      <line x1="70" y1="10" x2="70" y2="20" opacity="0.5"/>
+      <line x1="65" y1="15" x2="75" y2="15" opacity="0.5"/>
+      <!-- Sparkle 4 -->
+      <line x1="-65" y1="20" x2="-65" y2="28" opacity="0.4"/>
+      <line x1="-69" y1="24" x2="-61" y2="24" opacity="0.4"/>
+    </g>
+  </g>
+  <text x="400" y="400" text-anchor="middle" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="18" fill="rgba(255,255,255,0.7)" letter-spacing="2">HOW TO CLEAN YOUR VAPE TANK</text>
+</svg>

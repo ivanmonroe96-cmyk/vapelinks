@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#D63031;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#7B1A1A;stop-opacity:1"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#bg)"/>
+  <g transform="translate(400,175)" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Question mark -->
+    <g transform="translate(-55,0)">
+      <path d="M-5,-55 Q-15,-60 -15,-50 Q-15,-35 0,-30 Q10,-28 10,-15 L10,-5" stroke="#fff" stroke-width="3" fill="none"/>
+      <circle cx="10" cy="8" r="3.5" fill="rgba(255,255,255,0.7)" stroke="#fff" stroke-width="2"/>
+      <!-- Circle around question mark -->
+      <circle cx="0" cy="-20" r="45" fill="rgba(255,255,255,0.06)" stroke="#fff" stroke-width="2" opacity="0.5"/>
+    </g>
+    <!-- Wrench -->
+    <g transform="translate(55,-5) rotate(30)">
+      <rect x="-7" y="-5" width="14" height="70" rx="3" fill="rgba(255,255,255,0.12)" stroke="#fff" stroke-width="2.5"/>
+      <path d="M-16,-5 A18,18 0 0,1 16,-5 L10,-5 A8,8 0 0,0 -10,-5Z" fill="rgba(255,255,255,0.15)" stroke="#fff" stroke-width="2.5"/>
+    </g>
+    <!-- Warning triangle -->
+    <g transform="translate(0,55)" opacity="0.5">
+      <path d="M0,-12 L14,12 L-14,12Z" fill="rgba(255,255,255,0.1)" stroke="#fff" stroke-width="2"/>
+      <line x1="0" y1="-4" x2="0" y2="4" stroke="#fff" stroke-width="2.5"/>
+      <circle cx="0" cy="8" r="1.5" fill="#fff" stroke="none"/>
+    </g>
+    <!-- Gear -->
+    <g transform="translate(85,-55)" opacity="0.4">
+      <circle cx="0" cy="0" r="12" fill="rgba(255,255,255,0.08)" stroke="#fff" stroke-width="2"/>
+      <circle cx="0" cy="0" r="5" fill="none" stroke="#fff" stroke-width="1.5"/>
+      <!-- Teeth -->
+      <rect x="-3" y="-16" width="6" height="6" rx="1" fill="rgba(255,255,255,0.15)" stroke="#fff" stroke-width="1"/>
+      <rect x="-3" y="10" width="6" height="6" rx="1" fill="rgba(255,255,255,0.15)" stroke="#fff" stroke-width="1"/>
+      <rect x="-16" y="-3" width="6" height="6" rx="1" fill="rgba(255,255,255,0.15)" stroke="#fff" stroke-width="1"/>
+      <rect x="10" y="-3" width="6" height="6" rx="1" fill="rgba(255,255,255,0.15)" stroke="#fff" stroke-width="1"/>
+    </g>
+  </g>
+  <text x="400" y="400" text-anchor="middle" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="18" fill="rgba(255,255,255,0.7)" letter-spacing="2">TROUBLESHOOTING YOUR VAPE</text>
+</svg>

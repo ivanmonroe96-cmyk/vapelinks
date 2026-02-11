@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#E17055;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#8B3A2A;stop-opacity:1"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#bg)"/>
+  <g transform="translate(400,185)" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Left drop (PG) -->
+    <path d="M-70,-70 Q-70,-30 -100,10 A42,42 0 1,0 -40,10 Q-70,-30 -70,-70Z" fill="rgba(255,255,255,0.15)" stroke="#fff" stroke-width="2.5"/>
+    <text x="-70" y="25" text-anchor="middle" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="20" fill="rgba(255,255,255,0.7)" font-weight="bold" stroke="none">PG</text>
+    <!-- Shine on left drop -->
+    <ellipse cx="-82" cy="-5" rx="5" ry="10" fill="rgba(255,255,255,0.2)" stroke="none" transform="rotate(-15,-82,-5)"/>
+    <!-- VS -->
+    <text x="0" y="8" text-anchor="middle" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="22" fill="rgba(255,255,255,0.5)" font-weight="bold" stroke="none">VS</text>
+    <!-- Right drop (VG) -->
+    <path d="M70,-70 Q70,-30 40,10 A42,42 0 1,0 100,10 Q70,-30 70,-70Z" fill="rgba(255,255,255,0.15)" stroke="#fff" stroke-width="2.5"/>
+    <text x="70" y="25" text-anchor="middle" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="20" fill="rgba(255,255,255,0.7)" font-weight="bold" stroke="none">VG</text>
+    <!-- Shine on right drop -->
+    <ellipse cx="58" cy="-5" rx="5" ry="10" fill="rgba(255,255,255,0.2)" stroke="none" transform="rotate(-15,58,-5)"/>
+  </g>
+  <text x="400" y="400" text-anchor="middle" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="18" fill="rgba(255,255,255,0.7)" letter-spacing="2">PG VS VG EXPLAINED</text>
+</svg>

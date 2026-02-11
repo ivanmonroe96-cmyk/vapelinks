@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#636E72;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#2D3436;stop-opacity:1"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#bg)"/>
+  <g transform="translate(400,185)" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Wrench -->
+    <g transform="rotate(-45)">
+      <rect x="-8" y="-10" width="16" height="90" rx="4" fill="rgba(255,255,255,0.12)" stroke="#fff" stroke-width="2.5"/>
+      <path d="M-18,-10 A22,22 0 0,1 18,-10 L12,-10 A10,10 0 0,0 -12,-10Z" fill="rgba(255,255,255,0.15)" stroke="#fff" stroke-width="2.5"/>
+    </g>
+    <!-- Screwdriver -->
+    <g transform="translate(5,-5) rotate(45)">
+      <rect x="-5" y="-60" width="10" height="70" rx="2" fill="rgba(255,255,255,0.12)" stroke="#fff" stroke-width="2.5"/>
+      <rect x="-9" y="10" width="18" height="40" rx="4" fill="rgba(255,255,255,0.15)" stroke="#fff" stroke-width="2.5"/>
+      <!-- Grip lines -->
+      <line x1="-7" y1="20" x2="7" y2="20" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+      <line x1="-7" y1="28" x2="7" y2="28" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+      <line x1="-7" y1="36" x2="7" y2="36" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+    </g>
+    <!-- Gear -->
+    <circle cx="45" cy="-55" r="12" fill="rgba(255,255,255,0.1)" stroke="#fff" stroke-width="2" opacity="0.5"/>
+    <circle cx="45" cy="-55" r="6" fill="none" stroke="#fff" stroke-width="1.5" opacity="0.5"/>
+    <!-- Small nuts -->
+    <circle cx="-50" cy="55" r="8" fill="rgba(255,255,255,0.1)" stroke="#fff" stroke-width="2" opacity="0.4"/>
+    <circle cx="-50" cy="55" r="3" fill="none" stroke="#fff" stroke-width="1.5" opacity="0.4"/>
+  </g>
+  <text x="400" y="400" text-anchor="middle" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="18" fill="rgba(255,255,255,0.7)" letter-spacing="2">VAPE MAINTENANCE TIPS</text>
+</svg>
