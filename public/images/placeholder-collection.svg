@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 340" fill="none">
+  <rect width="600" height="340" fill="#f0f0ee"/>
+  <g transform="translate(260,120)" stroke="#c0c0b8" stroke-width="2" fill="none">
+    <rect x="10" y="0" width="60" height="100" rx="8"/>
+    <rect x="18" y="8" width="44" height="60" rx="4" fill="#e0e0dc"/>
+    <circle cx="40" cy="80" r="6"/>
+    <path d="M35 80h10" stroke-linecap="round"/>
+  </g>
+  <text x="300" y="260" font-family="sans-serif" font-size="14" fill="#a0a098" text-anchor="middle">Collection</text>
+</svg>
