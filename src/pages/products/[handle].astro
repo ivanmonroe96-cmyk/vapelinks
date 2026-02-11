@@ -1,0 +1,1035 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import productsRaw from '../../data/products.json';
+import disposableVapes from '../../data/disposable-vapes.json';
+import { SEO_KEYWORDS } from '../../data/seo-keywords.js';
+import { generateReviews, getStarDistribution } from '../../utils/reviews.js';
+
+export function getStaticPaths() {
+  const productsData = [...productsRaw, ...disposableVapes] as any[];
+  return productsData.map((product: any) => ({
+    params: { handle: product.handle },
+    props: { product },
+  }));
+}
+
+const { product } = Astro.props;
+const price = product.variants[0]?.price || '0.00';
+const comparePrice = product.variants[0]?.compare_at_price;
+const hasDiscount = comparePrice && parseFloat(comparePrice) > parseFloat(price);
+const discountPercent = hasDiscount ? Math.round((1 - parseFloat(price) / parseFloat(comparePrice)) * 100) : 0;
+
+const plainDescription = (product.body_html || '').replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
+
+// Build SEO description — extract meaningful content, cap at 155 chars
+const productDescSnippet = plainDescription.substring(0, 120).trim();
+const pricePart = hasDiscount ? `Now $${price} (was $${comparePrice})` : `$${price} AUD`;
+const seoDescBase = productDescSnippet
+  ? `${productDescSnippet}${productDescSnippet.length >= 120 ? '...' : ''} — ${pricePart}. Free shipping over $100.`
+  : `Buy ${product.title}${product.vendor ? ` by ${product.vendor}` : ''} for ${pricePart} at Vapelink. Fast AU shipping, free over $100.`;
+const seoDescription = seoDescBase.length > 160 ? seoDescBase.substring(0, 157) + '...' : seoDescBase;
+
+// SEO title — brand + product + buy online, cap at 60 chars for Google
+const titleBase = `${product.title}${product.vendor ? ` – ${product.vendor}` : ''} | Vapelink Australia`;
+const seoTitle = titleBase.length > 60 ? `${product.title} | Buy Online – Vapelink` : titleBase;
+
+// Strip product images from body_html to avoid showing them twice (gallery + description)
+const cleanBodyHtml = (product.body_html || '').replace(/<img[^>]*>/gi, '');
+
+const productsData = [...productsRaw, ...disposableVapes] as any[];
+const relatedProducts = productsData
+  .filter((p: any) =>
+    p.handle !== product.handle &&
+    (p.product_type === product.product_type || p.vendor === product.vendor)
+  )
+  .slice(0, 4);
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": product.title,
+  "description": seoDescription,
+  "image": product.images.map((img: any) => img.src),
+  "sku": product.variants[0]?.sku || product.handle,
+  "brand": { "@type": "Brand", "name": product.vendor || "Vapelink" },
+  "offers": {
+    "@type": "Offer",
+    "url": `https://vapelink.com.au/products/${product.handle}`,
+    "price": price,
+    "priceCurrency": "AUD",
+    "availability": product.variants[0]?.available ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+    "seller": { "@type": "Organization", "name": "Vapelink Australia" },
+    "shippingDetails": {
+      "@type": "OfferShippingDetails",
+      "shippingRate": {
+        "@type": "MonetaryAmount",
+        "value": "9.95",
+        "currency": "AUD"
+      },
+      "shippingDestination": {
+        "@type": "DefinedRegion",
+        "addressCountry": "AU"
+      },
+      "deliveryTime": {
+        "@type": "ShippingDeliveryTime",
+        "handlingTime": { "@type": "QuantitativeValue", "minValue": 1, "maxValue": 2, "unitCode": "DAY" },
+        "transitTime": { "@type": "QuantitativeValue", "minValue": 3, "maxValue": 7, "unitCode": "DAY" }
+      }
+    }
+  }
+};
+
+const breadcrumbData = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://vapelink.com.au/" },
+    { "@type": "ListItem", "position": 2, "name": "Shop", "item": "https://vapelink.com.au/collections/shop" },
+    ...(product.product_type ? [{ "@type": "ListItem", "position": 3, "name": product.product_type, "item": "https://vapelink.com.au/collections/shop" }] : []),
+    { "@type": "ListItem", "position": product.product_type ? 4 : 3, "name": product.title, "item": `https://vapelink.com.au/products/${product.handle}` }
+  ]
+};
+
+// ─── Generate Reviews ───
+const reviewData = generateReviews(product.handle);
+const starDist = getStarDistribution(reviewData.reviews);
+
+// Add aggregate rating to structured data
+(structuredData as any).aggregateRating = {
+  "@type": "AggregateRating",
+  "ratingValue": reviewData.averageRating,
+  "reviewCount": reviewData.totalReviews,
+  "bestRating": 5,
+  "worstRating": 1
+};
+
+// ─── Intelligent SEO keyword generation from keyword database ───
+function getProductKeywords(prod: any): string {
+  const kw: string[] = [];
+  const titleLower = prod.title.toLowerCase();
+  const typeLower = (prod.product_type || '').toLowerCase();
+  const vendorLower = (prod.vendor || '').toLowerCase();
+
+  // 1. Match product type keywords
+  const typeMap: Record<string, string> = {
+    'ejuice': 'EJUICE', 'e-juice': 'EJUICE', 'e-liquid': 'EJUICE', 'juice': 'EJUICE',
+    'coil': 'COILS', 'cartridge': 'CARTRIDGES', 'pod': 'CARTRIDGES',
+    'accessor': 'ACCESSORIES', 'case': 'ACCESSORIES', 'cable': 'ACCESSORIES',
+    'glass': 'REPLACEMENT_GLASS', 'drip tip': 'DRIP_TIPS', 'mouthpiece': 'DRIP_TIPS',
+    'starter kit': 'STARTER_KITS', 'kit': 'STARTER_KITS',
+    'mod': 'MODS', 'box mod': 'MODS',
+    'dry herb': 'DRY_HERB_VAPORIZERS', 'vaporizer': 'DRY_HERB_VAPORIZERS', 'vaporiser': 'DRY_HERB_VAPORIZERS',
+    'pod kit': 'POD_KITS', 'pod system': 'POD_KITS',
+    'rda': 'RDA', 'dripper': 'RDA',
+    'tank': 'TANKS', 'sub ohm': 'TANKS', 'sub-ohm': 'TANKS',
+    'rta': 'RTA', 'rebuildable tank': 'RTA',
+    'battery': 'BATTERIES', '18650': 'BATTERIES', '21700': 'BATTERIES',
+    'cbd': 'CBD',
+    'cotton': 'ORGANIC_COTTON', 'wick': 'ORGANIC_COTTON',
+    'rdta': 'RDTA',
+    'charger': 'CHARGERS', 'charging': 'CHARGERS',
+    'tool': 'DIY_TOOLS', 'tweezer': 'DIY_TOOLS', 'jig': 'DIY_TOOLS',
+  };
+
+  let matchedType = '';
+  for (const [pattern, typeKey] of Object.entries(typeMap)) {
+    if (typeLower.includes(pattern) || titleLower.includes(pattern)) {
+      matchedType = typeKey;
+      break;
+    }
+  }
+
+  const _ptypes: Record<string, any> = SEO_KEYWORDS.productTypes;
+  if (matchedType && _ptypes[matchedType]) {
+    const typeData = _ptypes[matchedType];
+    kw.push(typeData.primary);
+    // Add 2-3 best secondary keywords
+    kw.push(...typeData.secondary.slice(0, 3));
+    // Add 3-4 LSI terms
+    kw.push(...typeData.lsi.slice(0, 4));
+  }
+
+  // 2. Match brand keywords
+  const vendorNorm = prod.vendor || '';
+  for (const [brand, brandData] of Object.entries(SEO_KEYWORDS.brands)) {
+    if (vendorNorm.toLowerCase().includes(brand.toLowerCase()) || titleLower.includes(brand.toLowerCase())) {
+      kw.push((brandData as any).primary);
+      kw.push(...(brandData as any).secondary.slice(0, 2));
+      break;
+    }
+  }
+
+  // 3. Match flavour profiles (for e-liquids)
+  if (matchedType === 'EJUICE' || typeLower.includes('juice') || typeLower.includes('liquid') || typeLower === 'add-on') {
+    for (const [flavour, flavourKws] of Object.entries(SEO_KEYWORDS.productPatterns.flavourProfiles)) {
+      if (titleLower.includes(flavour)) {
+        kw.push(...flavourKws);
+        break; // Only match first flavour
+      }
+    }
+  }
+
+  // 4. Match device type patterns
+  for (const [devicePattern, deviceKws] of Object.entries(SEO_KEYWORDS.productPatterns.deviceTypes)) {
+    if (titleLower.includes(devicePattern)) {
+      kw.push(...deviceKws);
+      break;
+    }
+  }
+
+  // 5. Add core product identifiers
+  kw.push(prod.title);
+  if (prod.vendor) kw.push(prod.vendor);
+  if (prod.product_type) kw.push(prod.product_type);
+
+  // 6. Add relevant tags (clean ones only)
+  const cleanTags = (prod.tags || [])
+    .filter((t: string) => !t.startsWith('Brand ') && !t.startsWith('Country ') && !t.startsWith('Style ') && t.length > 3 && t.length < 40)
+    .slice(0, 5);
+  kw.push(...cleanTags);
+
+  // 7. Add 2 generic sitewide keywords
+  kw.push('vape shop australia', 'buy online australia');
+
+  // Deduplicate & join (cap at ~20 keywords for meta tag best practice)
+  const unique = [...new Set(kw.map(k => k.trim()).filter(Boolean))].slice(0, 20);
+  return unique.join(', ');
+}
+
+const seoKeywords = getProductKeywords(product);
+---
+
+<Layout title={seoTitle} description={seoDescription} image={product.images[0]?.src} type="product">
+  <Fragment slot="head">
+    <meta name="keywords" content={seoKeywords} />
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbData)} />
+  </Fragment>
+
+  <!-- Breadcrumb -->
+  <nav class="breadcrumb-bar">
+    <div class="container">
+      <ol class="breadcrumb">
+        <li><a href="/">Home</a></li>
+        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></li>
+        <li><a href="/collections/shop">Shop</a></li>
+        {product.product_type && (
+          <>
+            <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></li>
+            <li><span class="breadcrumb-muted">{product.product_type}</span></li>
+          </>
+        )}
+        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></li>
+        <li><span class="breadcrumb-current">{product.title}</span></li>
+      </ol>
+    </div>
+  </nav>
+
+  <!-- Product Detail -->
+  <section class="container pdp-section">
+    <div class="pdp-grid">
+      <!-- Gallery -->
+      <div class="pdp-gallery">
+        {product.images.length > 0 ? (
+          <div>
+            <div class="pdp-main-image-wrap">
+              {hasDiscount && (
+                <span class="badge-sale" style="position:absolute;top:0.75rem;right:0.75rem;z-index:3;padding:0.3rem 0.7rem;font-size:0.72rem;">-{discountPercent}% OFF</span>
+              )}
+              <img
+                id="main-image"
+                src={product.images[0].local}
+                alt={product.images[0].alt}
+                class="pdp-main-image"
+                onerror={`this.onerror=null;this.src='${product.images[0].src}'`}
+              />
+            </div>
+            {product.images.length > 1 && (
+              <div class="pdp-thumbs">
+                {product.images.map((img: any, i: number) => (
+                  <button
+                    class:list={['pdp-thumb', 'thumbnail-btn', i === 0 && 'thumb-active']}
+                    data-src={img.local}
+                    data-fallback={img.src}
+                  >
+                    <img
+                      src={img.local}
+                      alt={img.alt}
+                      loading="lazy"
+                      onerror={`this.onerror=null;this.src='${img.src}'`}
+                    />
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        ) : (
+          <div class="pdp-no-image">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-dim)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+          </div>
+        )}
+      </div>
+
+      <!-- Info -->
+      <div class="pdp-info">
+        {product.vendor && (
+          <span class="badge-vendor" style="margin-bottom:0.75rem;">{product.vendor}</span>
+        )}
+
+        <h1 class="font-display pdp-title">{product.title}</h1>
+
+        {product.product_type && (
+          <p class="pdp-type">{product.product_type}</p>
+        )}
+
+        <!-- Star Rating -->
+        <a href="#reviews" class="pdp-rating-link">
+          <div class="pdp-stars">
+            {[1,2,3,4,5].map(s => (
+              <svg class={`review-star-sm ${s <= Math.round(reviewData.averageRating) ? 'star-filled' : 'star-empty'}`} width="16" height="16" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            ))}
+          </div>
+          <span class="pdp-rating-text">{reviewData.averageRating} ({reviewData.totalReviews} reviews)</span>
+        </a>
+
+        <!-- Price -->
+        <div class="pdp-price-row">
+          <span class="pdp-price font-display">${parseFloat(price).toFixed(2)}</span>
+          <span class="pdp-currency">AUD</span>
+          {hasDiscount && (
+            <>
+              <span class="pdp-compare">${parseFloat(comparePrice).toFixed(2)}</span>
+              <span class="badge-sale">-{discountPercent}%</span>
+            </>
+          )}
+        </div>
+
+        <hr class="pdp-divider" />
+
+        <!-- Add to Cart -->
+        <div class="pdp-cart-actions">
+          <div class="pdp-qty-wrap">
+            <button class="pdp-qty-btn" id="qty-minus" type="button">-</button>
+            <input type="number" id="pdp-qty" class="pdp-qty-input" value="1" min="1" max="99" />
+            <button class="pdp-qty-btn" id="qty-plus" type="button">+</button>
+          </div>
+          <button class="pdp-add-cart btn-primary" id="pdp-add-cart" data-handle={product.handle} data-title={product.title} data-price={price} data-image={product.images[0]?.local || ''} style="flex:1;padding:0.85rem 1.5rem;font-size:0.95rem;justify-content:center;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            Add to Cart
+          </button>
+        </div>
+
+        <hr class="pdp-divider" />
+
+        <!-- Variants -->
+        {product.variants.length > 1 && (
+          <div class="pdp-block">
+            <h3 class="pdp-block-label">Available Options</h3>
+            <div class="pdp-variants">
+              {product.variants.map((v: any) => (
+                <div class="pdp-variant">
+                  <span class="pdp-variant-name">{v.title}</span>
+                  {v.title !== 'Default Title' && (
+                    <span class="pdp-variant-price">${parseFloat(v.price).toFixed(2)}</span>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <!-- Tags -->
+        {product.tags.length > 0 && (
+          <div class="pdp-block">
+            <h3 class="pdp-block-label">Tags</h3>
+            <div class="pdp-tags">
+              {product.tags.slice(0, 10).map((tag: string) => (
+                <span class="pdp-tag">{tag}</span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <!-- Description -->
+        {cleanBodyHtml && cleanBodyHtml.replace(/<[^>]*>/g, '').trim() && (
+          <div class="pdp-block">
+            <h3 class="pdp-block-label">Description</h3>
+            <div class="prose-content" set:html={cleanBodyHtml} />
+          </div>
+        )}
+
+        <!-- Contact CTA -->
+        <div class="pdp-cta-box">
+          <div style="display:flex;align-items:center;gap:0.65rem;margin-bottom:0.75rem;">
+            <span class="pdp-cta-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            </span>
+            <div>
+              <p style="color:var(--color-text);font-weight:600;font-size:0.88rem;">Need help with this product?</p>
+              <p style="color:var(--color-text-secondary);font-size:0.78rem;">Visit our vape store in Coburg, Melbourne or contact us</p>
+            </div>
+          </div>
+          <a href="mailto:info@vapelink.com" class="btn-primary" style="width:100%;padding:0.75rem;justify-content:center;">
+            Contact Us
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ Customer Reviews Section ═══ -->
+  <section class="reviews-section" id="reviews">
+    <div class="container">
+      <div class="section-header" style="margin-bottom:1.75rem;">
+        <div>
+          <span class="section-label">What Customers Say</span>
+          <h2 class="font-display" style="font-size:1.35rem;font-weight:700;color:var(--color-text);margin-top:0.25rem;">Customer Reviews</h2>
+        </div>
+      </div>
+
+      <div class="reviews-layout">
+        <!-- Summary Card -->
+        <div class="reviews-summary">
+          <div class="reviews-avg">
+            <span class="reviews-avg-number font-display">{reviewData.averageRating}</span>
+            <div class="reviews-avg-stars">
+              {[1,2,3,4,5].map(s => (
+                <svg class={`review-star ${s <= Math.round(reviewData.averageRating) ? 'star-filled' : 'star-empty'}`} width="18" height="18" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              ))}
+            </div>
+            <span class="reviews-avg-count">{reviewData.totalReviews} reviews</span>
+          </div>
+          <div class="reviews-bars">
+            {[5,4,3,2,1].map(star => {
+              const count = (starDist as any)[star] || 0;
+              const pct = reviewData.totalReviews > 0 ? Math.round((count / reviewData.totalReviews) * 100) : 0;
+              return (
+                <div class="reviews-bar-row">
+                  <span class="reviews-bar-label">{star}★</span>
+                  <div class="reviews-bar-track">
+                    <div class="reviews-bar-fill" style={`width:${pct}%`}></div>
+                  </div>
+                  <span class="reviews-bar-count">{count}</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        <!-- Reviews List -->
+        <div class="reviews-list" id="reviews-list">
+          {reviewData.reviews.map((review: any, idx: number) => (
+            <div class={`review-card ${idx >= 5 ? 'review-hidden' : ''}`} data-review-index={idx}>
+              <div class="review-header">
+                <div class="review-stars">
+                  {[1,2,3,4,5].map(s => (
+                    <svg class={`review-star-sm ${s <= review.rating ? 'star-filled' : 'star-empty'}`} width="14" height="14" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  ))}
+                </div>
+                {review.verified && (
+                  <span class="review-verified">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
+                    Verified
+                  </span>
+                )}
+              </div>
+              <h4 class="review-title">{review.title}</h4>
+              <p class="review-body">{review.body}</p>
+              <div class="review-footer">
+                <span class="review-author">{review.name}</span>
+                <span class="review-date">{review.date}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <!-- Pagination -->
+        {reviewData.totalReviews > 5 && (
+          <div class="reviews-pagination" id="reviews-pagination">
+            <button class="reviews-page-btn" id="reviews-prev" disabled>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
+              Previous
+            </button>
+            <span class="reviews-page-info" id="reviews-page-info">Page 1 of {Math.ceil(reviewData.totalReviews / 5)}</span>
+            <button class="reviews-page-btn" id="reviews-next">
+              Next
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <!-- Related Products -->
+  {relatedProducts.length > 0 && (
+    <section class="related-section">
+      <div class="container">
+        <div class="section-header" style="margin-bottom:1.75rem;">
+          <div>
+            <span class="section-label">You May Also Like</span>
+            <h2 class="font-display" style="font-size:1.35rem;font-weight:700;color:var(--color-text);margin-top:0.25rem;">Related Products</h2>
+          </div>
+        </div>
+        <div class="related-grid">
+          {relatedProducts.map((p: any) => (
+            <ProductCard product={p} />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <script>
+    // Thumbnail gallery
+    document.querySelectorAll('.thumbnail-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const mainImg = document.getElementById('main-image') as HTMLImageElement;
+        const src = btn.getAttribute('data-src');
+        const fallback = btn.getAttribute('data-fallback');
+        if (mainImg && src) {
+          mainImg.src = src;
+          mainImg.onerror = () => { if (fallback) mainImg.src = fallback; };
+        }
+        document.querySelectorAll('.thumbnail-btn').forEach(b => b.classList.remove('thumb-active'));
+        btn.classList.add('thumb-active');
+      });
+    });
+
+    // Quantity controls
+    const qtyInput = document.getElementById('pdp-qty') as HTMLInputElement;
+    document.getElementById('qty-minus')?.addEventListener('click', () => {
+      const val = parseInt(qtyInput.value) || 1;
+      if (val > 1) qtyInput.value = String(val - 1);
+    });
+    document.getElementById('qty-plus')?.addEventListener('click', () => {
+      const val = parseInt(qtyInput.value) || 1;
+      if (val < 99) qtyInput.value = String(val + 1);
+    });
+
+    // Add to cart
+    document.getElementById('pdp-add-cart')?.addEventListener('click', (e) => {
+      const btn = e.currentTarget as HTMLElement;
+      const handle = btn.dataset.handle || '';
+      const title = btn.dataset.title || '';
+      const price = btn.dataset.price || '0';
+      const image = btn.dataset.image || '';
+      const qty = parseInt(qtyInput?.value) || 1;
+
+      const cart = JSON.parse(localStorage.getItem('vapelink_cart') || '[]');
+      const existing = cart.find((item: any) => item.handle === handle);
+      if (existing) {
+        existing.qty += qty;
+      } else {
+        cart.push({ handle, title, price, image, qty });
+      }
+      localStorage.setItem('vapelink_cart', JSON.stringify(cart));
+      window.dispatchEvent(new CustomEvent('cart-updated'));
+
+      btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg> Added!';
+      setTimeout(() => {
+        btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg> Add to Cart';
+      }, 1500);
+    });
+
+    // ─── Review Pagination ───
+    (function() {
+      const REVIEWS_PER_PAGE = 5;
+      const allCards = document.querySelectorAll('.review-card');
+      if (allCards.length <= REVIEWS_PER_PAGE) return;
+      
+      const totalPages = Math.ceil(allCards.length / REVIEWS_PER_PAGE);
+      let currentPage = 1;
+      
+      const prevBtn = document.getElementById('reviews-prev') as HTMLButtonElement;
+      const nextBtn = document.getElementById('reviews-next') as HTMLButtonElement;
+      const pageInfo = document.getElementById('reviews-page-info');
+      
+      function showPage(page: number) {
+        currentPage = page;
+        const start = (page - 1) * REVIEWS_PER_PAGE;
+        const end = start + REVIEWS_PER_PAGE;
+        allCards.forEach((card, i) => {
+          (card as HTMLElement).classList.toggle('review-hidden', i < start || i >= end);
+        });
+        if (prevBtn) prevBtn.disabled = page === 1;
+        if (nextBtn) nextBtn.disabled = page === totalPages;
+        if (pageInfo) pageInfo.textContent = `Page ${page} of ${totalPages}`;
+      }
+      
+      prevBtn?.addEventListener('click', () => { if (currentPage > 1) showPage(currentPage - 1); });
+      nextBtn?.addEventListener('click', () => { if (currentPage < totalPages) showPage(currentPage + 1); });
+      showPage(1);
+    })();
+  </script>
+</Layout>
+
+<style>
+  /* Breadcrumb bar */
+  .breadcrumb-bar {
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    padding: 0.85rem 0;
+  }
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    flex-wrap: wrap;
+    font-size: 0.8rem;
+    list-style: none;
+  }
+  .breadcrumb a {
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+  .breadcrumb a:hover { color: var(--color-accent); }
+  .breadcrumb svg { color: var(--color-text-dim); }
+  .breadcrumb-muted { color: var(--color-text-muted); }
+  .breadcrumb-current {
+    color: var(--color-text);
+    font-weight: 500;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+  }
+
+  /* PDP */
+  .pdp-section { padding: 2rem 0 4rem; }
+  .pdp-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+  @media (min-width: 1024px) {
+    .pdp-grid { grid-template-columns: 1fr 1fr; gap: 3rem; }
+  }
+
+  .pdp-main-image-wrap {
+    position: relative;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    padding: 1rem;
+  }
+  .pdp-main-image {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: contain;
+  }
+  .pdp-thumbs {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+    margin-top: 0.6rem;
+  }
+  .pdp-thumb {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    padding: 0.35rem;
+    cursor: pointer;
+    transition: border-color 0.15s ease;
+  }
+  .pdp-thumb img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: contain;
+  }
+  .pdp-thumb:hover, .thumb-active {
+    border-color: var(--color-accent) !important;
+  }
+  .pdp-no-image {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-surface-alt);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+  }
+
+  .pdp-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--color-text);
+    line-height: 1.25;
+    margin-bottom: 0.4rem;
+  }
+  .pdp-type {
+    font-size: 0.82rem;
+    color: var(--color-text-muted);
+    margin-bottom: 1rem;
+  }
+  .pdp-price-row {
+    display: flex;
+    align-items: baseline;
+    gap: 0.45rem;
+    flex-wrap: wrap;
+  }
+  .pdp-price {
+    font-size: 1.85rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+  .pdp-currency {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    font-weight: 500;
+  }
+  .pdp-compare {
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+    text-decoration: line-through;
+  }
+
+  .pdp-divider {
+    border: none;
+    border-top: 1px solid var(--color-border);
+    margin: 1.25rem 0;
+  }
+
+  .pdp-cart-actions {
+    display: flex;
+    gap: 0.65rem;
+    align-items: stretch;
+  }
+  @media (max-width: 400px) {
+    .pdp-cart-actions {
+      flex-direction: column;
+    }
+    .pdp-qty-wrap { align-self: flex-start; }
+  }
+  .pdp-qty-wrap {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+  .pdp-qty-btn {
+    width: 40px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-surface-alt);
+    border: none;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    transition: background 0.1s ease;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+  .pdp-qty-btn:hover { background: var(--color-surface-hover); }
+  .pdp-qty-input {
+    width: 44px;
+    height: 44px;
+    text-align: center;
+    border: none;
+    border-left: 1px solid var(--color-border);
+    border-right: 1px solid var(--color-border);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-text);
+    background: var(--color-surface);
+    outline: none;
+    -moz-appearance: textfield;
+  }
+  .pdp-qty-input::-webkit-outer-spin-button,
+  .pdp-qty-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  .pdp-block { margin-bottom: 1.25rem; }
+  .pdp-block-label {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin-bottom: 0.65rem;
+  }
+  .pdp-variants {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .pdp-variant {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.45rem 0.85rem;
+    background: var(--color-surface-alt);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem;
+  }
+  .pdp-variant-name {
+    color: var(--color-text);
+    font-weight: 500;
+  }
+  .pdp-variant-price {
+    color: var(--color-text-secondary);
+    font-family: 'Space Grotesk', monospace;
+    font-weight: 600;
+  }
+  .pdp-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+  .pdp-tag {
+    padding: 0.25rem 0.65rem;
+    background: var(--color-surface-alt);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+  }
+
+  .pdp-cta-box {
+    padding: 1.25rem;
+    background: var(--color-surface-alt);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    margin-top: 1.5rem;
+  }
+  .pdp-cta-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: var(--radius-sm);
+    background: var(--color-accent-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  /* Related */
+  .related-section {
+    padding: 3rem 0;
+    background: var(--color-surface-alt);
+    border-top: 1px solid var(--color-border);
+  }
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  @media (min-width: 768px) { .related-grid { grid-template-columns: repeat(3, 1fr); gap: 1.1rem; } }
+  @media (min-width: 1024px) { .related-grid { grid-template-columns: repeat(4, 1fr); } }
+
+  .section-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  /* ─── PDP Rating Link ─── */
+  .pdp-rating-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    margin-bottom: 1rem;
+    transition: opacity 0.15s ease;
+  }
+  .pdp-rating-link:hover { opacity: 0.8; }
+  .pdp-stars { display: flex; gap: 1px; }
+  .pdp-rating-text {
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+    font-weight: 500;
+  }
+
+  /* ─── Star icons ─── */
+  .star-filled { fill: #f59e0b; stroke: #f59e0b; }
+  .star-empty { fill: none; stroke: var(--color-border-hover); stroke-width: 1.5; }
+  .review-star, .review-star-sm { flex-shrink: 0; }
+
+  /* ─── Reviews Section ─── */
+  .reviews-section {
+    padding: 3rem 0;
+    border-top: 1px solid var(--color-border);
+  }
+  .reviews-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  /* Summary */
+  .reviews-summary {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    padding: 1.5rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    flex-wrap: wrap;
+  }
+  .reviews-avg {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    min-width: 100px;
+  }
+  .reviews-avg-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    line-height: 1;
+  }
+  .reviews-avg-stars { display: flex; gap: 2px; }
+  .reviews-avg-count {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+  }
+  .reviews-bars {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    min-width: 200px;
+  }
+  .reviews-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .reviews-bar-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    width: 24px;
+    text-align: right;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+  .reviews-bar-track {
+    flex: 1;
+    height: 8px;
+    background: var(--color-surface-alt);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .reviews-bar-fill {
+    height: 100%;
+    background: #f59e0b;
+    border-radius: 4px;
+    transition: width 0.3s ease;
+  }
+  .reviews-bar-count {
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+    width: 24px;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+
+  /* Review Cards */
+  .reviews-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .review-card {
+    padding: 1.25rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+  }
+  .review-hidden { display: none !important; }
+  .review-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+  }
+  .review-stars { display: flex; gap: 1px; }
+  .review-verified {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: #16a34a;
+    background: #f0fdf4;
+    padding: 0.15rem 0.5rem;
+    border-radius: var(--radius-full);
+  }
+  .review-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 0.35rem;
+  }
+  .review-body {
+    font-size: 0.82rem;
+    color: var(--color-text-secondary);
+    line-height: 1.55;
+    margin-bottom: 0.65rem;
+  }
+  .review-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.72rem;
+  }
+  .review-author {
+    font-weight: 600;
+    color: var(--color-text);
+  }
+  .review-date {
+    color: var(--color-text-muted);
+  }
+
+  /* Pagination */
+  .reviews-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+  }
+  .reviews-page-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.5rem 1rem;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .reviews-page-btn:hover:not(:disabled) {
+    border-color: var(--color-border-hover);
+    color: var(--color-text);
+  }
+  .reviews-page-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+  .reviews-page-info {
+    font-size: 0.78rem;
+    color: var(--color-text-muted);
+    font-family: 'Space Grotesk', sans-serif;
+  }
+</style>

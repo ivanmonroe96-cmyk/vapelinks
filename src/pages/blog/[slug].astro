@@ -1,0 +1,321 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import blogPosts from '../../data/blog-posts.json';
+
+export function getStaticPaths() {
+  return blogPosts.map((post: any) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+
+const relatedPosts = blogPosts
+  .filter((p: any) => p.slug !== post.slug && (p.category === post.category || p.tags.some((t: string) => post.tags.includes(t))))
+  .slice(0, 3);
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": post.title,
+  "description": post.excerpt,
+  "image": post.image.startsWith('http') ? post.image : `https://vapelink.com.au${post.image}`,
+  "author": { "@type": "Organization", "name": "Vapelink Australia" },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Vapelink Australia",
+    "logo": { "@type": "ImageObject", "url": "https://vapelink.com.au/images/logo.png" }
+  },
+  "datePublished": post.date,
+  "dateModified": post.date,
+  "mainEntityOfPage": { "@type": "WebPage", "@id": `https://vapelink.com.au/blog/${post.slug}` }
+};
+---
+
+<Layout title={`${post.title} | Vapelink Blog`} description={post.excerpt} image={post.image} type="article">
+  <Fragment slot="head">
+    <meta name="keywords" content={post.tags.join(', ') + ', vape guide, vaping tips, Vapelink Australia'} />
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+  </Fragment>
+
+  <!-- Breadcrumb -->
+  <nav class="breadcrumb-bar">
+    <div class="container">
+      <ol class="breadcrumb">
+        <li><a href="/">Home</a></li>
+        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></li>
+        <li><a href="/blog">Blog</a></li>
+        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></li>
+        <li><span class="breadcrumb-current">{post.title}</span></li>
+      </ol>
+    </div>
+  </nav>
+
+  <article class="blog-article">
+    <div class="container">
+      <!-- Header -->
+      <header class="blog-article-header">
+        <span class="blog-article-category">{post.category}</span>
+        <h1 class="font-display blog-article-title">{post.title}</h1>
+        <div class="blog-article-meta">
+          <span>{post.author}</span>
+          <span class="blog-meta-dot">·</span>
+          <time datetime={post.date}>{new Date(post.date).toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric' })}</time>
+          <span class="blog-meta-dot">·</span>
+          <span>{post.readTime}</span>
+        </div>
+      </header>
+
+      <!-- Featured Image -->
+      <div class="blog-article-image-wrap">
+        <img src={post.image} alt={post.title} class="blog-article-image" />
+      </div>
+
+      <!-- Content -->
+      <div class="blog-article-content prose-content" set:html={post.content} />
+
+      <!-- Tags -->
+      <div class="blog-article-tags">
+        {post.tags.map((tag: string) => (
+          <span class="blog-article-tag">{tag}</span>
+        ))}
+      </div>
+
+      <!-- Share / CTA -->
+      <div class="blog-article-cta">
+        <h3 class="font-display" style="font-size:1.1rem;font-weight:700;color:var(--color-text);margin-bottom:0.4rem;">Ready to Get Started?</h3>
+        <p style="color:var(--color-text-secondary);font-size:0.88rem;margin-bottom:1rem;">Browse our range of quality vaping products with fast Australia-wide shipping.</p>
+        <a href="/collections/shop" class="btn-primary" style="padding:0.7rem 2rem;">Shop Now</a>
+      </div>
+    </div>
+  </article>
+
+  <!-- Related Posts -->
+  {relatedPosts.length > 0 && (
+    <section class="blog-related-section">
+      <div class="container">
+        <div class="section-header" style="margin-bottom:1.5rem;">
+          <div>
+            <span class="section-label">Keep Reading</span>
+            <h2 class="font-display" style="font-size:1.25rem;font-weight:700;color:var(--color-text);margin-top:0.2rem;">Related Articles</h2>
+          </div>
+        </div>
+        <div class="blog-related-grid">
+          {relatedPosts.map((p: any) => (
+            <a href={`/blog/${p.slug}`} class="blog-related-card">
+              <div class="blog-related-image-wrap">
+                <img src={p.image} alt={p.title} loading="lazy" />
+              </div>
+              <div class="blog-related-body">
+                <span class="blog-related-cat">{p.category}</span>
+                <h3 class="blog-related-title">{p.title}</h3>
+                <span class="blog-related-meta">{p.readTime}</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+</Layout>
+
+<style is:global>
+  .breadcrumb-bar { background: var(--color-surface); border-bottom: 1px solid var(--color-border); padding: 0.85rem 0; }
+  .breadcrumb { display: flex; align-items: center; gap: 0.45rem; flex-wrap: wrap; font-size: 0.8rem; list-style: none; }
+  .breadcrumb a { color: var(--color-text-secondary); text-decoration: none; transition: color 0.15s ease; }
+  .breadcrumb a:hover { color: var(--color-accent); }
+  .breadcrumb svg { color: var(--color-text-dim); }
+  .breadcrumb-current { color: var(--color-text); font-weight: 500; max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block; }
+
+  .blog-article {
+    padding: 2.5rem 0 3rem;
+  }
+  .blog-article-header {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 2rem;
+  }
+  .blog-article-category {
+    display: inline-block;
+    padding: 0.2rem 0.75rem;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-accent);
+    background: var(--color-accent-soft);
+    border-radius: var(--radius-full);
+    margin-bottom: 0.85rem;
+  }
+  .blog-article-title {
+    font-size: 1.85rem;
+    font-weight: 700;
+    color: var(--color-text);
+    line-height: 1.2;
+    margin-bottom: 0.75rem;
+  }
+  @media (max-width: 640px) { .blog-article-title { font-size: 1.4rem; } }
+  .blog-article-meta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    flex-wrap: wrap;
+  }
+  .blog-meta-dot { color: var(--color-text-dim); }
+
+  .blog-article-image-wrap {
+    max-width: 750px;
+    margin: 0 auto 2.5rem;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+  }
+  .blog-article-image {
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+  }
+
+  .blog-article-content {
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  .blog-article-content h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    line-height: 1.3;
+  }
+  .blog-article-content h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .blog-article-content p {
+    font-size: 0.92rem;
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+  .blog-article-content ul, .blog-article-content ol {
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  .blog-article-content li {
+    font-size: 0.92rem;
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+    margin-bottom: 0.35rem;
+  }
+  .blog-article-content strong {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+  .blog-article-content a {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .blog-article-content a:hover { color: var(--color-accent-hover); }
+
+  .blog-article-tags {
+    max-width: 700px;
+    margin: 2rem auto;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
+    display: flex;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+  }
+  .blog-article-tag {
+    padding: 0.2rem 0.65rem;
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+    background: var(--color-surface-alt);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+  }
+
+  .blog-article-cta {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: var(--color-surface-alt);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    text-align: center;
+  }
+
+  .blog-related-section {
+    padding: 3rem 0;
+    background: var(--color-surface-alt);
+    border-top: 1px solid var(--color-border);
+  }
+  .blog-related-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  @media (min-width: 640px) { .blog-related-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1024px) { .blog-related-grid { grid-template-columns: repeat(3, 1fr); } }
+  .blog-related-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  .blog-related-card:hover {
+    border-color: var(--color-border-hover);
+    box-shadow: var(--shadow-md);
+  }
+  .blog-related-image-wrap {
+    aspect-ratio: 16/9;
+    overflow: hidden;
+    background: var(--color-surface-alt);
+  }
+  .blog-related-image-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .blog-related-body {
+    padding: 0.85rem;
+  }
+  .blog-related-cat {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.62rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-accent);
+  }
+  .blog-related-title {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--color-text);
+    line-height: 1.3;
+    margin: 0.3rem 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .blog-related-meta {
+    font-size: 0.72rem;
+    color: var(--color-text-muted);
+  }
+</style>

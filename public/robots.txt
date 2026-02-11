@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /cart
+Disallow: /checkout
+Disallow: /order-confirmation
+Disallow: /search
+
+Sitemap: https://vapelink.com.au/sitemap-index.xml

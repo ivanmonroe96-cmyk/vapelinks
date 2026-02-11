@@ -1,0 +1,1498 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  canonicalUrl?: string;
+  type?: string;
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description = "Vapelink is a Melbourne-based online vape shop. We stock vape kits, disposable vapes, e-liquids, coils, pods and accessories. Australia-wide shipping with free delivery over $100.",
+  image = '/images/logo.png',
+  canonicalUrl,
+  type = 'website',
+  noindex = false
+} = Astro.props;
+
+const siteTitle = title.includes('Vapelink') ? title : `${title} – Vapelink Australia`;
+const currentUrl = canonicalUrl || Astro.url.href;
+
+import siteData from '../data/site.json';
+import collectionsData from '../data/collections.json';
+
+const navCollections = collectionsData
+  .filter((c: any) => c.products_count > 0)
+  .sort((a: any, b: any) => b.products_count - a.products_count)
+  .slice(0, 12);
+---
+
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{siteTitle}</title>
+  <meta name="description" content={description} />
+  {noindex && <meta name="robots" content="noindex, nofollow" />}
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content={siteTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:type" content={type} />
+  <meta property="og:url" content={currentUrl} />
+  <meta property="og:image" content={image.startsWith('http') ? image : `https://vapelink.com.au${image}`} />
+  <meta property="og:site_name" content="Vapelink Australia" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={siteTitle} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={image.startsWith('http') ? image : `https://vapelink.com.au${image}`} />
+
+  <link rel="canonical" href={currentUrl} />
+  <meta name="generator" content={Astro.generator} />
+
+  <!-- Geo & Locale -->
+  <meta name="geo.region" content="AU-VIC" />
+  <meta name="geo.placename" content="Melbourne" />
+  <meta name="geo.position" content="-37.7749;144.9632" />
+  <meta name="ICBM" content="-37.7749, 144.9632" />
+  <meta property="og:locale" content="en_AU" />
+
+  <slot name="head" />
+</head>
+<body>
+
+  <!-- ═══ Age Gate ═══ -->
+  <div id="age-gate" style="display:none;position:fixed;inset:0;z-index:99999;align-items:center;justify-content:center;background:rgba(255,255,255,0.97);backdrop-filter:blur(20px);">
+    <div style="max-width:400px;width:100%;margin:0 1rem;">
+      <div style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-xl);padding:2.5rem;text-align:center;box-shadow:var(--shadow-lg);">
+        <div style="width:56px;height:56px;margin:0 auto 1.25rem;border-radius:var(--radius-lg);background:var(--color-accent-soft);display:flex;align-items:center;justify-content:center;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h2 class="font-display" style="font-size:1.2rem;font-weight:700;color:var(--color-text);margin-bottom:0.4rem;">Age Verification</h2>
+        <p style="color:var(--color-text-secondary);font-size:0.88rem;line-height:1.6;margin-bottom:1.75rem;">
+          You must be <strong style="color:var(--color-text)">18 years or older</strong> to access this website.
+        </p>
+        <div style="display:flex;gap:0.6rem;justify-content:center;">
+          <button id="age-yes" class="btn-primary cursor-pointer" style="padding:0.75rem 2.25rem;font-size:0.95rem;">I'm 18+</button>
+          <button id="age-no" class="btn-secondary cursor-pointer" style="padding:0.75rem 2.25rem;font-size:0.95rem;">Exit</button>
+        </div>
+        <p style="color:var(--color-text-muted);font-size:0.72rem;margin-top:1.25rem;line-height:1.5;">
+          By entering, you agree you are of legal age to purchase nicotine products in your jurisdiction.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ USP Strip ═══ -->
+  <div class="usp-strip">
+    <div class="container usp-inner">
+      <div class="usp-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+        Melbourne, VIC
+      </div>
+      <div class="usp-divider"></div>
+      <div class="usp-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
+        Australia's Favourite Vape Shop
+      </div>
+      <div class="usp-divider"></div>
+      <div class="usp-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        18+ Only
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ Header ═══ -->
+  <header id="site-header" class="site-header">
+    <div class="container header-inner">
+      <!-- Logo -->
+      <a href="/" class="logo-link">
+        <img src="/images/logo.png" alt="Vapelink Australia" class="logo-img" loading="eager" />
+      </a>
+
+      <!-- Desktop Nav -->
+      <nav class="desktop-nav">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/collections/shop" class="nav-link">Shop</a>
+        <div class="nav-dropdown-wrap">
+          <button class="nav-link nav-dropdown-btn">
+            Collections
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="nav-dropdown">
+            {navCollections.map((c: any) => (
+              <a href={`/collections/${c.handle}`} class="dropdown-item">
+                <span>{c.title}</span>
+                <span class="dropdown-count">{c.products_count}</span>
+              </a>
+            ))}
+            <div class="dropdown-divider"></div>
+            <a href="/collections" class="dropdown-all">View All Collections &rarr;</a>
+          </div>
+        </div>
+        <a href="/blog" class="nav-link">Blog</a>
+        <a href="/pages/about-us" class="nav-link">About</a>
+        <a href="/pages/contact-us" class="nav-link">Contact</a>
+      </nav>
+
+      <!-- Icon Actions (single set for desktop & mobile) -->
+      <div class="header-actions">
+        <!-- Search Icon -->
+        <button id="search-toggle" class="header-icon-btn" aria-label="Search" title="Search">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        </button>
+
+        <!-- Account Icon -->
+        <button id="account-toggle" class="header-icon-btn" aria-label="Account" title="Account">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </button>
+
+        <!-- Cart Icon -->
+        <button id="cart-toggle" class="header-icon-btn cart-icon-btn" aria-label="Cart" title="Cart">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          <span id="cart-count" class="cart-badge" style="display:none;">0</span>
+        </button>
+
+        <!-- Mobile menu button -->
+        <button id="mobile-menu-btn" class="header-icon-btn mobile-only-btn" aria-label="Menu" title="Menu">
+          <svg id="menu-icon-open" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+          <svg id="menu-icon-close" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Nav -->
+    <div id="mobile-menu" class="mobile-nav mobile-only-nav" style="display:none;">
+      <div class="container mobile-nav-inner">
+        <a href="/" class="mobile-link">Home</a>
+        <a href="/collections/shop" class="mobile-link">Shop</a>
+        <a href="/collections" class="mobile-link">Collections</a>
+        <a href="/blog" class="mobile-link">Blog</a>
+        <a href="/pages/about-us" class="mobile-link">About</a>
+        <a href="/pages/contact-us" class="mobile-link">Contact</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══ Search Overlay ═══ -->
+  <div id="search-overlay" class="search-overlay" style="display:none;">
+    <div class="search-overlay-inner">
+      <button id="search-close" class="search-overlay-close" aria-label="Close search">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+      <form action="/search" method="get" class="search-overlay-form">
+        <div class="search-overlay-field">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input id="search-overlay-input" type="text" name="q" placeholder="Search products, brands, collections..." class="search-overlay-input" autocomplete="off" />
+        </div>
+        <p class="search-overlay-hint">Press <kbd>Enter</kbd> to search or <kbd>Esc</kbd> to close</p>
+      </form>
+    </div>
+  </div>
+
+  <!-- ═══ Account Modal ═══ -->
+  <div id="account-overlay" class="account-overlay" style="display:none;">
+    <div class="account-modal">
+      <div class="account-modal-header">
+        <h3 id="account-modal-title" class="font-display" style="font-size:1.1rem;font-weight:700;color:var(--color-text);">Welcome</h3>
+        <button id="account-close" class="cart-close-btn" aria-label="Close">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+      </div>
+      <div class="account-modal-body">
+
+        <!-- Login Form -->
+        <div id="account-login-view">
+          <p style="color:var(--color-text-secondary);font-size:0.88rem;line-height:1.6;margin-bottom:1.5rem;">Sign in to track orders, view order history and checkout faster.</p>
+          <form id="account-login-form" class="account-form">
+            <label class="account-label">
+              <span>Email</span>
+              <input type="email" id="login-email" placeholder="your@email.com" class="account-input" required />
+            </label>
+            <label class="account-label">
+              <span>Password</span>
+              <input type="password" id="login-password" placeholder="••••••••" class="account-input" required />
+            </label>
+            <p id="login-error" style="display:none;color:var(--color-sale);font-size:0.78rem;margin-top:0.25rem;"></p>
+            <button type="submit" class="btn-primary" style="width:100%;padding:0.75rem;justify-content:center;font-size:0.9rem;">
+              Sign In
+            </button>
+          </form>
+          <p style="text-align:center;font-size:0.82rem;color:var(--color-text-secondary);margin-top:1.25rem;">Don't have an account? <button id="show-register" style="color:var(--color-accent);background:none;border:none;cursor:pointer;font-weight:600;font-size:0.82rem;font-family:inherit;">Create one</button></p>
+        </div>
+
+        <!-- Register Form -->
+        <div id="account-register-view" style="display:none;">
+          <p style="color:var(--color-text-secondary);font-size:0.88rem;line-height:1.6;margin-bottom:1.5rem;">Create an account to save your details and view order history.</p>
+          <form id="account-register-form" class="account-form">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.65rem;">
+              <label class="account-label">
+                <span>First Name</span>
+                <input type="text" id="reg-fname" placeholder="John" class="account-input" required />
+              </label>
+              <label class="account-label">
+                <span>Last Name</span>
+                <input type="text" id="reg-lname" placeholder="Doe" class="account-input" required />
+              </label>
+            </div>
+            <label class="account-label">
+              <span>Email</span>
+              <input type="email" id="reg-email" placeholder="your@email.com" class="account-input" required />
+            </label>
+            <label class="account-label">
+              <span>Password</span>
+              <input type="password" id="reg-password" placeholder="Min 6 characters" class="account-input" required minlength="6" />
+            </label>
+            <label class="account-label">
+              <span>Confirm Password</span>
+              <input type="password" id="reg-confirm" placeholder="••••••••" class="account-input" required />
+            </label>
+            <p id="register-error" style="display:none;color:var(--color-sale);font-size:0.78rem;margin-top:0.25rem;"></p>
+            <button type="submit" class="btn-primary" style="width:100%;padding:0.75rem;justify-content:center;font-size:0.9rem;">
+              Create Account
+            </button>
+          </form>
+          <p style="text-align:center;font-size:0.82rem;color:var(--color-text-secondary);margin-top:1.25rem;">Already have an account? <button id="show-login" style="color:var(--color-accent);background:none;border:none;cursor:pointer;font-weight:600;font-size:0.82rem;font-family:inherit;">Sign in</button></p>
+        </div>
+
+        <!-- Logged-in View -->
+        <div id="account-loggedin-view" style="display:none;">
+          <div style="text-align:center;padding:0.5rem 0;">
+            <div style="width:56px;height:56px;margin:0 auto 0.85rem;border-radius:50%;background:var(--color-accent-soft);display:flex;align-items:center;justify-content:center;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <p id="account-greeting" class="font-display" style="font-size:1rem;font-weight:700;color:var(--color-text);margin-bottom:0.25rem;"></p>
+            <p id="account-email-display" style="font-size:0.82rem;color:var(--color-text-muted);margin-bottom:1.25rem;"></p>
+          </div>
+          <div id="account-orders" style="margin-bottom:1.25rem;">
+            <h4 class="font-display" style="font-size:0.85rem;font-weight:600;color:var(--color-text);margin-bottom:0.65rem;">Recent Orders</h4>
+            <div id="account-order-list"></div>
+          </div>
+          <button id="account-logout" class="btn-secondary" style="width:100%;padding:0.7rem;justify-content:center;font-size:0.88rem;">
+            Sign Out
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Main -->
+  <main>
+    <slot />
+  </main>
+
+  <!-- ═══ Cart Drawer ═══ -->
+  <div id="cart-overlay" class="cart-overlay" style="display:none;"></div>
+  <aside id="cart-drawer" class="cart-drawer" style="transform:translateX(100%);">
+    <div class="cart-drawer-header">
+      <h2 class="font-display" style="font-size:1.1rem;font-weight:700;color:var(--color-text);">Your Cart</h2>
+      <button id="cart-close" class="cart-close-btn" aria-label="Close cart">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+    </div>
+    <div id="cart-items" class="cart-items"></div>
+    <div id="cart-footer" class="cart-footer" style="display:none;">
+      <div class="cart-total-row">
+        <span style="font-weight:600;color:var(--color-text);">Total</span>
+        <span id="cart-total" class="font-display" style="font-size:1.15rem;font-weight:700;color:var(--color-text);">$0.00 AUD</span>
+      </div>
+      <a href="/checkout" class="btn-primary" id="cart-checkout-btn" style="width:100%;padding:0.85rem;justify-content:center;font-size:0.95rem;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        Checkout
+      </a>
+      <a href="/cart" class="btn-secondary" style="width:100%;padding:0.75rem;justify-content:center;font-size:0.88rem;margin-top:0.5rem;text-decoration:none;">
+        View Cart
+      </a>
+      <button id="cart-continue" class="btn-secondary" style="width:100%;padding:0.75rem;justify-content:center;font-size:0.88rem;margin-top:0.5rem;">
+        Continue Shopping
+      </button>
+      <button id="cart-clear" class="cart-clear-link">
+        Clear Cart
+      </button>
+    </div>
+    <div id="cart-empty" class="cart-empty">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-dim)" stroke-width="1.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+      <p style="color:var(--color-text-secondary);font-size:0.9rem;margin-top:0.75rem;">Your cart is empty</p>
+      <a href="/collections/shop" class="btn-secondary" style="margin-top:1rem;padding:0.55rem 1.5rem;font-size:0.82rem;">Browse Products</a>
+    </div>
+  </aside>
+
+  <!-- ═══ Footer ═══ -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-grid">
+        <div>
+          <img src="/images/logo.png" alt="Vapelink Australia" style="height:32px;margin-bottom:1rem;" />
+          <p class="footer-desc">{siteData.description.substring(0, 180)}</p>
+        </div>
+        <div>
+          <h3 class="font-display footer-heading">Quick Links</h3>
+          <ul class="footer-links">
+            <li><a href="/collections/shop">Shop All</a></li>
+            <li><a href="/collections/all-vape-kits">Vape Kits</a></li>
+            <li><a href="/collections/all-accessories">Accessories</a></li>
+            <li><a href="/collections/all-clearance">Clearance</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="font-display footer-heading">Information</h3>
+          <ul class="footer-links">
+            <li><a href="/pages/about-us">About Us</a></li>
+            <li><a href="/pages/contact-us">Contact Us</a></li>
+            <li><a href="/pages/shipping-policy">Shipping Policy</a></li>
+            <li><a href="/pages/refund-policy">Refund Policy</a></li>
+            <li><a href="/pages/privacy-policy">Privacy Policy</a></li>
+            <li><a href="/pages/terms-conditions">Terms & Conditions</a></li>
+            <li><a href="/pages/cookies-policy">Cookies Policy</a></li>
+            <li><a href="/pages/faq">FAQ</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="font-display footer-heading">Get in Touch</h3>
+          <div class="footer-contact">
+            <a href="mailto:info@vapelink.com" class="contact-item">
+              <span class="contact-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              </span>
+              {siteData.contact_email}
+            </a>
+            <div class="contact-item">
+              <span class="contact-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+              </span>
+              Melbourne, VIC, Australia
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Legal disclaimer -->
+      <div class="footer-legal">
+        <p>WARNING: This product contains nicotine. Nicotine is an addictive chemical. Products sold on this site are intended for adults of legal smoking age only (18+). By using this website, you agree to our <a href="/pages/terms-conditions" style="text-decoration:underline;">Terms & Conditions</a> and <a href="/pages/privacy-policy" style="text-decoration:underline;">Privacy Policy</a>.</p>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; {new Date().getFullYear()} Vapelink Australia. All rights reserved.</p>
+        <div class="footer-bottom-links">
+          <a href="/pages/privacy-policy">Privacy Policy</a>
+          <a href="/pages/terms-conditions">Terms & Conditions</a>
+          <a href="/pages/refund-policy">Refund Policy</a>
+          <a href="/pages/shipping-policy">Shipping Policy</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══ Cookie Consent Banner ═══ -->
+  <div id="cookie-consent" class="cookie-consent" style="display:none;">
+    <div class="cookie-consent-inner">
+      <div class="cookie-consent-text">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+        <p>We use cookies to improve your experience, keep your cart working, and analyse site traffic. By continuing to browse, you agree to our use of cookies. <a href="/pages/cookies-policy" style="color:var(--color-accent);text-decoration:underline;font-weight:600;">Cookies Policy</a></p>
+      </div>
+      <div class="cookie-consent-actions">
+        <button id="cookie-accept" class="btn-primary" style="padding:0.55rem 1.5rem;font-size:0.82rem;white-space:nowrap;">Accept All</button>
+        <button id="cookie-dismiss" class="btn-secondary" style="padding:0.55rem 1rem;font-size:0.82rem;white-space:nowrap;">Dismiss</button>
+      </div>
+    </div>
+  </div>
+
+  <style is:global>
+    /* ── USP Strip ── */
+    .usp-strip {
+      background: var(--color-text);
+      color: #FFFFFF;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+    .usp-inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.25rem;
+      padding: 0.5rem var(--space-lg);
+    }
+    .usp-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      white-space: nowrap;
+    }
+    .usp-divider {
+      width: 1px;
+      height: 12px;
+      background: rgba(255,255,255,0.2);
+    }
+    @media (max-width: 640px) {
+      .usp-inner { gap: 0.75rem; font-size: 0.65rem; }
+      .usp-divider { display: none; }
+    }
+
+    /* ── Header ── */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--color-border);
+      transition: box-shadow 0.2s ease;
+    }
+    .site-header.scrolled {
+      box-shadow: var(--shadow-sm);
+    }
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 0.75rem;
+      padding-bottom: 0.75rem;
+    }
+    .logo-link {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+    .logo-img { height: 34px; }
+
+    /* ── Desktop Nav ── */
+    .desktop-nav {
+      display: none;
+      align-items: center;
+      gap: 2rem;
+    }
+    @media (min-width: 1024px) {
+      .desktop-nav { display: flex; }
+    }
+
+    /* ── Mobile-only elements ── */
+    .mobile-only-btn { display: flex; }
+    .mobile-only-nav { }
+    @media (min-width: 1024px) {
+      .mobile-only-btn { display: none !important; }
+      .mobile-only-nav { display: none !important; }
+    }
+    .nav-link {
+      color: var(--color-text-secondary);
+      font-size: 0.85rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: color 0.15s ease;
+      font-family: 'Space Grotesk', sans-serif;
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .nav-link:hover { color: var(--color-text); }
+
+    /* ── Dropdown ── */
+    .nav-dropdown-wrap { position: relative; }
+    .nav-dropdown {
+      position: absolute;
+      top: calc(100% + 0.5rem);
+      left: -1rem;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      padding: 0.5rem;
+      width: 280px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-4px);
+      transition: all 0.2s var(--ease-out);
+      z-index: 60;
+    }
+    .nav-dropdown-wrap:hover .nav-dropdown {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.55rem 0.75rem;
+      font-size: 0.82rem;
+      color: var(--color-text-secondary);
+      text-decoration: none;
+      border-radius: var(--radius-sm);
+      transition: all 0.15s ease;
+    }
+    .dropdown-item:hover {
+      background: var(--color-surface-alt);
+      color: var(--color-text);
+    }
+    .dropdown-count {
+      font-size: 0.68rem;
+      color: var(--color-text-muted);
+      background: var(--color-surface-alt);
+      padding: 0.1rem 0.45rem;
+      border-radius: var(--radius-full);
+      font-weight: 500;
+    }
+    .dropdown-divider {
+      border-top: 1px solid var(--color-border);
+      margin: 0.35rem 0;
+    }
+    .dropdown-all {
+      display: block;
+      padding: 0.55rem 0.75rem;
+      font-size: 0.82rem;
+      color: var(--color-accent);
+      text-decoration: none;
+      font-weight: 600;
+      border-radius: var(--radius-sm);
+      transition: background 0.15s ease;
+    }
+    .dropdown-all:hover { background: var(--color-accent-soft); }
+
+    /* ── Header Actions (unified icons) ── */
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.15rem;
+    }
+    .header-icon-btn {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-sm);
+      color: var(--color-text-secondary);
+      transition: all 0.15s ease;
+      text-decoration: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+    .header-icon-btn:hover {
+      color: var(--color-accent);
+      background: var(--color-accent-soft);
+    }
+    .cart-badge {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      background: var(--color-accent);
+      color: #fff;
+      font-size: 0.6rem;
+      font-weight: 700;
+      font-family: 'Inter', sans-serif;
+      min-width: 16px;
+      height: 16px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 4px;
+      line-height: 1;
+    }
+
+    /* ── Mobile ── */
+    .mobile-nav {
+      border-top: 1px solid var(--color-border);
+      background: var(--color-surface);
+    }
+    .mobile-nav-inner {
+      padding: 1rem 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+    .mobile-link {
+      display: block;
+      padding: 0.65rem 0.75rem;
+      color: var(--color-text);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      border-radius: var(--radius-sm);
+      transition: background 0.15s ease;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+    .mobile-link:hover { background: var(--color-surface-alt); }
+
+    /* ── Search Overlay ── */
+    .search-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9000;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding-top: 12vh;
+      animation: fadeIn 0.15s ease;
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .search-overlay-inner {
+      width: 100%;
+      max-width: 640px;
+      margin: 0 1rem;
+      position: relative;
+    }
+    .search-overlay-close {
+      position: absolute;
+      top: -48px;
+      right: 0;
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.7);
+      cursor: pointer;
+      transition: color 0.15s ease;
+      padding: 0.25rem;
+    }
+    .search-overlay-close:hover { color: #fff; }
+    .search-overlay-form { width: 100%; }
+    .search-overlay-field {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      background: var(--color-surface);
+      border-radius: var(--radius-lg);
+      padding: 1rem 1.25rem;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--color-border);
+    }
+    .search-overlay-field svg {
+      color: var(--color-text-muted);
+      flex-shrink: 0;
+    }
+    .search-overlay-input {
+      flex: 1;
+      border: none;
+      background: none;
+      font-size: 1.1rem;
+      color: var(--color-text);
+      outline: none;
+      font-family: 'Inter', sans-serif;
+    }
+    .search-overlay-input::placeholder { color: var(--color-text-muted); }
+    .search-overlay-hint {
+      text-align: center;
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.5);
+      margin-top: 0.85rem;
+    }
+    .search-overlay-hint kbd {
+      display: inline-block;
+      padding: 0.1rem 0.4rem;
+      background: rgba(255,255,255,0.15);
+      border-radius: 4px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.7rem;
+    }
+
+    /* ── Account Modal ── */
+    .account-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9000;
+      background: rgba(0,0,0,0.4);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn 0.15s ease;
+    }
+    .account-modal {
+      background: var(--color-surface);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--color-border);
+      width: 100%;
+      max-width: 400px;
+      margin: 0 1rem;
+      overflow: hidden;
+    }
+    .account-modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .account-modal-body {
+      padding: 1.5rem;
+    }
+    .account-form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+    .account-label {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+    .account-label span {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--color-text-secondary);
+      font-family: 'Space Grotesk', sans-serif;
+    }
+    .account-input {
+      padding: 0.65rem 0.85rem;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      font-size: 0.88rem;
+      color: var(--color-text);
+      background: var(--color-surface-alt);
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.15s ease;
+    }
+    .account-input:focus {
+      border-color: var(--color-accent);
+      box-shadow: 0 0 0 3px var(--color-accent-soft);
+    }
+    .account-input::placeholder { color: var(--color-text-muted); }
+
+    /* ── Cart Clear Link ── */
+    .cart-clear-link {
+      display: block;
+      width: 100%;
+      text-align: center;
+      background: none;
+      border: none;
+      color: var(--color-text-muted);
+      font-size: 0.78rem;
+      cursor: pointer;
+      padding: 0.65rem 0 0.25rem;
+      transition: color 0.15s ease;
+      font-family: 'Inter', sans-serif;
+    }
+    .cart-clear-link:hover { color: var(--color-sale); }
+
+    /* ── Footer ── */
+    .site-footer {
+      background: var(--color-surface);
+      border-top: 1px solid var(--color-border);
+      margin-top: var(--space-3xl);
+    }
+    .footer-inner {
+      padding-top: 3.5rem;
+      padding-bottom: 2rem;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+    @media (min-width: 768px) {
+      .footer-grid { grid-template-columns: 1.5fr 1fr 1fr 1.2fr; }
+    }
+    .footer-desc {
+      color: var(--color-text-secondary);
+      font-size: 0.85rem;
+      line-height: 1.7;
+      max-width: 280px;
+    }
+    .footer-heading {
+      color: var(--color-text);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 1.1rem;
+    }
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+    .footer-links a {
+      color: var(--color-text-secondary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: color 0.15s ease;
+    }
+    .footer-links a:hover { color: var(--color-accent); }
+    .footer-contact {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      color: var(--color-text-secondary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: color 0.15s ease;
+    }
+    a.contact-item:hover { color: var(--color-accent); }
+    .contact-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: var(--radius-sm);
+      background: var(--color-accent-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* Legal */
+    .footer-legal {
+      margin-top: 2.5rem;
+      padding: 1rem 1.25rem;
+      background: var(--color-surface-alt);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--color-border);
+    }
+    .footer-legal p {
+      font-size: 0.72rem;
+      color: var(--color-text-muted);
+      line-height: 1.6;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid var(--color-border);
+      margin-top: 2rem;
+      padding-top: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-bottom p {
+      color: var(--color-text-muted);
+      font-size: 0.75rem;
+    }
+    .footer-bottom-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-bottom-links a {
+      color: var(--color-text-muted);
+      text-decoration: none;
+      font-size: 0.75rem;
+      transition: color 0.15s ease;
+    }
+    .footer-bottom-links a:hover { color: var(--color-text-secondary); }
+    @media (max-width: 640px) {
+      .footer-bottom { flex-direction: column; align-items: center; text-align: center; }
+      .footer-bottom-links { justify-content: center; }
+    }
+
+    /* ── Cart Drawer ── */
+    .cart-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.3);
+      z-index: 998;
+      cursor: pointer;
+      transition: opacity 0.25s ease;
+    }
+    .cart-drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 100%;
+      max-width: 400px;
+      height: 100vh;
+      height: 100dvh;
+      background: var(--color-surface);
+      border-left: 1px solid var(--color-border);
+      box-shadow: var(--shadow-lg);
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s var(--ease-out);
+    }
+    .cart-drawer-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid var(--color-border);
+      flex-shrink: 0;
+    }
+    .cart-close-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-sm);
+      background: none;
+      border: 1px solid var(--color-border);
+      color: var(--color-text-secondary);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .cart-close-btn:hover {
+      color: var(--color-text);
+      border-color: var(--color-border-hover);
+      background: var(--color-surface-alt);
+    }
+    .cart-items {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1rem 1.5rem;
+    }
+    .cart-item {
+      display: flex;
+      gap: 0.85rem;
+      padding: 0.85rem 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .cart-item:last-child { border-bottom: none; }
+    .cart-item-img {
+      width: 64px;
+      height: 64px;
+      object-fit: contain;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--color-border);
+      background: var(--color-surface-alt);
+      flex-shrink: 0;
+    }
+    .cart-item-info { flex: 1; min-width: 0; }
+    .cart-item-title {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--color-text);
+      line-height: 1.3;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      margin-bottom: 0.25rem;
+    }
+    .cart-item-price {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--color-text);
+    }
+    .cart-item-qty {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 0.4rem;
+    }
+    .cart-qty-btn {
+      width: 26px;
+      height: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--color-surface-alt);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--color-text-secondary);
+      font-family: 'Space Grotesk', sans-serif;
+      transition: all 0.1s ease;
+    }
+    .cart-qty-btn:hover {
+      background: var(--color-surface-hover);
+      border-color: var(--color-border-hover);
+    }
+    .cart-qty-val {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--color-text);
+      min-width: 20px;
+      text-align: center;
+    }
+    .cart-item-remove {
+      background: none;
+      border: none;
+      color: var(--color-text-muted);
+      cursor: pointer;
+      padding: 0.25rem;
+      transition: color 0.15s ease;
+      flex-shrink: 0;
+      align-self: flex-start;
+    }
+    .cart-item-remove:hover { color: var(--color-sale); }
+    .cart-footer {
+      padding: 1.25rem 1.5rem;
+      border-top: 1px solid var(--color-border);
+      flex-shrink: 0;
+    }
+    .cart-total-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+    .cart-empty {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    /* ── Cookie Consent ── */
+    .cookie-consent {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 9999;
+      background: var(--color-surface);
+      border-top: 1px solid var(--color-border);
+      box-shadow: 0 -4px 24px rgba(0,0,0,0.1);
+      animation: slideUp 0.3s ease;
+    }
+    @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+    .cookie-consent-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+    .cookie-consent-text {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      flex: 1;
+    }
+    .cookie-consent-text svg { flex-shrink: 0; margin-top: 0.1rem; }
+    .cookie-consent-text p {
+      font-size: 0.82rem;
+      color: var(--color-text-secondary);
+      line-height: 1.6;
+      margin: 0;
+    }
+    .cookie-consent-actions {
+      display: flex;
+      gap: 0.5rem;
+      flex-shrink: 0;
+    }
+    @media (max-width: 640px) {
+      .cookie-consent-inner { flex-direction: column; align-items: stretch; gap: 0.85rem; }
+      .cookie-consent-actions { justify-content: stretch; }
+      .cookie-consent-actions button { flex: 1; }
+    }
+  </style>
+
+  <script>
+    // ── Cookie consent ──
+    const cookieBanner = document.getElementById('cookie-consent');
+    if (cookieBanner && !localStorage.getItem('cookie_consent')) {
+      cookieBanner.style.display = 'block';
+    }
+    document.getElementById('cookie-accept')?.addEventListener('click', () => {
+      localStorage.setItem('cookie_consent', 'accepted');
+      if (cookieBanner) cookieBanner.style.display = 'none';
+    });
+    document.getElementById('cookie-dismiss')?.addEventListener('click', () => {
+      localStorage.setItem('cookie_consent', 'dismissed');
+      if (cookieBanner) cookieBanner.style.display = 'none';
+    });
+
+    // ── Age gate ──
+    const ageGate = document.getElementById('age-gate');
+    if (ageGate && !localStorage.getItem('age_verified')) {
+      ageGate.style.display = 'flex';
+    }
+    document.getElementById('age-yes')?.addEventListener('click', () => {
+      localStorage.setItem('age_verified', 'true');
+      if (ageGate) ageGate.style.display = 'none';
+    });
+    document.getElementById('age-no')?.addEventListener('click', () => {
+      window.location.href = 'https://www.google.com';
+    });
+
+    // ── Mobile menu ──
+    const mobileBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuIconOpen = document.getElementById('menu-icon-open');
+    const menuIconClose = document.getElementById('menu-icon-close');
+    mobileBtn?.addEventListener('click', () => {
+      const isOpen = mobileMenu?.style.display === 'block';
+      if (mobileMenu) mobileMenu.style.display = isOpen ? 'none' : 'block';
+      if (menuIconOpen) menuIconOpen.style.display = isOpen ? 'block' : 'none';
+      if (menuIconClose) menuIconClose.style.display = isOpen ? 'none' : 'block';
+    });
+
+    // ── Header scroll ──
+    const header = document.getElementById('site-header');
+    window.addEventListener('scroll', () => {
+      header?.classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // ── Search overlay ──
+    const searchOverlay = document.getElementById('search-overlay');
+    const searchInput = document.getElementById('search-overlay-input') as HTMLInputElement | null;
+    function openSearch() {
+      if (searchOverlay) { searchOverlay.style.display = 'flex'; }
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => searchInput?.focus(), 50);
+    }
+    function closeSearch() {
+      if (searchOverlay) searchOverlay.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+    document.getElementById('search-toggle')?.addEventListener('click', openSearch);
+    document.getElementById('search-close')?.addEventListener('click', closeSearch);
+    searchOverlay?.addEventListener('click', (e) => {
+      if (e.target === searchOverlay) closeSearch();
+    });
+
+    // ── Account system ──
+    const accountOverlay = document.getElementById('account-overlay');
+    const loginView = document.getElementById('account-login-view');
+    const registerView = document.getElementById('account-register-view');
+    const loggedinView = document.getElementById('account-loggedin-view');
+    const accountTitle = document.getElementById('account-modal-title');
+
+    function getAccounts(): any[] {
+      try { return JSON.parse(localStorage.getItem('vapelink_accounts') || '[]'); } catch { return []; }
+    }
+    function getCurrentUser(): any {
+      try { return JSON.parse(localStorage.getItem('vapelink_user') || 'null'); } catch { return null; }
+    }
+    function getUserOrders(email: string): any[] {
+      try { return JSON.parse(localStorage.getItem(`vapelink_orders_${email}`) || '[]'); } catch { return []; }
+    }
+    function saveOrder(email: string, order: any) {
+      const orders = getUserOrders(email);
+      orders.unshift(order);
+      localStorage.setItem(`vapelink_orders_${email}`, JSON.stringify(orders));
+    }
+
+    function showAccountView(view: 'login' | 'register' | 'loggedin') {
+      if (loginView) loginView.style.display = view === 'login' ? 'block' : 'none';
+      if (registerView) registerView.style.display = view === 'register' ? 'block' : 'none';
+      if (loggedinView) loggedinView.style.display = view === 'loggedin' ? 'block' : 'none';
+      if (accountTitle) {
+        accountTitle.textContent = view === 'login' ? 'Welcome Back' : view === 'register' ? 'Create Account' : 'My Account';
+      }
+    }
+
+    function renderAccountState() {
+      const user = getCurrentUser();
+      if (user) {
+        showAccountView('loggedin');
+        const greeting = document.getElementById('account-greeting');
+        const emailDisp = document.getElementById('account-email-display');
+        const orderList = document.getElementById('account-order-list');
+        if (greeting) greeting.textContent = `G'day, ${user.firstName}!`;
+        if (emailDisp) emailDisp.textContent = user.email;
+        if (orderList) {
+          const orders = getUserOrders(user.email);
+          if (orders.length === 0) {
+            orderList.innerHTML = '<p style="font-size:0.82rem;color:var(--color-text-muted);">No orders yet.</p>';
+          } else {
+            orderList.innerHTML = orders.slice(0, 5).map((o: any) => `
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:0.55rem 0.65rem;background:var(--color-surface-alt);border-radius:var(--radius-sm);margin-bottom:0.4rem;font-size:0.78rem;">
+                <div>
+                  <span style="font-weight:600;color:var(--color-text);">${o.orderNumber || 'N/A'}</span>
+                  <span style="color:var(--color-text-muted);margin-left:0.5rem;">${o.date ? new Date(o.date).toLocaleDateString('en-AU') : ''}</span>
+                </div>
+                <span style="font-weight:600;color:var(--color-text);">${o.items ? o.items.length : 0} items</span>
+              </div>
+            `).join('');
+          }
+        }
+        // Update account icon to show logged-in state
+        const acctBtn = document.getElementById('account-toggle');
+        if (acctBtn) acctBtn.style.color = 'var(--color-accent)';
+      } else {
+        showAccountView('login');
+        const acctBtn = document.getElementById('account-toggle');
+        if (acctBtn) acctBtn.style.color = '';
+      }
+    }
+
+    function openAccount() {
+      if (accountOverlay) accountOverlay.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      renderAccountState();
+    }
+    function closeAccount() {
+      if (accountOverlay) accountOverlay.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('account-toggle')?.addEventListener('click', openAccount);
+    document.getElementById('account-close')?.addEventListener('click', closeAccount);
+    accountOverlay?.addEventListener('click', (e) => {
+      if (e.target === accountOverlay) closeAccount();
+    });
+
+    // Toggle login / register views
+    document.getElementById('show-register')?.addEventListener('click', () => showAccountView('register'));
+    document.getElementById('show-login')?.addEventListener('click', () => showAccountView('login'));
+
+    // Register form
+    document.getElementById('account-register-form')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const fname = (document.getElementById('reg-fname') as HTMLInputElement)?.value.trim();
+      const lname = (document.getElementById('reg-lname') as HTMLInputElement)?.value.trim();
+      const email = (document.getElementById('reg-email') as HTMLInputElement)?.value.trim().toLowerCase();
+      const password = (document.getElementById('reg-password') as HTMLInputElement)?.value;
+      const confirm = (document.getElementById('reg-confirm') as HTMLInputElement)?.value;
+      const errorEl = document.getElementById('register-error');
+
+      if (!fname || !lname || !email || !password) return;
+
+      if (password !== confirm) {
+        if (errorEl) { errorEl.textContent = 'Passwords don\'t match.'; errorEl.style.display = 'block'; }
+        return;
+      }
+      if (password.length < 6) {
+        if (errorEl) { errorEl.textContent = 'Password must be at least 6 characters.'; errorEl.style.display = 'block'; }
+        return;
+      }
+
+      const accounts = getAccounts();
+      if (accounts.find((a: any) => a.email === email)) {
+        if (errorEl) { errorEl.textContent = 'An account with this email already exists.'; errorEl.style.display = 'block'; }
+        return;
+      }
+
+      const newAccount = { firstName: fname, lastName: lname, email, password, created: new Date().toISOString() };
+      accounts.push(newAccount);
+      localStorage.setItem('vapelink_accounts', JSON.stringify(accounts));
+      localStorage.setItem('vapelink_user', JSON.stringify({ firstName: fname, lastName: lname, email }));
+      if (errorEl) errorEl.style.display = 'none';
+      renderAccountState();
+    });
+
+    // Login form
+    document.getElementById('account-login-form')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = (document.getElementById('login-email') as HTMLInputElement)?.value.trim().toLowerCase();
+      const password = (document.getElementById('login-password') as HTMLInputElement)?.value;
+      const errorEl = document.getElementById('login-error');
+
+      if (!email || !password) return;
+
+      const accounts = getAccounts();
+      const account = accounts.find((a: any) => a.email === email && a.password === password);
+
+      if (!account) {
+        if (errorEl) { errorEl.textContent = 'Invalid email or password.'; errorEl.style.display = 'block'; }
+        return;
+      }
+
+      localStorage.setItem('vapelink_user', JSON.stringify({ firstName: account.firstName, lastName: account.lastName, email: account.email }));
+      if (errorEl) errorEl.style.display = 'none';
+      renderAccountState();
+    });
+
+    // Logout
+    document.getElementById('account-logout')?.addEventListener('click', () => {
+      localStorage.removeItem('vapelink_user');
+      renderAccountState();
+    });
+
+    // Check login state on load
+    renderAccountState();
+
+    // ── Cart system ──
+    function getCart(): any[] {
+      try { return JSON.parse(localStorage.getItem('vapelink_cart') || '[]'); } catch { return []; }
+    }
+
+    function saveCart(cart: any[]) {
+      localStorage.setItem('vapelink_cart', JSON.stringify(cart));
+      window.dispatchEvent(new CustomEvent('cart-updated'));
+    }
+
+    function updateCartBadges() {
+      const cart = getCart();
+      const totalQty = cart.reduce((s: number, i: any) => s + (i.qty || 1), 0);
+      const el = document.getElementById('cart-count');
+      if (el) {
+        el.textContent = String(totalQty);
+        el.style.display = totalQty > 0 ? 'flex' : 'none';
+      }
+    }
+
+    // ── Cart Drawer ──
+    const cartDrawer = document.getElementById('cart-drawer');
+    const cartOverlay = document.getElementById('cart-overlay');
+    const cartItemsEl = document.getElementById('cart-items');
+    const cartFooterEl = document.getElementById('cart-footer');
+    const cartEmptyEl = document.getElementById('cart-empty');
+    const cartTotalEl = document.getElementById('cart-total');
+
+    function openCart() {
+      if (cartDrawer) cartDrawer.style.transform = 'translateX(0)';
+      if (cartOverlay) cartOverlay.style.display = 'block';
+      document.body.style.overflow = 'hidden';
+      renderCart();
+    }
+
+    function closeCart() {
+      if (cartDrawer) cartDrawer.style.transform = 'translateX(100%)';
+      if (cartOverlay) cartOverlay.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+
+    function renderCart() {
+      const cart = getCart();
+      if (!cartItemsEl || !cartFooterEl || !cartEmptyEl) return;
+
+      if (cart.length === 0) {
+        cartItemsEl.innerHTML = '';
+        cartFooterEl.style.display = 'none';
+        cartEmptyEl.style.display = 'flex';
+        return;
+      }
+
+      cartEmptyEl.style.display = 'none';
+      cartFooterEl.style.display = 'block';
+
+      let total = 0;
+      cartItemsEl.innerHTML = cart.map((item: any, idx: number) => {
+        const itemTotal = parseFloat(item.price || '0') * (item.qty || 1);
+        total += itemTotal;
+        const imgSrc = item.image || '';
+        return `
+          <div class="cart-item">
+            ${imgSrc ? `<img src="${imgSrc}" alt="" class="cart-item-img" onerror="this.style.display='none'"/>` : ''}
+            <div class="cart-item-info">
+              <a href="/products/${item.handle}" class="cart-item-title" style="text-decoration:none;">${item.title}</a>
+              <div class="cart-item-price">$${itemTotal.toFixed(2)} AUD</div>
+              <div class="cart-item-qty">
+                <button class="cart-qty-btn" data-action="minus" data-idx="${idx}">−</button>
+                <span class="cart-qty-val">${item.qty || 1}</span>
+                <button class="cart-qty-btn" data-action="plus" data-idx="${idx}">+</button>
+              </div>
+            </div>
+            <button class="cart-item-remove" data-action="remove" data-idx="${idx}" aria-label="Remove">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            </button>
+          </div>
+        `;
+      }).join('');
+
+      if (cartTotalEl) cartTotalEl.textContent = `$${total.toFixed(2)} AUD`;
+
+      // Bind cart item buttons via event delegation
+      cartItemsEl.querySelectorAll('[data-action]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const action = (btn as HTMLElement).dataset.action;
+          const idx = parseInt((btn as HTMLElement).dataset.idx || '0');
+          const cart = getCart();
+          if (action === 'plus') {
+            if (cart[idx]) cart[idx].qty = (cart[idx].qty || 1) + 1;
+          } else if (action === 'minus') {
+            if (cart[idx]) {
+              cart[idx].qty = (cart[idx].qty || 1) - 1;
+              if (cart[idx].qty <= 0) cart.splice(idx, 1);
+            }
+          } else if (action === 'remove') {
+            cart.splice(idx, 1);
+          }
+          saveCart(cart);
+          renderCart();
+        });
+      });
+    }
+
+    // Cart icon opens drawer
+    document.getElementById('cart-toggle')?.addEventListener('click', (e) => { e.preventDefault(); openCart(); });
+    document.getElementById('cart-close')?.addEventListener('click', closeCart);
+    cartOverlay?.addEventListener('click', closeCart);
+    document.getElementById('cart-clear')?.addEventListener('click', () => {
+      saveCart([]);
+      renderCart();
+    });
+    document.getElementById('cart-continue')?.addEventListener('click', closeCart);
+
+    // Update badges on load and on cart-updated events
+    updateCartBadges();
+    window.addEventListener('cart-updated', () => {
+      updateCartBadges();
+      renderCart();
+    });
+
+    // Handle "Add to Cart" buttons on product cards
+    document.querySelectorAll('.card-cart-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const b = btn as HTMLElement;
+        const handle = b.dataset.product;
+        const title = b.dataset.title || '';
+        const price = b.dataset.price || '0';
+        const image = b.dataset.image || '';
+        const cart = getCart();
+        const existing = cart.find((i: any) => i.handle === handle);
+        if (existing) {
+          existing.qty = (existing.qty || 1) + 1;
+        } else {
+          cart.push({ handle, title, price, image, qty: 1 });
+        }
+        saveCart(cart);
+
+        // Visual feedback
+        const orig = b.innerHTML;
+        b.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>';
+        b.style.background = 'var(--color-accent)';
+        b.style.color = '#fff';
+        setTimeout(() => {
+          b.innerHTML = orig;
+          b.style.background = '';
+          b.style.color = '';
+        }, 1200);
+
+        openCart();
+      });
+    });
+
+    // Escape key closes all modals
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeCart();
+        closeSearch();
+        closeAccount();
+      }
+    });
+
+    // Cmd/Ctrl+K opens search
+    document.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        openSearch();
+      }
+    });
+  </script>
+</body>
+</html>

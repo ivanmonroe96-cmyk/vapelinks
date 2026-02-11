@@ -1,0 +1,255 @@
+---
+import { generateReviews } from '../utils/reviews.js';
+
+interface Props {
+  product: any;
+}
+
+const { product } = Astro.props;
+const price = product.variants[0]?.price || '0.00';
+const comparePrice = product.variants[0]?.compare_at_price;
+const hasDiscount = comparePrice && parseFloat(comparePrice) > parseFloat(price);
+const discountPercent = hasDiscount ? Math.round((1 - parseFloat(price) / parseFloat(comparePrice)) * 100) : 0;
+const image = product.images[0];
+const reviewData = generateReviews(product.handle);
+---
+
+<div class="product-card">
+  <a href={`/products/${product.handle}`} class="card-link">
+    <div class="card-image-wrap">
+      {image ? (
+        <img
+          src={image.local}
+          alt={image.alt || product.title}
+          class="card-image"
+          loading="lazy"
+          onerror={`this.onerror=null;this.src='${image.src}'`}
+        />
+      ) : (
+        <div class="card-image-placeholder">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-dim)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+        </div>
+      )}
+      {hasDiscount && (
+        <span class="card-sale-badge">-{discountPercent}%</span>
+      )}
+    </div>
+    <div class="card-body">
+      {product.vendor && (
+        <span class="card-vendor">{product.vendor}</span>
+      )}
+      <h3 class="card-title">{product.title}</h3>
+      <div class="card-price-row">
+        <span class="card-price">${parseFloat(price).toFixed(2)}</span>
+        <span class="card-currency">AUD</span>
+        {hasDiscount && (
+          <span class="card-compare">${parseFloat(comparePrice).toFixed(2)}</span>
+        )}
+      </div>
+      <div class="card-rating">
+        <div class="card-stars">
+          {[1,2,3,4,5].map(s => (
+            <svg class={`card-star ${s <= Math.round(reviewData.averageRating) ? 'star-filled' : 'star-empty'}`} width="12" height="12" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          ))}
+        </div>
+        <span class="card-review-count">({reviewData.totalReviews})</span>
+      </div>
+    </div>
+  </a>
+  <div class="card-footer">
+    <a href={`/products/${product.handle}`} class="card-view">View</a>
+    <button class="card-cart-btn" data-product={product.handle} data-title={product.title} data-price={price} data-image={image?.local || ''}>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+      Add to Cart
+    </button>
+  </div>
+</div>
+
+<style>
+  .product-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  .product-card:hover {
+    border-color: var(--color-border-hover);
+    box-shadow: var(--shadow-md);
+  }
+  .card-link {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .card-image-wrap {
+    position: relative;
+    aspect-ratio: 1;
+    background: var(--color-surface-alt);
+    overflow: hidden;
+  }
+  .card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 0.75rem;
+    transition: transform 0.2s ease;
+  }
+  .product-card:hover .card-image {
+    transform: scale(1.03);
+  }
+  .card-image-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .card-sale-badge {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    padding: 0.2rem 0.5rem;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: var(--color-sale);
+    background: var(--color-sale-soft);
+    border-radius: var(--radius-sm);
+  }
+
+  .card-body {
+    flex: 1;
+    padding: 0.75rem 0.85rem 0;
+  }
+  .card-vendor {
+    display: block;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: 0.25rem;
+  }
+  .card-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--color-text);
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+  }
+  .card-price-row {
+    display: flex;
+    align-items: baseline;
+    gap: 0.3rem;
+    flex-wrap: wrap;
+  }
+  .card-price {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+  .card-currency {
+    font-size: 0.65rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    letter-spacing: 0.03em;
+  }
+  .card-compare {
+    font-size: 0.78rem;
+    color: var(--color-text-muted);
+    text-decoration: line-through;
+  }
+
+  .card-rating {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    margin-top: 0.35rem;
+  }
+  .card-stars {
+    display: flex;
+    gap: 1px;
+  }
+  .card-star { flex-shrink: 0; }
+  .star-filled { fill: #f59e0b; stroke: #f59e0b; }
+  .star-empty { fill: none; stroke: var(--color-border-hover); stroke-width: 1.5; }
+  .card-review-count {
+    font-size: 0.65rem;
+    color: var(--color-text-muted);
+    font-family: 'Space Grotesk', sans-serif;
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.85rem;
+    border-top: 1px solid var(--color-border);
+  }
+  @media (max-width: 400px) {
+    .card-footer {
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+    .card-view, .card-cart-btn {
+      width: 100%;
+    }
+  }
+  .card-view {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.45rem 0;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    transition: all 0.15s ease;
+  }
+  .card-view:hover {
+    border-color: var(--color-border-hover);
+    color: var(--color-text);
+    background: var(--color-surface-alt);
+  }
+  .card-cart-btn {
+    flex: 1.4;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    padding: 0.45rem 0;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #FFFFFF;
+    background: var(--color-accent);
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+  .card-cart-btn:hover {
+    background: var(--color-accent-hover);
+  }
+  .card-cart-btn:active {
+    transform: scale(0.97);
+  }
+</style>

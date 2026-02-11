@@ -1,0 +1,205 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import productsRaw from '../../data/products.json';
+import disposableVapes from '../../data/disposable-vapes.json';
+const productsData = [...productsRaw, ...disposableVapes] as any[];
+
+const PRODUCTS_PER_PAGE = 24;
+---
+
+<Layout title="Shop All Vape Products Online Australia | Vapelink" description="All our vape kits, disposables, e-liquids, coils, pods and accessories in one place. We ship across Australia from Melbourne. Free delivery on orders over $100.">
+
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "name": "Shop All Vape Products",
+      "description": "All vape products from Vapelink Australia — kits, disposables, e-liquids, coils, pods and accessories.",
+      "url": "https://vapelink.com.au/collections/shop",
+      "numberOfItems": productsData.length,
+      "isPartOf": { "@type": "WebSite", "@id": "https://vapelink.com.au/#website" },
+      "breadcrumb": {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://vapelink.com.au/" },
+          { "@type": "ListItem", "position": 2, "name": "Shop All Products", "item": "https://vapelink.com.au/collections/shop" }
+        ]
+      }
+    })} />
+  </Fragment>
+
+  <!-- Header -->
+  <section class="page-header">
+    <div class="container">
+      <nav style="margin-bottom:1rem;">
+        <ol class="breadcrumb">
+          <li><a href="/">Home</a></li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></li>
+          <li><span class="breadcrumb-current">Shop</span></li>
+        </ol>
+      </nav>
+      <span class="section-label">{productsData.length.toLocaleString()} products</span>
+      <h1 class="font-display page-title">Shop All Products</h1>
+    </div>
+  </section>
+
+  <!-- Products -->
+  <section class="container" style="padding:2rem 0 4rem;">
+    <div class="results-bar">
+      <p class="results-text" id="results-text">
+        Showing 1–{Math.min(PRODUCTS_PER_PAGE, productsData.length)} of {productsData.length.toLocaleString()}
+      </p>
+    </div>
+
+    <div class="products-grid" id="products-grid">
+      {productsData.map((product: any, idx: number) => (
+        <div class="product-item" data-index={idx} style={idx >= PRODUCTS_PER_PAGE ? 'display:none;' : ''}>
+          <ProductCard product={product} />
+        </div>
+      ))}
+    </div>
+
+    {productsData.length > PRODUCTS_PER_PAGE && (
+      <nav class="pagination" aria-label="Pagination" id="pagination-nav">
+      </nav>
+    )}
+  </section>
+
+  <script>
+    const PER_PAGE = 24;
+    const items = document.querySelectorAll('.product-item');
+    const total = items.length;
+    const totalPages = Math.ceil(total / PER_PAGE);
+    const paginationNav = document.getElementById('pagination-nav');
+    const resultsText = document.getElementById('results-text');
+
+    function getPage() {
+      const p = new URLSearchParams(window.location.search).get('page');
+      return Math.max(1, Math.min(totalPages, parseInt(p || '1') || 1));
+    }
+
+    function showPage(page: number) {
+      const start = (page - 1) * PER_PAGE;
+      const end = start + PER_PAGE;
+      items.forEach((item, i) => {
+        (item as HTMLElement).style.display = (i >= start && i < end) ? '' : 'none';
+      });
+      if (resultsText) {
+        resultsText.textContent = `Showing ${start + 1}–${Math.min(end, total)} of ${total.toLocaleString()}`;
+      }
+      renderPagination(page);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      // Re-bind cart buttons for newly visible items
+      document.querySelectorAll('.card-cart-btn').forEach(btn => {
+        if (!(btn as any).__cartBound) {
+          (btn as any).__cartBound = true;
+        }
+      });
+    }
+
+    function renderPagination(currentPage: number) {
+      if (!paginationNav || totalPages <= 1) return;
+      const baseUrl = window.location.pathname;
+      let html = '';
+
+      // Page info for mobile
+      html += `<span class="page-info">Page ${currentPage} of ${totalPages}</span>`;
+
+      // Prev button (always shown, disabled when on first page)
+      const prevDisabled = currentPage <= 1 ? ' page-nav-disabled' : '';
+      const prevHref = currentPage > 1 ? `${baseUrl}?page=${currentPage - 1}` : '#';
+      html += `<a href="${prevHref}" class="page-nav${prevDisabled}" aria-label="Previous page"${currentPage > 1 ? ` data-page="${currentPage - 1}"` : ''}><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg><span class="page-nav-label">Previous</span></a>`;
+
+      // Page numbers inside pill container
+      html += `<div class="pagination-inner">`;
+
+      const maxVisible = 5;
+      let startP = Math.max(1, currentPage - Math.floor(maxVisible / 2));
+      let endP = Math.min(totalPages, startP + maxVisible - 1);
+      if (endP - startP < maxVisible - 1) startP = Math.max(1, endP - maxVisible + 1);
+
+      if (startP > 1) {
+        html += `<a href="${baseUrl}" class="page-btn" data-page="1">1</a>`;
+        if (startP > 2) html += `<span class="page-dots">···</span>`;
+      }
+
+      for (let p = startP; p <= endP; p++) {
+        const active = p === currentPage ? ' page-active' : '';
+        const href = p === 1 ? baseUrl : `${baseUrl}?page=${p}`;
+        html += `<a href="${href}" class="page-btn${active}" data-page="${p}"${p === currentPage ? ' aria-current="page"' : ''}>${p}</a>`;
+      }
+
+      if (endP < totalPages) {
+        if (endP < totalPages - 1) html += `<span class="page-dots">···</span>`;
+        html += `<a href="${baseUrl}?page=${totalPages}" class="page-btn" data-page="${totalPages}">${totalPages}</a>`;
+      }
+
+      html += `</div>`;
+
+      // Next button (always shown, disabled when on last page)
+      const nextDisabled = currentPage >= totalPages ? ' page-nav-disabled' : '';
+      const nextHref = currentPage < totalPages ? `${baseUrl}?page=${currentPage + 1}` : '#';
+      html += `<a href="${nextHref}" class="page-nav${nextDisabled}" aria-label="Next page"${currentPage < totalPages ? ` data-page="${currentPage + 1}"` : ''}><span class="page-nav-label">Next</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></a>`;
+
+      paginationNav.innerHTML = html;
+
+      paginationNav.querySelectorAll('[data-page]').forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const page = parseInt((link as HTMLElement).dataset.page || '1');
+          const url = new URL(window.location.href);
+          if (page === 1) url.searchParams.delete('page');
+          else url.searchParams.set('page', String(page));
+          window.history.pushState({}, '', url.toString());
+          showPage(page);
+        });
+      });
+    }
+
+    window.addEventListener('popstate', () => showPage(getPage()));
+    if (total > 0) showPage(getPage());
+  </script>
+</Layout>
+
+<style>
+  .page-header {
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    padding: 1.75rem 0;
+  }
+  .page-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-top: 0.3rem;
+  }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.8rem;
+    list-style: none;
+  }
+  .breadcrumb a {
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+  .breadcrumb a:hover { color: var(--color-accent); }
+  .breadcrumb svg { color: var(--color-text-dim); }
+  .breadcrumb-current { color: var(--color-text); font-weight: 500; }
+
+  .results-bar { margin-bottom: 1.25rem; }
+  .results-text { font-size: 0.8rem; color: var(--color-text-muted); }
+
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  @media (min-width: 768px) { .products-grid { grid-template-columns: repeat(3, 1fr); gap: 1.1rem; } }
+  @media (min-width: 1024px) { .products-grid { grid-template-columns: repeat(4, 1fr); } }
+</style>

@@ -1,0 +1,386 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import collectionsData from '../../data/collections.json';
+import productsRaw from '../../data/products.json';
+import disposableVapes from '../../data/disposable-vapes.json';
+import { SEO_KEYWORDS } from '../../data/seo-keywords.js';
+
+const PRODUCTS_PER_PAGE = 24;
+
+export function getStaticPaths() {
+  const productsData = [...productsRaw, ...disposableVapes] as any[];
+  const perPage = 24;
+  const paths: any[] = [];
+
+  for (const collection of collectionsData as any[]) {
+    const collectionProducts = collection.product_handles.length > 0
+      ? productsData.filter((p: any) => collection.product_handles.includes(p.handle))
+      : [];
+
+    const totalPages = Math.max(1, Math.ceil(collectionProducts.length / perPage));
+
+    // Generate a path for page 1 (no query param needed since it's the default)
+    for (let page = 1; page <= totalPages; page++) {
+      const startIdx = (page - 1) * perPage;
+      paths.push({
+        params: { handle: collection.handle },
+        props: {
+          collection,
+          products: collectionProducts.slice(startIdx, startIdx + perPage),
+          currentPage: page,
+          totalPages,
+          totalProducts: collectionProducts.length,
+        },
+      });
+    }
+  }
+
+  // Deduplicate — getStaticPaths can only have one entry per unique params combo.
+  // For pagination, we need a different approach: use page 1 and handle all pages client-side,
+  // OR store all products and paginate client-side.
+  // Since SSG can only produce one HTML per handle, let's include ALL products and paginate client-side.
+  const deduped: any[] = [];
+  const seen = new Set<string>();
+  for (const collection of collectionsData as any[]) {
+    if (seen.has(collection.handle)) continue;
+    seen.add(collection.handle);
+
+    const collectionProducts = collection.product_handles.length > 0
+      ? productsData.filter((p: any) => collection.product_handles.includes(p.handle))
+      : [];
+
+    deduped.push({
+      params: { handle: collection.handle },
+      props: {
+        collection,
+        allProducts: collectionProducts,
+        totalProducts: collectionProducts.length,
+      },
+    });
+  }
+
+  return deduped;
+}
+
+const { collection, allProducts, totalProducts } = Astro.props;
+const plainDescription = (collection.body_html || '').replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').substring(0, 150).trim() || `Browse ${collection.title} at Vapelink — ${totalProducts}+ products in stock. Fast AU shipping, free delivery over $100.`;
+const seoDesc = plainDescription.length > 160 ? plainDescription.substring(0, 157) + '...' : plainDescription;
+const collectionTitleBase = `${collection.title} | Buy Online – Vapelink Australia`;
+const collectionSeoTitle = collectionTitleBase.length > 60 ? `${collection.title} | Vapelink Australia` : collectionTitleBase;
+
+// Collection SEO keywords from database
+function getCollectionKeywords(col: any): string {
+  const kw: string[] = [];
+  const titleLower = col.title.toLowerCase();
+
+  // Match product type keywords based on collection title
+  const typeMatches: Record<string, string> = {
+    'juice': 'EJUICE', 'e-liquid': 'EJUICE', 'e-juice': 'EJUICE', 'liquid': 'EJUICE',
+    'coil': 'COILS', 'cartridge': 'CARTRIDGES', 'pod': 'POD_KITS',
+    'accessor': 'ACCESSORIES', 'glass': 'REPLACEMENT_GLASS', 'drip tip': 'DRIP_TIPS',
+    'starter': 'STARTER_KITS', 'kit': 'STARTER_KITS', 'mod': 'MODS',
+    'dry herb': 'DRY_HERB_VAPORIZERS', 'vaporizer': 'DRY_HERB_VAPORIZERS',
+    'rda': 'RDA', 'tank': 'TANKS', 'rta': 'RTA', 'battery': 'BATTERIES',
+    'cbd': 'CBD', 'cotton': 'ORGANIC_COTTON', 'rdta': 'RDTA', 'charger': 'CHARGERS',
+  };
+
+  for (const [pattern, typeKey] of Object.entries(typeMatches)) {
+    const _ptypes: Record<string, any> = SEO_KEYWORDS.productTypes;
+    if (titleLower.includes(pattern) && _ptypes[typeKey]) {
+      const td = _ptypes[typeKey];
+      kw.push(td.primary, ...td.secondary.slice(0, 3), ...td.lsi.slice(0, 3));
+      break;
+    }
+  }
+
+  // Match brand keywords
+  for (const [brand, brandData] of Object.entries(SEO_KEYWORDS.brands)) {
+    if (titleLower.includes(brand.toLowerCase())) {
+      kw.push((brandData as any).primary, ...(brandData as any).secondary.slice(0, 2));
+      break;
+    }
+  }
+
+  kw.push(col.title, 'vape shop australia', 'buy online australia', 'free shipping over $100');
+  return [...new Set(kw.filter(Boolean))].slice(0, 15).join(', ');
+}
+
+const collectionKeywords = getCollectionKeywords(collection);
+---
+
+<Layout title={collectionSeoTitle} description={seoDesc} image={collection.image?.src}>
+
+  <!-- Collection Schema.org Structured Data -->
+  <Fragment slot="head">
+    <meta name="keywords" content={collectionKeywords} />
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "name": collection.title,
+      "description": seoDesc,
+      "url": `https://vapelink.com.au/collections/${collection.handle}`,
+      "numberOfItems": totalProducts,
+      "isPartOf": {
+        "@type": "WebSite",
+        "@id": "https://vapelink.com.au/#website"
+      },
+      "breadcrumb": {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://vapelink.com.au/" },
+          { "@type": "ListItem", "position": 2, "name": "Collections", "item": "https://vapelink.com.au/collections" },
+          { "@type": "ListItem", "position": 3, "name": collection.title, "item": `https://vapelink.com.au/collections/${collection.handle}` }
+        ]
+      }
+    })} />
+  </Fragment>
+
+  <!-- Collection Header -->
+  <section class="page-header">
+    <div class="container">
+      <nav style="margin-bottom:1rem;">
+        <ol class="breadcrumb">
+          <li><a href="/">Home</a></li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></li>
+          <li><a href="/collections">Collections</a></li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></li>
+          <li><span class="breadcrumb-current">{collection.title}</span></li>
+        </ol>
+      </nav>
+
+      <div class="collection-header-row">
+        {collection.image && (
+          <div class="collection-thumb">
+            <img
+              src={collection.image.local}
+              alt={collection.image.alt}
+              class="collection-thumb-img"
+              onerror={`this.onerror=null;this.src='${collection.image.src}'`}
+            />
+          </div>
+        )}
+        <div>
+          <span class="section-label">{totalProducts} products</span>
+          <h1 class="font-display page-title">{collection.title}</h1>
+          {collection.body_html && (
+            <div class="prose-content collection-desc" set:html={collection.body_html} />
+          )}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Products Grid -->
+  <section class="container" style="padding:2rem 0 4rem;">
+    {allProducts.length > 0 ? (
+      <>
+        <div class="results-bar">
+          <p class="results-text" id="results-text">
+            Showing 1–{Math.min(PRODUCTS_PER_PAGE, allProducts.length)} of {allProducts.length}
+          </p>
+        </div>
+
+        <div class="products-grid" id="products-grid">
+          {allProducts.map((product: any, idx: number) => (
+            <div class="product-item" data-index={idx} style={idx >= PRODUCTS_PER_PAGE ? 'display:none;' : ''}>
+              <ProductCard product={product} />
+            </div>
+          ))}
+        </div>
+
+        {allProducts.length > PRODUCTS_PER_PAGE && (
+          <nav class="pagination" aria-label="Pagination" id="pagination-nav">
+          </nav>
+        )}
+      </>
+    ) : (
+      <div class="empty-state">
+        <div class="empty-icon">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-dim)" stroke-width="1.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+        </div>
+        <h3 class="font-display" style="font-size:1.15rem;color:var(--color-text);margin-bottom:0.4rem;">No products found</h3>
+        <p style="color:var(--color-text-secondary);margin-bottom:1.25rem;font-size:0.9rem;">This collection doesn't have any products yet.</p>
+        <a href="/collections/shop" class="btn-primary">Browse All Products</a>
+      </div>
+    )}
+  </section>
+
+  <script>
+    const PER_PAGE = 24;
+    const items = document.querySelectorAll('.product-item');
+    const total = items.length;
+    const totalPages = Math.ceil(total / PER_PAGE);
+    const paginationNav = document.getElementById('pagination-nav');
+    const resultsText = document.getElementById('results-text');
+
+    function getPage() {
+      const p = new URLSearchParams(window.location.search).get('page');
+      return Math.max(1, Math.min(totalPages, parseInt(p || '1') || 1));
+    }
+
+    function showPage(page: number) {
+      const start = (page - 1) * PER_PAGE;
+      const end = start + PER_PAGE;
+      items.forEach((item, i) => {
+        (item as HTMLElement).style.display = (i >= start && i < end) ? '' : 'none';
+      });
+      if (resultsText) {
+        resultsText.textContent = `Showing ${start + 1}–${Math.min(end, total)} of ${total}`;
+      }
+      renderPagination(page);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderPagination(currentPage: number) {
+      if (!paginationNav || totalPages <= 1) return;
+      const baseUrl = window.location.pathname;
+      let html = '';
+
+      // Page info for mobile
+      html += `<span class="page-info">Page ${currentPage} of ${totalPages}</span>`;
+
+      // Prev button (always shown, disabled when on first page)
+      const prevDisabled = currentPage <= 1 ? ' page-nav-disabled' : '';
+      const prevHref = currentPage > 1 ? `${baseUrl}?page=${currentPage - 1}` : '#';
+      html += `<a href="${prevHref}" class="page-nav${prevDisabled}" aria-label="Previous page"${currentPage > 1 ? ` data-page="${currentPage - 1}"` : ''}><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg><span class="page-nav-label">Previous</span></a>`;
+
+      // Page numbers inside pill container
+      html += `<div class="pagination-inner">`;
+
+      const maxVisible = 5;
+      let startP = Math.max(1, currentPage - Math.floor(maxVisible / 2));
+      let endP = Math.min(totalPages, startP + maxVisible - 1);
+      if (endP - startP < maxVisible - 1) startP = Math.max(1, endP - maxVisible + 1);
+
+      if (startP > 1) {
+        html += `<a href="${baseUrl}" class="page-btn" data-page="1">1</a>`;
+        if (startP > 2) html += `<span class="page-dots">···</span>`;
+      }
+
+      for (let p = startP; p <= endP; p++) {
+        const active = p === currentPage ? ' page-active' : '';
+        const href = p === 1 ? baseUrl : `${baseUrl}?page=${p}`;
+        html += `<a href="${href}" class="page-btn${active}" data-page="${p}"${p === currentPage ? ' aria-current="page"' : ''}>${p}</a>`;
+      }
+
+      if (endP < totalPages) {
+        if (endP < totalPages - 1) html += `<span class="page-dots">···</span>`;
+        html += `<a href="${baseUrl}?page=${totalPages}" class="page-btn" data-page="${totalPages}">${totalPages}</a>`;
+      }
+
+      html += `</div>`;
+
+      // Next button (always shown, disabled when on last page)
+      const nextDisabled = currentPage >= totalPages ? ' page-nav-disabled' : '';
+      const nextHref = currentPage < totalPages ? `${baseUrl}?page=${currentPage + 1}` : '#';
+      html += `<a href="${nextHref}" class="page-nav${nextDisabled}" aria-label="Next page"${currentPage < totalPages ? ` data-page="${currentPage + 1}"` : ''}><span class="page-nav-label">Next</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></a>`;
+
+      paginationNav.innerHTML = html;
+
+      // Intercept clicks for client-side navigation
+      paginationNav.querySelectorAll('[data-page]').forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const page = parseInt((link as HTMLElement).dataset.page || '1');
+          const url = new URL(window.location.href);
+          if (page === 1) url.searchParams.delete('page');
+          else url.searchParams.set('page', String(page));
+          window.history.pushState({}, '', url.toString());
+          showPage(page);
+        });
+      });
+    }
+
+    // Handle browser back/forward
+    window.addEventListener('popstate', () => showPage(getPage()));
+
+    // Initial render
+    if (total > 0) showPage(getPage());
+  </script>
+</Layout>
+
+<style>
+  .page-header {
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    padding: 1.75rem 0;
+  }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    flex-wrap: wrap;
+    font-size: 0.8rem;
+    list-style: none;
+  }
+  .breadcrumb a {
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+  .breadcrumb a:hover { color: var(--color-accent); }
+  .breadcrumb svg { color: var(--color-text-dim); }
+  .breadcrumb-current { color: var(--color-text); font-weight: 500; }
+
+  .collection-header-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+  }
+  .collection-thumb {
+    display: none;
+    flex-shrink: 0;
+  }
+  @media (min-width: 768px) {
+    .collection-thumb { display: block; }
+  }
+  .collection-thumb-img {
+    width: 88px;
+    height: 88px;
+    object-fit: cover;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+  }
+  .page-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--color-text);
+    line-height: 1.2;
+    margin-top: 0.3rem;
+    margin-bottom: 0.35rem;
+  }
+  .collection-desc {
+    max-width: 600px;
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+  }
+
+  .results-bar { margin-bottom: 1.25rem; }
+  .results-text { font-size: 0.8rem; color: var(--color-text-muted); }
+
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  @media (min-width: 768px) { .products-grid { grid-template-columns: repeat(3, 1fr); gap: 1.1rem; } }
+  @media (min-width: 1024px) { .products-grid { grid-template-columns: repeat(4, 1fr); } }
+
+  .empty-state {
+    text-align: center;
+    padding: 4rem 0;
+  }
+  .empty-icon {
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 1.25rem;
+    border-radius: var(--radius-lg);
+    background: var(--color-surface-alt);
+    border: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+</style>

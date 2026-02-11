@@ -1,0 +1,478 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Order Confirmed – Vapelink Australia" description="Your order has been placed successfully. Thank you for shopping with Vapelink Australia." noindex={true}>
+
+  <section class="container confirmation-page">
+    <!-- No order data (direct visit) -->
+    <div id="no-order" style="display:none;">
+      <div class="confirmation-empty">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-dim)" stroke-width="1.2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+        <h2 class="font-display" style="font-size:1.2rem;font-weight:700;color:var(--color-text);margin-top:1rem;">No Order Found</h2>
+        <p style="color:var(--color-text-secondary);font-size:0.88rem;margin-top:0.35rem;">It looks like you haven't placed an order yet.</p>
+        <a href="/collections/shop" class="btn-primary" style="margin-top:1.25rem;padding:0.7rem 2rem;">Browse Products</a>
+      </div>
+    </div>
+
+    <!-- Order Confirmation -->
+    <div id="order-content" style="display:none;">
+      <!-- Success Header -->
+      <div class="confirmation-header">
+        <div class="confirmation-check">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <h1 class="font-display confirmation-title">Order Confirmed!</h1>
+        <p class="confirmation-subtitle">Thank you for your order. We've received your details and will process it shortly.</p>
+        <div class="confirmation-order-num">
+          <span>Order Number</span>
+          <strong id="conf-order-num" class="font-display">—</strong>
+        </div>
+      </div>
+
+      <div class="confirmation-grid">
+        <!-- Order Details -->
+        <div class="confirmation-details">
+          <!-- Customer Info -->
+          <div class="conf-section">
+            <h3 class="font-display conf-section-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              Customer Details
+            </h3>
+            <div class="conf-info-grid">
+              <div>
+                <span class="conf-label">Name</span>
+                <span id="conf-name" class="conf-value">—</span>
+              </div>
+              <div>
+                <span class="conf-label">Email</span>
+                <span id="conf-email" class="conf-value">—</span>
+              </div>
+              <div>
+                <span class="conf-label">Phone</span>
+                <span id="conf-phone" class="conf-value">—</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Shipping -->
+          <div class="conf-section">
+            <h3 class="font-display conf-section-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+              Shipping Address
+            </h3>
+            <p id="conf-address" class="conf-value" style="line-height:1.6;">—</p>
+          </div>
+
+          <!-- Shipping Method -->
+          <div class="conf-section">
+            <h3 class="font-display conf-section-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><path d="m16 8 4 2v6H16"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+              Delivery Method
+            </h3>
+            <span id="conf-shipping" class="conf-value">—</span>
+          </div>
+
+          <!-- Payment -->
+          <div class="conf-section">
+            <h3 class="font-display conf-section-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/></svg>
+              Payment Method
+            </h3>
+            <span id="conf-payment" class="conf-value">—</span>
+          </div>
+
+          <!-- Notes -->
+          <div id="conf-notes-section" class="conf-section" style="display:none;">
+            <h3 class="font-display conf-section-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+              Order Notes
+            </h3>
+            <p id="conf-notes" class="conf-value" style="line-height:1.6;">—</p>
+          </div>
+        </div>
+
+        <!-- Items Summary -->
+        <div class="confirmation-items-card">
+          <h3 class="font-display conf-section-title" style="margin-bottom:1rem;">Items Ordered</h3>
+          <div id="conf-items" class="conf-items-list"></div>
+          <hr class="conf-divider" />
+          <div class="conf-total-row">
+            <span>Subtotal</span>
+            <span id="conf-subtotal" class="font-display" style="font-weight:600;">$0.00</span>
+          </div>
+          <div class="conf-total-row">
+            <span>Shipping</span>
+            <span id="conf-ship-cost" class="font-display" style="font-weight:600;">$0.00</span>
+          </div>
+          <hr class="conf-divider" />
+          <div class="conf-total-row conf-grand-total">
+            <span>Total Paid</span>
+            <span id="conf-total" class="font-display">$0.00 AUD</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Next Steps -->
+      <div class="confirmation-next-steps">
+        <div class="next-step-card">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <div>
+            <h4 class="font-display" style="font-size:0.88rem;font-weight:700;color:var(--color-text);">Check Your Email</h4>
+            <p style="font-size:0.78rem;color:var(--color-text-secondary);margin-top:0.15rem;">We'll send you an email with your order details and payment instructions shortly.</p>
+          </div>
+        </div>
+        <div class="next-step-card">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <div>
+            <h4 class="font-display" style="font-size:0.88rem;font-weight:700;color:var(--color-text);">Processing Time</h4>
+            <p style="font-size:0.78rem;color:var(--color-text-secondary);margin-top:0.15rem;">We usually get orders packed and shipped within 1–2 business days. You'll get a tracking number by email once it's on the way.</p>
+          </div>
+        </div>
+        <div class="next-step-card">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <div>
+            <h4 class="font-display" style="font-size:0.88rem;font-weight:700;color:var(--color-text);">Need Help?</h4>
+            <p style="font-size:0.78rem;color:var(--color-text-secondary);margin-top:0.15rem;">If you have any questions, contact us at <a href="mailto:info@vapelink.com" style="color:var(--color-accent);text-decoration:none;font-weight:600;">info@vapelink.com</a></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="confirmation-actions">
+        <a href="/collections/shop" class="btn-primary" style="padding:0.75rem 2rem;">
+          Continue Shopping
+        </a>
+        <a href="/" class="btn-secondary" style="padding:0.75rem 2rem;text-decoration:none;">
+          Back to Home
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <style is:global>
+    .confirmation-page {
+      padding-top: var(--space-xl);
+      padding-bottom: var(--space-3xl);
+      min-height: 60vh;
+    }
+
+    .confirmation-empty {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 4rem 1rem;
+    }
+
+    /* ── Success Header ── */
+    .confirmation-header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+    .confirmation-check {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--color-accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.25rem;
+      box-shadow: 0 4px 20px rgba(22, 163, 74, 0.3);
+    }
+    .confirmation-title {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--color-text);
+      letter-spacing: -0.02em;
+    }
+    .confirmation-subtitle {
+      color: var(--color-text-secondary);
+      font-size: 0.95rem;
+      margin-top: 0.5rem;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
+    }
+    .confirmation-order-num {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.25rem;
+      margin-top: 1.25rem;
+      padding: 0.85rem 1.75rem;
+      background: var(--color-surface-alt);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+    }
+    .confirmation-order-num span {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .confirmation-order-num strong {
+      font-size: 1.15rem;
+      color: var(--color-accent);
+    }
+
+    /* ── Grid ── */
+    .confirmation-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      margin-bottom: 2.5rem;
+    }
+    @media (min-width: 1024px) {
+      .confirmation-grid {
+        grid-template-columns: 1fr 380px;
+        gap: 2.5rem;
+      }
+    }
+
+    /* ── Sections ── */
+    .conf-section {
+      padding: 1.25rem 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .conf-section:first-child { padding-top: 0; }
+    .conf-section:last-child { border-bottom: none; }
+    .conf-section-title {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--color-text);
+      margin-bottom: 0.65rem;
+    }
+    .conf-info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0.75rem;
+    }
+    @media (max-width: 640px) {
+      .conf-info-grid { grid-template-columns: 1fr; }
+    }
+    .conf-label {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.2rem;
+    }
+    .conf-value {
+      font-size: 0.88rem;
+      color: var(--color-text);
+    }
+
+    /* ── Items Card ── */
+    .confirmation-items-card {
+      background: var(--color-surface-alt);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      height: fit-content;
+    }
+    .conf-items-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+    .conf-item {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+    .conf-item-img {
+      width: 44px;
+      height: 44px;
+      object-fit: contain;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--color-border);
+      background: var(--color-surface);
+      flex-shrink: 0;
+    }
+    .conf-item-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .conf-item-title {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--color-text);
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .conf-item-qty {
+      font-size: 0.72rem;
+      color: var(--color-text-muted);
+    }
+    .conf-item-price {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--color-text);
+      flex-shrink: 0;
+    }
+    .conf-divider {
+      border: none;
+      border-top: 1px solid var(--color-border);
+      margin: 0.75rem 0;
+    }
+    .conf-total-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.3rem 0;
+      font-size: 0.85rem;
+      color: var(--color-text-secondary);
+    }
+    .conf-grand-total span:first-child {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--color-text);
+    }
+    .conf-grand-total span:last-child {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--color-text);
+    }
+
+    /* ── Next Steps ── */
+    .confirmation-next-steps {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.85rem;
+      margin-bottom: 2rem;
+    }
+    @media (min-width: 768px) {
+      .confirmation-next-steps { grid-template-columns: repeat(3, 1fr); }
+    }
+    .next-step-card {
+      display: flex;
+      gap: 0.85rem;
+      align-items: flex-start;
+      padding: 1.15rem;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+    }
+    .next-step-card svg {
+      flex-shrink: 0;
+      margin-top: 0.15rem;
+    }
+
+    /* ── Actions ── */
+    .confirmation-actions {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+  </style>
+
+  <script>
+    const shippingLabels: Record<string, string> = {
+      standard: 'Standard Shipping (5–10 business days)',
+      express: 'Express Shipping (2–4 business days)',
+      pickup: 'In-Store Pickup — Coburg, Melbourne'
+    };
+    const shippingPrices: Record<string, number> = { standard: 9.95, express: 14.95, pickup: 0 };
+    const paymentLabels: Record<string, string> = {
+      bank: 'Bank Transfer / PayID',
+      instore: 'Pay In-Store'
+    };
+
+    function renderConfirmation() {
+      const orderStr = localStorage.getItem('vapelink_last_order');
+      const noEl = document.getElementById('no-order');
+      const contentEl = document.getElementById('order-content');
+      if (!noEl || !contentEl) return;
+
+      if (!orderStr) {
+        noEl.style.display = 'block';
+        contentEl.style.display = 'none';
+        return;
+      }
+
+      noEl.style.display = 'none';
+      contentEl.style.display = 'block';
+
+      const order = JSON.parse(orderStr);
+
+      // Order number
+      const orderNumEl = document.getElementById('conf-order-num');
+      if (orderNumEl) orderNumEl.textContent = order.orderNumber || '—';
+
+      // Customer
+      const nameEl = document.getElementById('conf-name');
+      const emailEl = document.getElementById('conf-email');
+      const phoneEl = document.getElementById('conf-phone');
+      if (nameEl) nameEl.textContent = `${order.firstName} ${order.lastName}`;
+      if (emailEl) emailEl.textContent = order.email || '—';
+      if (phoneEl) phoneEl.textContent = order.phone || 'Not provided';
+
+      // Address
+      const addrEl = document.getElementById('conf-address');
+      if (addrEl) {
+        const parts = [order.address, order.address2, order.city, `${order.state} ${order.postcode}`, 'Australia'].filter(Boolean);
+        addrEl.textContent = parts.join(', ');
+      }
+
+      // Shipping
+      const shipEl = document.getElementById('conf-shipping');
+      if (shipEl) shipEl.textContent = shippingLabels[order.shipping] || order.shipping;
+
+      // Payment
+      const payEl = document.getElementById('conf-payment');
+      if (payEl) payEl.textContent = paymentLabels[order.payment] || order.payment;
+
+      // Notes
+      if (order.notes) {
+        const notesSection = document.getElementById('conf-notes-section');
+        const notesEl = document.getElementById('conf-notes');
+        if (notesSection) notesSection.style.display = 'block';
+        if (notesEl) notesEl.textContent = order.notes;
+      }
+
+      // Items
+      const itemsEl = document.getElementById('conf-items');
+      let subtotal = 0;
+      if (itemsEl && order.items) {
+        itemsEl.innerHTML = order.items.map((item: any) => {
+          const lineTotal = parseFloat(item.price || '0') * (item.qty || 1);
+          subtotal += lineTotal;
+          return `
+            <div class="conf-item">
+              ${item.image ? `<img src="${item.image}" alt="" class="conf-item-img" onerror="this.style.display='none'" />` : ''}
+              <div class="conf-item-info">
+                <div class="conf-item-title">${item.title}</div>
+                <div class="conf-item-qty">Qty: ${item.qty || 1} × $${parseFloat(item.price || '0').toFixed(2)}</div>
+              </div>
+              <span class="conf-item-price">$${lineTotal.toFixed(2)}</span>
+            </div>
+          `;
+        }).join('');
+      }
+
+      const shipCost = shippingPrices[order.shipping] || 0;
+      const subtotalEl = document.getElementById('conf-subtotal');
+      const shipCostEl = document.getElementById('conf-ship-cost');
+      const totalEl = document.getElementById('conf-total');
+      if (subtotalEl) subtotalEl.textContent = `$${subtotal.toFixed(2)}`;
+      if (shipCostEl) shipCostEl.textContent = shipCost === 0 ? 'FREE' : `$${shipCost.toFixed(2)}`;
+      if (totalEl) totalEl.textContent = `$${(subtotal + shipCost).toFixed(2)} AUD`;
+    }
+
+    renderConfirmation();
+  </script>
+
+</Layout>

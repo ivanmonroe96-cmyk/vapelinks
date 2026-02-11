@@ -1,0 +1,99 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import pagesData from '../../data/pages.json';
+
+export function getStaticPaths() {
+  return pagesData.map((page: any) => ({
+    params: { handle: page.handle },
+    props: { page },
+  }));
+}
+
+const { page } = Astro.props;
+const plainDescription = (page.body_html || '').replace(/<[^>]*>/g, '').substring(0, 155).trim() || page.title;
+const seoTitle = `${page.title} | Vapelink Australia`;
+---
+
+<Layout title={seoTitle} description={plainDescription}>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": page.title,
+      "description": plainDescription,
+      "url": `https://vapelink.com.au/pages/${page.handle}`,
+      "isPartOf": { "@type": "WebSite", "@id": "https://vapelink.com.au/#website" },
+      "breadcrumb": {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://vapelink.com.au/" },
+          { "@type": "ListItem", "position": 2, "name": page.title, "item": `https://vapelink.com.au/pages/${page.handle}` }
+        ]
+      }
+    })} />
+  </Fragment>
+
+  <!-- Page Header -->
+  <section class="page-header">
+    <div class="container">
+      <nav style="margin-bottom:1rem;">
+        <ol class="breadcrumb">
+          <li><a href="/">Home</a></li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></li>
+          <li><span class="breadcrumb-current">{page.title}</span></li>
+        </ol>
+      </nav>
+      <h1 class="font-display page-title">{page.title}</h1>
+      {page.updated_at && (
+        <p style="color:var(--color-text-muted);font-size:0.78rem;margin-top:0.35rem;">
+          Last updated: {new Date(page.updated_at).toLocaleDateString('en-AU', { year: 'numeric', month: 'long', day: 'numeric' })}
+        </p>
+      )}
+    </div>
+  </section>
+
+  <!-- Page Content -->
+  <section class="container" style="padding:2.5rem 0 4rem;">
+    <div class="page-body">
+      {page.body_html ? (
+        <div class="prose-content" set:html={page.body_html} />
+      ) : (
+        <p style="color:var(--color-text-muted);">This page has no content yet.</p>
+      )}
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-header {
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    padding: 1.75rem 0;
+  }
+  .page-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-top: 0.2rem;
+  }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.8rem;
+    list-style: none;
+  }
+  .breadcrumb a {
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+  .breadcrumb a:hover { color: var(--color-accent); }
+  .breadcrumb svg { color: var(--color-text-dim); }
+  .breadcrumb-current { color: var(--color-text); font-weight: 500; }
+
+  .page-body {
+    max-width: 780px;
+  }
+</style>
