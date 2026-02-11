@@ -681,6 +681,13 @@ import siteData from '../data/site.json';
         return;
       }
 
+      // Enforce $300 minimum order at checkout
+      const subtotal = cart.reduce((sum, item) => sum + (parseFloat(item.price || '0') * (item.qty || 1)), 0);
+      if (subtotal < 300) {
+        window.location.href = '/cart';
+        return;
+      }
+
       emptyEl.style.display = 'none';
       contentEl.style.display = 'block';
 

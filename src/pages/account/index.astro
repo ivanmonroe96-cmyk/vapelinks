@@ -1,0 +1,668 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="My Account – Vapelink Australia" description="Manage your Vapelink Australia account, view order history and update your details." noindex={true}>
+  <nav class="breadcrumb-bar">
+    <div class="container">
+      <ol class="breadcrumb">
+        <li><a href="/">Home</a></li>
+        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></li>
+        <li><span class="breadcrumb-current">My Account</span></li>
+      </ol>
+    </div>
+  </nav>
+
+  <section class="container account-page">
+    <!-- Not logged in state -->
+    <div id="account-not-logged" class="account-not-logged" style="display:none;">
+      <div class="account-not-logged-inner">
+        <div class="auth-icon-wrap" style="width:64px;height:64px;">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <h1 class="font-display" style="font-size:1.5rem;font-weight:800;color:var(--color-text);margin-bottom:0.35rem;">Sign In Required</h1>
+        <p style="color:var(--color-text-secondary);font-size:0.92rem;margin-bottom:1.5rem;">Please sign in or create an account to view your dashboard.</p>
+        <div style="display:flex;gap:0.75rem;flex-wrap:wrap;justify-content:center;">
+          <a href="/account/login" class="btn-primary" style="padding:0.75rem 2rem;text-decoration:none;">Sign In</a>
+          <a href="/account/register" class="btn-secondary" style="padding:0.75rem 2rem;text-decoration:none;">Create Account</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Logged in state -->
+    <div id="account-logged" style="display:none;">
+      <div class="account-header-row">
+        <div class="account-welcome">
+          <div class="account-avatar">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+          <div>
+            <h1 class="font-display account-name" id="dashboard-name"></h1>
+            <p class="account-email" id="dashboard-email"></p>
+          </div>
+        </div>
+        <button id="dashboard-logout" class="btn-secondary" style="padding:0.6rem 1.5rem;font-size:0.85rem;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Sign Out
+        </button>
+      </div>
+
+      <!-- Dashboard Grid -->
+      <div class="dashboard-grid">
+        <!-- Quick Stats -->
+        <div class="dashboard-stats">
+          <div class="stat-card">
+            <div class="stat-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            </div>
+            <div>
+              <span class="stat-value" id="stat-orders">0</span>
+              <span class="stat-label">Orders</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            </div>
+            <div>
+              <span class="stat-value" id="stat-cart-items">0</span>
+              <span class="stat-label">Cart Items</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+            <div>
+              <span class="stat-value" id="stat-total-spent">$0</span>
+              <span class="stat-label">Total Spent</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+            <div>
+              <span class="stat-value" id="stat-member-since">–</span>
+              <span class="stat-label">Member Since</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="dashboard-main">
+          <!-- Quick Actions -->
+          <div class="dashboard-section">
+            <h2 class="font-display dashboard-section-title">Quick Actions</h2>
+            <div class="quick-actions">
+              <a href="/collections/shop" class="quick-action-card">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                <span>Shop Products</span>
+              </a>
+              <a href="/cart" class="quick-action-card">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                <span>View Cart</span>
+              </a>
+              <a href="/account/orders" class="quick-action-card">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                <span>Order History</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Recent Orders -->
+          <div class="dashboard-section">
+            <div class="dashboard-section-header">
+              <h2 class="font-display dashboard-section-title">Recent Orders</h2>
+              <a href="/account/orders" class="dashboard-view-all">View All &rarr;</a>
+            </div>
+            <div id="dashboard-orders" class="dashboard-orders"></div>
+          </div>
+
+          <!-- Account Details -->
+          <div class="dashboard-section">
+            <h2 class="font-display dashboard-section-title">Account Details</h2>
+            <form id="account-details-form" class="account-details-form">
+              <div class="auth-row-2">
+                <label class="auth-field">
+                  <span class="auth-label">First Name</span>
+                  <input type="text" id="detail-fname" class="auth-input" />
+                </label>
+                <label class="auth-field">
+                  <span class="auth-label">Last Name</span>
+                  <input type="text" id="detail-lname" class="auth-input" />
+                </label>
+              </div>
+              <label class="auth-field">
+                <span class="auth-label">Email</span>
+                <input type="email" id="detail-email" class="auth-input" disabled style="opacity:0.6;cursor:not-allowed;" />
+              </label>
+              <label class="auth-field">
+                <span class="auth-label">Phone</span>
+                <input type="tel" id="detail-phone" class="auth-input" placeholder="+61 400 000 000" />
+              </label>
+              <div id="detail-save-msg" class="auth-success" style="display:none;"></div>
+              <button type="submit" class="btn-primary" style="padding:0.7rem 2rem;font-size:0.88rem;width:fit-content;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                Save Changes
+              </button>
+            </form>
+          </div>
+
+          <!-- Danger Zone -->
+          <div class="dashboard-section dashboard-danger">
+            <h2 class="font-display dashboard-section-title" style="color:var(--color-sale);">Danger Zone</h2>
+            <p style="font-size:0.85rem;color:var(--color-text-secondary);margin-bottom:1rem;">Deleting your account will remove all your data permanently. This cannot be undone.</p>
+            <button id="delete-account-btn" class="btn-danger">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+              Delete Account
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    function getCurrentUser(): any {
+      try { return JSON.parse(localStorage.getItem('vapelink_user') || 'null'); } catch { return null; }
+    }
+    function getCart(): any[] {
+      try { return JSON.parse(localStorage.getItem('vapelink_cart') || '[]'); } catch { return []; }
+    }
+    function getUserOrders(email: string): any[] {
+      try { return JSON.parse(localStorage.getItem(`vapelink_orders_${email}`) || '[]'); } catch { return []; }
+    }
+    function getAccounts(): any[] {
+      try { return JSON.parse(localStorage.getItem('vapelink_accounts') || '[]'); } catch { return []; }
+    }
+
+    const user = getCurrentUser();
+    const notLoggedEl = document.getElementById('account-not-logged');
+    const loggedEl = document.getElementById('account-logged');
+
+    if (!user) {
+      if (notLoggedEl) notLoggedEl.style.display = 'flex';
+      if (loggedEl) loggedEl.style.display = 'none';
+    } else {
+      if (notLoggedEl) notLoggedEl.style.display = 'none';
+      if (loggedEl) loggedEl.style.display = 'block';
+
+      // Populate name/email
+      const nameEl = document.getElementById('dashboard-name');
+      const emailEl = document.getElementById('dashboard-email');
+      if (nameEl) nameEl.textContent = `G'day, ${user.firstName}!`;
+      if (emailEl) emailEl.textContent = user.email;
+
+      // Stats
+      const orders = getUserOrders(user.email);
+      const cart = getCart();
+      const totalSpent = orders.reduce((sum: number, o: any) => {
+        const orderTotal = (o.items || []).reduce((s: number, i: any) => s + (parseFloat(i.price || '0') * (i.qty || 1)), 0);
+        return sum + orderTotal;
+      }, 0);
+
+      const statOrders = document.getElementById('stat-orders');
+      const statCart = document.getElementById('stat-cart-items');
+      const statSpent = document.getElementById('stat-total-spent');
+      const statMember = document.getElementById('stat-member-since');
+
+      if (statOrders) statOrders.textContent = String(orders.length);
+      if (statCart) statCart.textContent = String(cart.reduce((s: number, i: any) => s + (i.qty || 1), 0));
+      if (statSpent) statSpent.textContent = `$${totalSpent.toFixed(0)}`;
+
+      // Find account creation date
+      const accounts = getAccounts();
+      const account = accounts.find((a: any) => a.email === user.email);
+      if (statMember && account?.created) {
+        statMember.textContent = new Date(account.created).toLocaleDateString('en-AU', { month: 'short', year: 'numeric' });
+      }
+
+      // Recent orders
+      const ordersEl = document.getElementById('dashboard-orders');
+      if (ordersEl) {
+        if (orders.length === 0) {
+          ordersEl.innerHTML = `
+            <div class="dashboard-empty">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-dim)" stroke-width="1.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              <p>No orders yet</p>
+              <a href="/collections/shop" class="btn-primary" style="margin-top:1rem;padding:0.65rem 1.75rem;font-size:0.85rem;">Start Shopping</a>
+            </div>`;
+        } else {
+          ordersEl.innerHTML = orders.slice(0, 5).map((o: any) => {
+            const orderTotal = (o.items || []).reduce((s: number, i: any) => s + (parseFloat(i.price || '0') * (i.qty || 1)), 0);
+            const date = o.date ? new Date(o.date).toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' }) : '';
+            return `
+              <div class="order-card">
+                <div class="order-card-header">
+                  <div>
+                    <span class="order-number">${o.orderNumber || 'N/A'}</span>
+                    <span class="order-date">${date}</span>
+                  </div>
+                  <span class="order-total font-display">$${orderTotal.toFixed(2)} AUD</span>
+                </div>
+                <div class="order-card-items">
+                  ${(o.items || []).slice(0, 3).map((i: any) => `
+                    <div class="order-item-mini">
+                      ${i.image ? `<img src="${i.image}" alt="" class="order-item-mini-img" onerror="this.style.display='none'" />` : ''}
+                      <div class="order-item-mini-info">
+                        <span class="order-item-mini-title">${i.title}</span>
+                        <span class="order-item-mini-qty">Qty: ${i.qty || 1} &bull; $${(parseFloat(i.price || '0') * (i.qty || 1)).toFixed(2)}</span>
+                      </div>
+                    </div>
+                  `).join('')}
+                  ${(o.items || []).length > 3 ? `<p style="font-size:0.75rem;color:var(--color-text-muted);margin-top:0.25rem;">+${(o.items || []).length - 3} more items</p>` : ''}
+                </div>
+                <div class="order-card-footer">
+                  <span class="order-status">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    Order Placed
+                  </span>
+                  <span class="order-items-count">${(o.items || []).length} item${(o.items || []).length !== 1 ? 's' : ''}</span>
+                </div>
+              </div>
+            `;
+          }).join('');
+        }
+      }
+
+      // Account details form
+      const fnameInput = document.getElementById('detail-fname') as HTMLInputElement;
+      const lnameInput = document.getElementById('detail-lname') as HTMLInputElement;
+      const emailInput = document.getElementById('detail-email') as HTMLInputElement;
+      const phoneInput = document.getElementById('detail-phone') as HTMLInputElement;
+
+      if (fnameInput) fnameInput.value = user.firstName || '';
+      if (lnameInput) lnameInput.value = user.lastName || '';
+      if (emailInput) emailInput.value = user.email || '';
+      if (phoneInput) phoneInput.value = user.phone || '';
+
+      document.getElementById('account-details-form')?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const updatedUser = {
+          ...user,
+          firstName: fnameInput?.value.trim() || user.firstName,
+          lastName: lnameInput?.value.trim() || user.lastName,
+          phone: phoneInput?.value.trim() || ''
+        };
+        localStorage.setItem('vapelink_user', JSON.stringify(updatedUser));
+
+        // Update in accounts list
+        const accounts = getAccounts();
+        const acctIdx = accounts.findIndex((a: any) => a.email === user.email);
+        if (acctIdx >= 0) {
+          accounts[acctIdx].firstName = updatedUser.firstName;
+          accounts[acctIdx].lastName = updatedUser.lastName;
+          accounts[acctIdx].phone = updatedUser.phone;
+          localStorage.setItem('vapelink_accounts', JSON.stringify(accounts));
+        }
+
+        const msgEl = document.getElementById('detail-save-msg');
+        if (msgEl) {
+          msgEl.textContent = 'Changes saved successfully!';
+          msgEl.style.display = 'block';
+          setTimeout(() => { msgEl.style.display = 'none'; }, 3000);
+        }
+
+        // Update greeting
+        if (nameEl) nameEl.textContent = `G'day, ${updatedUser.firstName}!`;
+      });
+
+      // Logout
+      document.getElementById('dashboard-logout')?.addEventListener('click', () => {
+        localStorage.removeItem('vapelink_user');
+        window.location.href = '/account/login';
+      });
+
+      // Delete account
+      document.getElementById('delete-account-btn')?.addEventListener('click', () => {
+        if (!confirm('Are you sure you want to delete your account? This action cannot be undone.')) return;
+        const accounts = getAccounts();
+        const filtered = accounts.filter((a: any) => a.email !== user.email);
+        localStorage.setItem('vapelink_accounts', JSON.stringify(filtered));
+        localStorage.removeItem('vapelink_user');
+        localStorage.removeItem(`vapelink_orders_${user.email}`);
+        window.location.href = '/';
+      });
+    }
+  </script>
+</Layout>
+
+<style is:global>
+  .account-page {
+    padding-top: 2rem;
+    padding-bottom: 4rem;
+    min-height: 60vh;
+  }
+  .account-not-logged {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40vh;
+  }
+  .account-not-logged-inner {
+    text-align: center;
+    padding: 3rem 1rem;
+  }
+  .auth-icon-wrap {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 1rem;
+    border-radius: 50%;
+    background: var(--color-accent-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Header */
+  .account-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .account-welcome {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .account-avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--color-accent-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .account-name {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--color-text);
+    letter-spacing: -0.02em;
+  }
+  .account-email {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    margin-top: 0.15rem;
+  }
+
+  /* Stats */
+  .dashboard-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  @media (min-width: 768px) {
+    .dashboard-stats { grid-template-columns: repeat(4, 1fr); }
+  }
+  .stat-card {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 1.25rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+  }
+  .stat-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-md);
+    background: var(--color-accent-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .stat-value {
+    display: block;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+  .stat-label {
+    display: block;
+    font-size: 0.72rem;
+    color: var(--color-text-muted);
+    margin-top: 0.1rem;
+  }
+
+  /* Quick Actions */
+  .quick-actions {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.85rem;
+  }
+  @media (max-width: 640px) {
+    .quick-actions { grid-template-columns: 1fr; }
+  }
+  .quick-action-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 1.5rem 1rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    color: var(--color-text);
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.15s ease;
+  }
+  .quick-action-card:hover {
+    border-color: var(--color-accent);
+    background: var(--color-accent-soft);
+  }
+
+  /* Sections */
+  .dashboard-section {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 1.75rem;
+    margin-bottom: 1.5rem;
+  }
+  .dashboard-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+  }
+  .dashboard-section-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: 1.25rem;
+  }
+  .dashboard-section-header .dashboard-section-title {
+    margin-bottom: 0;
+  }
+  .dashboard-view-all {
+    font-size: 0.82rem;
+    color: var(--color-accent);
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .dashboard-view-all:hover { text-decoration: underline; }
+
+  /* Orders */
+  .dashboard-orders {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .dashboard-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    text-align: center;
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+  }
+  .order-card {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+  .order-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.85rem 1.15rem;
+    background: var(--color-surface-alt);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .order-number {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+  .order-date {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    margin-left: 0.75rem;
+  }
+  .order-total {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+  .order-card-items {
+    padding: 0.85rem 1.15rem;
+  }
+  .order-item-mini {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.4rem 0;
+  }
+  .order-item-mini-img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+    background: var(--color-surface-alt);
+  }
+  .order-item-mini-info { min-width: 0; }
+  .order-item-mini-title {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--color-text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 300px;
+  }
+  .order-item-mini-qty {
+    font-size: 0.72rem;
+    color: var(--color-text-muted);
+  }
+  .order-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.65rem 1.15rem;
+    border-top: 1px solid var(--color-border);
+    background: var(--color-surface-alt);
+  }
+  .order-status {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--color-accent);
+  }
+  .order-items-count {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+  }
+
+  /* Account Details Form */
+  .account-details-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .auth-row-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.85rem;
+  }
+  @media (max-width: 480px) {
+    .auth-row-2 { grid-template-columns: 1fr; }
+  }
+  .auth-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+  .auth-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    font-family: 'Space Grotesk', sans-serif;
+  }
+  .auth-input {
+    padding: 0.75rem 0.85rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-size: 0.88rem;
+    color: var(--color-text);
+    background: var(--color-surface-alt);
+    outline: none;
+    font-family: 'Inter', sans-serif;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    width: 100%;
+  }
+  .auth-input:focus {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px var(--color-accent-soft);
+  }
+  .auth-success {
+    background: var(--color-success-soft);
+    border: 1px solid rgba(22, 163, 74, 0.2);
+    border-radius: var(--radius-sm);
+    padding: 0.65rem 0.85rem;
+    font-size: 0.82rem;
+    color: var(--color-success);
+    font-weight: 500;
+  }
+
+  /* Danger Zone */
+  .dashboard-danger {
+    border-color: rgba(220, 38, 38, 0.2);
+  }
+  .btn-danger {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.65rem 1.5rem;
+    background: var(--color-sale-soft);
+    color: var(--color-sale);
+    border: 1px solid rgba(220, 38, 38, 0.2);
+    border-radius: var(--radius-md);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    font-family: 'Inter', sans-serif;
+  }
+  .btn-danger:hover {
+    background: var(--color-sale);
+    color: #fff;
+  }
+</style>
