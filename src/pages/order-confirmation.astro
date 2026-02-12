@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import siteData from '../data/site.json';
 ---
 
 <Layout title="Order Confirmed – Vapelink Australia" description="Your order has been placed successfully. Thank you for shopping with Vapelink Australia." noindex={true}>
@@ -19,14 +20,148 @@ import Layout from '../layouts/Layout.astro';
     <div id="order-content" style="display:none;">
       <!-- Success Header -->
       <div class="confirmation-header">
-        <div class="confirmation-check">
+        <div id="conf-header-icon" class="confirmation-check">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
         </div>
-        <h1 class="font-display confirmation-title">Order Confirmed!</h1>
-        <p class="confirmation-subtitle">Thank you for your order. We've received your details and will process it shortly.</p>
+        <h1 id="conf-title" class="font-display confirmation-title">Order Confirmed!</h1>
+        <p id="conf-subtitle" class="confirmation-subtitle">Thank you for your order. We've received your details and will process it shortly.</p>
         <div class="confirmation-order-num">
           <span>Order Number</span>
           <strong id="conf-order-num" class="font-display">—</strong>
+        </div>
+      </div>
+
+      <!-- Payment-specific section (Bank Transfer / PayID) -->
+      <div id="bank-payment-section" class="payment-instruction-section" style="display:none;">
+        <div class="payment-instruction-card bank-card">
+          <div class="payment-instruction-header">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 10h20"/><path d="M6 16h4"/></svg>
+            <h3 class="font-display">Bank Transfer / PayID Payment Details</h3>
+          </div>
+          <p class="payment-instruction-desc">Please transfer the exact amount shown below to complete your order.</p>
+
+          <div class="bank-details-grid">
+            <div class="bank-detail-row">
+              <span class="bank-label">Bank Name</span>
+              <span id="bank-name" class="bank-value font-display">—</span>
+            </div>
+            <div class="bank-detail-row">
+              <span class="bank-label">Account Name</span>
+              <span id="bank-account-name" class="bank-value font-display">—</span>
+            </div>
+            <div class="bank-detail-row">
+              <span class="bank-label">BSB</span>
+              <span id="bank-bsb" class="bank-value font-display">—</span>
+            </div>
+            <div class="bank-detail-row">
+              <span class="bank-label">Account Number</span>
+              <span id="bank-account-num" class="bank-value font-display">—</span>
+            </div>
+            <div class="bank-detail-row bank-detail-divider">
+              <span class="bank-label">PayID (<span id="bank-payid-type">Email</span>)</span>
+              <span id="bank-payid" class="bank-value font-display" style="color:var(--color-accent);">—</span>
+            </div>
+            <div class="bank-detail-row">
+              <span class="bank-label">Amount to Transfer</span>
+              <span id="bank-amount" class="bank-value font-display" style="font-size:1.15rem;color:var(--color-accent);font-weight:800;">—</span>
+            </div>
+            <div class="bank-detail-row">
+              <span class="bank-label">Reference</span>
+              <span id="bank-reference" class="bank-value font-display" style="color:var(--color-sale);">—</span>
+            </div>
+          </div>
+
+          <div class="payment-important-note">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            <div>
+              <p class="note-title">Important: Complete Your Order</p>
+              <p class="note-text">After making your payment, please send a <strong>photo of the payment receipt</strong> along with your <strong>order number (<span id="bank-note-order-num"></span>)</strong> to <a id="bank-note-email" href="#" style="color:var(--color-accent);font-weight:700;"></a> so we can mark your order as complete and ship it promptly.</p>
+            </div>
+          </div>
+
+          <p class="payment-email-note">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            A confirmation email with these payment details has been sent to your email address.
+          </p>
+        </div>
+      </div>
+
+      <!-- Payment-specific section (Bitcoin) -->
+      <div id="bitcoin-payment-section" class="payment-instruction-section" style="display:none;">
+        <div class="payment-instruction-card bitcoin-card">
+          <div class="payment-instruction-header">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f7931a" stroke-width="2"><path d="M11.767 19.089c4.924.868 6.14-6.025 1.216-6.894m-1.216 6.894L5.86 18.047m5.908 1.042-.347 1.97m1.563-8.864c4.924.869 6.14-6.025 1.215-6.893m-1.215 6.893-3.94-.694m5.155-6.2L8.29 4.26m5.908 1.042.348-1.97M7.48 20.364l3.126-17.727"/></svg>
+            <h3 class="font-display">Bitcoin Payment</h3>
+          </div>
+          <p class="payment-instruction-desc">Scan the QR code below or copy the Bitcoin address to send your payment.</p>
+
+          <!-- BTC Amount and Timer -->
+          <div class="btc-payment-status">
+            <div class="btc-amount-box">
+              <span class="btc-amount-label">Amount Due (AUD)</span>
+              <span id="btc-aud-amount" class="btc-amount-value font-display">$0.00</span>
+            </div>
+            <div class="btc-timer-box" id="btc-timer-box">
+              <span class="btc-timer-label">Payment Window</span>
+              <span id="btc-timer" class="btc-timer-value font-display">30:00</span>
+            </div>
+            <div class="btc-status-box">
+              <span class="btc-status-label">Status</span>
+              <span id="btc-status" class="btc-status-value">
+                <span class="btc-status-dot waiting"></span>
+                Waiting for payment...
+              </span>
+            </div>
+          </div>
+
+          <!-- QR Code -->
+          <div class="btc-qr-container">
+            <div id="btc-qr-code" class="btc-qr-code"></div>
+            <p class="btc-qr-hint">Scan with your Bitcoin wallet app</p>
+          </div>
+
+          <!-- Bitcoin Address -->
+          <div class="btc-address-box">
+            <span class="btc-address-label">Bitcoin Address</span>
+            <div class="btc-address-row">
+              <code id="btc-address" class="btc-address-text">—</code>
+              <button id="btc-copy-btn" class="btc-copy-btn" title="Copy to clipboard">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span id="btc-copy-text">Copy</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Payment Progress -->
+          <div id="btc-progress-section" class="btc-progress-section">
+            <div class="btc-progress-bar-wrap">
+              <div id="btc-progress-bar" class="btc-progress-bar"></div>
+            </div>
+            <div class="btc-progress-steps">
+              <div class="btc-progress-step active" id="btc-step-1">
+                <span class="btc-step-dot"></span>
+                <span class="btc-step-text">Waiting</span>
+              </div>
+              <div class="btc-progress-step" id="btc-step-2">
+                <span class="btc-step-dot"></span>
+                <span class="btc-step-text">Detected</span>
+              </div>
+              <div class="btc-progress-step" id="btc-step-3">
+                <span class="btc-step-dot"></span>
+                <span class="btc-step-text">Confirmed</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Completed state (hidden initially) -->
+          <div id="btc-completed" class="btc-completed" style="display:none;">
+            <div class="btc-completed-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <h4 class="font-display" style="font-size:1.05rem;font-weight:700;color:var(--color-text);margin-top:0.75rem;">Payment Confirmed!</h4>
+            <p style="font-size:0.85rem;color:var(--color-text-secondary);margin-top:0.25rem;">Your Bitcoin payment has been received and your order is now being processed.</p>
+            <p style="font-size:0.82rem;color:var(--color-text-muted);margin-top:0.5rem;">A confirmation email has been sent to your email address.</p>
+          </div>
         </div>
       </div>
 
@@ -107,33 +242,57 @@ import Layout from '../layouts/Layout.astro';
           </div>
           <hr class="conf-divider" />
           <div class="conf-total-row conf-grand-total">
-            <span>Total Paid</span>
+            <span>Total</span>
             <span id="conf-total" class="font-display">$0.00 AUD</span>
           </div>
         </div>
       </div>
 
-      <!-- Next Steps -->
-      <div class="confirmation-next-steps">
+      <!-- Next Steps (dynamic based on payment) -->
+      <div id="next-steps-bank" class="confirmation-next-steps" style="display:none;">
         <div class="next-step-card">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
           <div>
-            <h4 class="font-display" style="font-size:0.88rem;font-weight:700;color:var(--color-text);">Check Your Email</h4>
-            <p style="font-size:0.78rem;color:var(--color-text-secondary);margin-top:0.15rem;">We'll send you an email with your order details and payment instructions shortly.</p>
+            <h4 class="font-display" style="font-size:0.88rem;font-weight:700;color:var(--color-text);">Make Your Payment</h4>
+            <p style="font-size:0.78rem;color:var(--color-text-secondary);margin-top:0.15rem;">Transfer the exact amount using the bank details or PayID shown above. Use your order number as the payment reference.</p>
+          </div>
+        </div>
+        <div class="next-step-card">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+          <div>
+            <h4 class="font-display" style="font-size:0.88rem;font-weight:700;color:var(--color-text);">Send Payment Receipt</h4>
+            <p style="font-size:0.78rem;color:var(--color-text-secondary);margin-top:0.15rem;">Email a photo of your payment receipt and order number to <a id="step-email-link" href="#" style="color:var(--color-accent);text-decoration:none;font-weight:600;"></a> to confirm your order.</p>
           </div>
         </div>
         <div class="next-step-card">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
           <div>
             <h4 class="font-display" style="font-size:0.88rem;font-weight:700;color:var(--color-text);">Processing Time</h4>
-            <p style="font-size:0.78rem;color:var(--color-text-secondary);margin-top:0.15rem;">We usually get orders packed and shipped within 1–2 business days. You'll get a tracking number by email once it's on the way.</p>
+            <p style="font-size:0.78rem;color:var(--color-text-secondary);margin-top:0.15rem;">Once we confirm your payment, we'll pack and ship within 1–2 business days. You'll get a tracking number by email.</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="next-steps-bitcoin" class="confirmation-next-steps" style="display:none;">
+        <div class="next-step-card">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f7931a" stroke-width="2"><path d="M11.767 19.089c4.924.868 6.14-6.025 1.216-6.894m-1.216 6.894L5.86 18.047m5.908 1.042-.347 1.97m1.563-8.864c4.924.869 6.14-6.025 1.215-6.893m-1.215 6.893-3.94-.694m5.155-6.2L8.29 4.26m5.908 1.042.348-1.97M7.48 20.364l3.126-17.727"/></svg>
+          <div>
+            <h4 class="font-display" style="font-size:0.88rem;font-weight:700;color:var(--color-text);">Send Bitcoin Payment</h4>
+            <p style="font-size:0.78rem;color:var(--color-text-secondary);margin-top:0.15rem;">Scan the QR code or copy the Bitcoin address above and send the exact amount from your wallet.</p>
           </div>
         </div>
         <div class="next-step-card">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
           <div>
-            <h4 class="font-display" style="font-size:0.88rem;font-weight:700;color:var(--color-text);">Need Help?</h4>
-            <p style="font-size:0.78rem;color:var(--color-text-secondary);margin-top:0.15rem;">If you have any questions, contact us at <a href="mailto:info@vapelink.com" style="color:var(--color-accent);text-decoration:none;font-weight:600;">info@vapelink.com</a></p>
+            <h4 class="font-display" style="font-size:0.88rem;font-weight:700;color:var(--color-text);">Automatic Detection</h4>
+            <p style="font-size:0.78rem;color:var(--color-text-secondary);margin-top:0.15rem;">Our system will automatically detect your payment. Stay on this page to see real-time confirmation status.</p>
+          </div>
+        </div>
+        <div class="next-step-card">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <div>
+            <h4 class="font-display" style="font-size:0.88rem;font-weight:700;color:var(--color-text);">Confirmation Email</h4>
+            <p style="font-size:0.78rem;color:var(--color-text-secondary);margin-top:0.15rem;">Once payment is confirmed, you'll receive an order confirmation email with shipping details.</p>
           </div>
         </div>
       </div>
@@ -143,8 +302,8 @@ import Layout from '../layouts/Layout.astro';
         <a href="/collections/shop" class="btn-primary" style="padding:0.75rem 2rem;">
           Continue Shopping
         </a>
-        <a href="/" class="btn-secondary" style="padding:0.75rem 2rem;text-decoration:none;">
-          Back to Home
+        <a href="/account/orders" class="btn-secondary" style="padding:0.75rem 2rem;text-decoration:none;">
+          View My Orders
         </a>
       </div>
     </div>
@@ -181,6 +340,10 @@ import Layout from '../layouts/Layout.astro';
       margin: 0 auto 1.25rem;
       box-shadow: 0 4px 20px rgba(22, 163, 74, 0.3);
     }
+    .confirmation-check.btc-waiting {
+      background: #f7931a;
+      box-shadow: 0 4px 20px rgba(247, 147, 26, 0.3);
+    }
     .confirmation-title {
       font-size: 1.75rem;
       font-weight: 800;
@@ -191,7 +354,7 @@ import Layout from '../layouts/Layout.astro';
       color: var(--color-text-secondary);
       font-size: 0.95rem;
       margin-top: 0.5rem;
-      max-width: 480px;
+      max-width: 520px;
       margin-left: auto;
       margin-right: auto;
       line-height: 1.6;
@@ -217,6 +380,324 @@ import Layout from '../layouts/Layout.astro';
     .confirmation-order-num strong {
       font-size: 1.15rem;
       color: var(--color-accent);
+    }
+
+    /* ── Payment Instruction Cards ── */
+    .payment-instruction-section {
+      margin-bottom: 2rem;
+    }
+    .payment-instruction-card {
+      background: var(--color-surface);
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+    }
+    .payment-instruction-card.bank-card {
+      border-color: var(--color-accent);
+    }
+    .payment-instruction-card.bitcoin-card {
+      border-color: #f7931a;
+    }
+    .payment-instruction-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+    .payment-instruction-header h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--color-text);
+    }
+    .payment-instruction-desc {
+      font-size: 0.88rem;
+      color: var(--color-text-secondary);
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+
+    /* Bank Details */
+    .bank-details-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin-bottom: 1.5rem;
+      background: var(--color-surface-alt);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+    .bank-detail-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.85rem 1.15rem;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .bank-detail-row:last-child { border-bottom: none; }
+    .bank-detail-divider {
+      background: rgba(22, 163, 74, 0.05);
+    }
+    .bank-label {
+      font-size: 0.82rem;
+      color: var(--color-text-secondary);
+      font-weight: 500;
+    }
+    .bank-value {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--color-text);
+      letter-spacing: 0.02em;
+    }
+
+    /* Important Note */
+    .payment-important-note {
+      display: flex;
+      gap: 0.85rem;
+      padding: 1.15rem 1.25rem;
+      background: #fef3c7;
+      border: 1.5px solid #f59e0b;
+      border-radius: var(--radius-md);
+      margin-bottom: 1.25rem;
+      align-items: flex-start;
+    }
+    [data-theme="dark"] .payment-important-note {
+      background: rgba(245, 158, 11, 0.1);
+    }
+    .payment-important-note svg {
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+    .note-title {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #92400e;
+      margin-bottom: 0.3rem;
+    }
+    [data-theme="dark"] .note-title {
+      color: #fbbf24;
+    }
+    .note-text {
+      font-size: 0.82rem;
+      color: #78350f;
+      line-height: 1.6;
+    }
+    [data-theme="dark"] .note-text {
+      color: var(--color-text-secondary);
+    }
+    .payment-email-note {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.82rem;
+      color: var(--color-accent);
+      font-weight: 600;
+      padding-top: 0.5rem;
+    }
+
+    /* ── Bitcoin Payment ── */
+    .btc-payment-status {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+    @media (max-width: 640px) {
+      .btc-payment-status { grid-template-columns: 1fr; }
+    }
+    .btc-amount-box, .btc-timer-box, .btc-status-box {
+      background: var(--color-surface-alt);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      text-align: center;
+    }
+    .btc-amount-label, .btc-timer-label, .btc-status-label {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.35rem;
+    }
+    .btc-amount-value {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--color-text);
+    }
+    .btc-timer-value {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #f7931a;
+    }
+    .btc-timer-value.expired { color: var(--color-sale); }
+    .btc-status-value {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--color-text);
+    }
+    .btc-status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .btc-status-dot.waiting {
+      background: #f7931a;
+      animation: pulse-dot 1.5s ease-in-out infinite;
+    }
+    .btc-status-dot.detected {
+      background: #3b82f6;
+      animation: pulse-dot 0.8s ease-in-out infinite;
+    }
+    .btc-status-dot.confirmed {
+      background: var(--color-accent);
+      animation: none;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.3); }
+    }
+
+    /* QR Code */
+    .btc-qr-container {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    .btc-qr-code {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 200px;
+      height: 200px;
+      background: #fff;
+      border: 2px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: 12px;
+      margin: 0 auto;
+    }
+    .btc-qr-code img, .btc-qr-code canvas {
+      max-width: 100%;
+      max-height: 100%;
+    }
+    .btc-qr-hint {
+      font-size: 0.75rem;
+      color: var(--color-text-muted);
+      margin-top: 0.5rem;
+    }
+
+    /* Bitcoin Address */
+    .btc-address-box {
+      margin-bottom: 1.5rem;
+    }
+    .btc-address-label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.4rem;
+    }
+    .btc-address-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--color-surface-alt);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: 0.75rem 1rem;
+    }
+    .btc-address-text {
+      flex: 1;
+      font-size: 0.82rem;
+      font-family: 'Space Grotesk', monospace;
+      color: var(--color-text);
+      word-break: break-all;
+      line-height: 1.4;
+    }
+    .btc-copy-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.45rem 0.85rem;
+      background: var(--color-accent);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.15s;
+    }
+    .btc-copy-btn:hover {
+      background: var(--color-accent-hover, #15803d);
+    }
+
+    /* BTC Progress */
+    .btc-progress-section {
+      margin-bottom: 1.5rem;
+    }
+    .btc-progress-bar-wrap {
+      height: 4px;
+      background: var(--color-border);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 0.75rem;
+    }
+    .btc-progress-bar {
+      width: 10%;
+      height: 100%;
+      background: #f7931a;
+      border-radius: 4px;
+      transition: width 0.5s ease, background 0.3s;
+    }
+    .btc-progress-bar.confirmed {
+      background: var(--color-accent);
+    }
+    .btc-progress-steps {
+      display: flex;
+      justify-content: space-between;
+    }
+    .btc-progress-step {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.75rem;
+      color: var(--color-text-muted);
+      font-weight: 600;
+    }
+    .btc-progress-step.active { color: #f7931a; }
+    .btc-progress-step.completed { color: var(--color-accent); }
+    .btc-step-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--color-border);
+      transition: background 0.3s;
+    }
+    .btc-progress-step.active .btc-step-dot { background: #f7931a; }
+    .btc-progress-step.completed .btc-step-dot { background: var(--color-accent); }
+
+    .btc-completed {
+      text-align: center;
+      padding: 1.5rem;
+    }
+    .btc-completed-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--color-accent);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(22, 163, 74, 0.3);
     }
 
     /* ── Grid ── */
@@ -382,14 +863,15 @@ import Layout from '../layouts/Layout.astro';
   <script>
     const shippingLabels: Record<string, string> = {
       standard: 'Standard Shipping (5–10 business days)',
-      express: 'Express Shipping (2–4 business days)',
-      pickup: 'In-Store Pickup — Coburg, Melbourne'
+      express: 'Express Shipping (2–4 business days)'
     };
-    const shippingPrices: Record<string, number> = { standard: 9.95, express: 14.95, pickup: 0 };
+    const shippingPrices: Record<string, number> = { standard: 9.95, express: 14.95 };
     const paymentLabels: Record<string, string> = {
       bank: 'Bank Transfer / PayID',
-      instore: 'Pay In-Store'
+      bitcoin: 'Bitcoin (BTC)'
     };
+
+    let btcTimerInterval: any = null;
 
     function renderConfirmation() {
       const orderStr = localStorage.getItem('vapelink_last_order');
@@ -469,7 +951,258 @@ import Layout from '../layouts/Layout.astro';
       const totalEl = document.getElementById('conf-total');
       if (subtotalEl) subtotalEl.textContent = `$${subtotal.toFixed(2)}`;
       if (shipCostEl) shipCostEl.textContent = shipCost === 0 ? 'FREE' : `$${shipCost.toFixed(2)}`;
-      if (totalEl) totalEl.textContent = `$${(subtotal + shipCost).toFixed(2)} AUD`;
+      const grandTotal = subtotal + shipCost;
+      if (totalEl) totalEl.textContent = `$${grandTotal.toFixed(2)} AUD`;
+
+      // ═══ Payment-specific rendering ═══
+      if (order.payment === 'bank') {
+        renderBankPayment(order, grandTotal);
+      } else if (order.payment === 'bitcoin') {
+        renderBitcoinPayment(order, grandTotal);
+      }
+    }
+
+    function renderBankPayment(order: any, total: number) {
+      // Update header
+      const titleEl = document.getElementById('conf-title');
+      const subtitleEl = document.getElementById('conf-subtitle');
+      if (titleEl) titleEl.textContent = 'Order Placed — Payment Required';
+      if (subtitleEl) subtitleEl.textContent = 'Your order has been received. Please complete the bank transfer or PayID payment below to confirm your order.';
+
+      // Show bank section
+      const bankSection = document.getElementById('bank-payment-section');
+      if (bankSection) bankSection.style.display = 'block';
+
+      // Fill bank details
+      const bd = order.bankDetails;
+      if (bd) {
+        const bankNameEl = document.getElementById('bank-name');
+        const acctNameEl = document.getElementById('bank-account-name');
+        const bsbEl = document.getElementById('bank-bsb');
+        const acctNumEl = document.getElementById('bank-account-num');
+        const payidEl = document.getElementById('bank-payid');
+        const payidTypeEl = document.getElementById('bank-payid-type');
+        if (bankNameEl) bankNameEl.textContent = bd.bank_name || '—';
+        if (acctNameEl) acctNameEl.textContent = bd.account_name || '—';
+        if (bsbEl) bsbEl.textContent = bd.bsb || '—';
+        if (acctNumEl) acctNumEl.textContent = bd.account_number || '—';
+        if (payidEl) payidEl.textContent = bd.pay_id || '—';
+        if (payidTypeEl) payidTypeEl.textContent = bd.pay_id_type || 'Email';
+      }
+
+      // Amount & reference
+      const amountEl = document.getElementById('bank-amount');
+      const refEl = document.getElementById('bank-reference');
+      if (amountEl) amountEl.textContent = `$${total.toFixed(2)} AUD`;
+      if (refEl) refEl.textContent = order.orderNumber || '—';
+
+      // Important note order number and email
+      const noteOrderEl = document.getElementById('bank-note-order-num');
+      const noteEmailEl = document.getElementById('bank-note-email');
+      if (noteOrderEl) noteOrderEl.textContent = order.orderNumber || '';
+      if (noteEmailEl) {
+        noteEmailEl.textContent = order.contactEmail || 'info@vapelink.com.au';
+        (noteEmailEl as any).href = `mailto:${order.contactEmail || 'info@vapelink.com.au'}?subject=Payment Receipt - ${order.orderNumber}`;
+      }
+
+      // Next steps email link
+      const stepEmailEl = document.getElementById('step-email-link');
+      if (stepEmailEl) {
+        stepEmailEl.textContent = order.contactEmail || 'info@vapelink.com.au';
+        (stepEmailEl as any).href = `mailto:${order.contactEmail || 'info@vapelink.com.au'}?subject=Payment Receipt - ${order.orderNumber}`;
+      }
+
+      // Show bank next steps
+      const bankSteps = document.getElementById('next-steps-bank');
+      if (bankSteps) bankSteps.style.display = 'grid';
+    }
+
+    function renderBitcoinPayment(order: any, total: number) {
+      // Update header
+      const headerIcon = document.getElementById('conf-header-icon');
+      const titleEl = document.getElementById('conf-title');
+      const subtitleEl = document.getElementById('conf-subtitle');
+      if (headerIcon) headerIcon.classList.add('btc-waiting');
+      if (titleEl) titleEl.textContent = 'Awaiting Bitcoin Payment';
+      if (subtitleEl) subtitleEl.textContent = 'Please send the exact amount to the Bitcoin address below. Your order will be confirmed automatically once payment is detected.';
+
+      // Show bitcoin section
+      const btcSection = document.getElementById('bitcoin-payment-section');
+      if (btcSection) btcSection.style.display = 'block';
+
+      // AUD amount
+      const audEl = document.getElementById('btc-aud-amount');
+      if (audEl) audEl.textContent = `$${total.toFixed(2)}`;
+
+      // Bitcoin address
+      const btcAddr = order.bitcoinAddress || '';
+      const addrEl = document.getElementById('btc-address');
+      if (addrEl) addrEl.textContent = btcAddr;
+
+      // Generate QR code (using a simple QR code via an external API)
+      const qrEl = document.getElementById('btc-qr-code');
+      if (qrEl && btcAddr) {
+        const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=176x176&data=bitcoin:${encodeURIComponent(btcAddr)}?amount=0&format=svg`;
+        qrEl.innerHTML = `<img src="${qrUrl}" alt="Bitcoin QR Code" width="176" height="176" style="border-radius:4px;" />`;
+      }
+
+      // Copy button
+      const copyBtn = document.getElementById('btc-copy-btn');
+      const copyText = document.getElementById('btc-copy-text');
+      copyBtn?.addEventListener('click', () => {
+        navigator.clipboard.writeText(btcAddr).then(() => {
+          if (copyText) copyText.textContent = 'Copied!';
+          setTimeout(() => { if (copyText) copyText.textContent = 'Copy'; }, 2000);
+        }).catch(() => {
+          // Fallback
+          const ta = document.createElement('textarea');
+          ta.value = btcAddr;
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          document.body.removeChild(ta);
+          if (copyText) copyText.textContent = 'Copied!';
+          setTimeout(() => { if (copyText) copyText.textContent = 'Copy'; }, 2000);
+        });
+      });
+
+      // Start payment timer (30 minutes)
+      startBtcTimer(order);
+
+      // Show bitcoin next steps
+      const btcSteps = document.getElementById('next-steps-bitcoin');
+      if (btcSteps) btcSteps.style.display = 'grid';
+    }
+
+    function startBtcTimer(order: any) {
+      const PAYMENT_WINDOW = 30 * 60; // 30 minutes in seconds
+      const orderTime = new Date(order.date).getTime();
+      const timerEl = document.getElementById('btc-timer');
+      const statusEl = document.getElementById('btc-status');
+
+      // Simulated payment detection timing (demo: triggers after random 45-120 seconds)
+      const detectDelay = 45000 + Math.random() * 75000;
+      const confirmDelay = detectDelay + 15000 + Math.random() * 20000;
+
+      let paymentDetected = false;
+      let paymentConfirmed = false;
+
+      // Payment detection simulation
+      setTimeout(() => {
+        if (paymentConfirmed) return;
+        paymentDetected = true;
+        onPaymentDetected(order);
+      }, detectDelay);
+
+      // Payment confirmation simulation
+      setTimeout(() => {
+        paymentConfirmed = true;
+        onPaymentConfirmed(order);
+      }, confirmDelay);
+
+      btcTimerInterval = setInterval(() => {
+        if (paymentConfirmed) {
+          clearInterval(btcTimerInterval);
+          return;
+        }
+
+        const elapsed = Math.floor((Date.now() - orderTime) / 1000);
+        const remaining = Math.max(0, PAYMENT_WINDOW - elapsed);
+        const mins = Math.floor(remaining / 60);
+        const secs = remaining % 60;
+
+        if (timerEl) {
+          timerEl.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+          if (remaining <= 300) timerEl.classList.add('expired');
+        }
+
+        if (remaining <= 0 && !paymentDetected) {
+          clearInterval(btcTimerInterval);
+          if (timerEl) timerEl.textContent = 'EXPIRED';
+          if (statusEl) statusEl.innerHTML = '<span class="btc-status-dot" style="background:var(--color-sale);animation:none;"></span> Payment window expired';
+        }
+      }, 1000);
+    }
+
+    function onPaymentDetected(order: any) {
+      // Update status
+      const statusEl = document.getElementById('btc-status');
+      if (statusEl) statusEl.innerHTML = '<span class="btc-status-dot detected"></span> Payment detected — confirming...';
+
+      // Update progress
+      const progressBar = document.getElementById('btc-progress-bar');
+      if (progressBar) progressBar.style.width = '60%';
+
+      const step1 = document.getElementById('btc-step-1');
+      const step2 = document.getElementById('btc-step-2');
+      if (step1) { step1.classList.remove('active'); step1.classList.add('completed'); }
+      if (step2) step2.classList.add('active');
+
+      // Update header
+      const titleEl = document.getElementById('conf-title');
+      if (titleEl) titleEl.textContent = 'Payment Detected!';
+    }
+
+    function onPaymentConfirmed(order: any) {
+      if (btcTimerInterval) clearInterval(btcTimerInterval);
+
+      // Update status
+      const statusEl = document.getElementById('btc-status');
+      if (statusEl) statusEl.innerHTML = '<span class="btc-status-dot confirmed"></span> Payment confirmed!';
+
+      // Update progress
+      const progressBar = document.getElementById('btc-progress-bar');
+      if (progressBar) {
+        progressBar.style.width = '100%';
+        progressBar.classList.add('confirmed');
+      }
+
+      const step1 = document.getElementById('btc-step-1');
+      const step2 = document.getElementById('btc-step-2');
+      const step3 = document.getElementById('btc-step-3');
+      if (step1) { step1.classList.remove('active'); step1.classList.add('completed'); }
+      if (step2) { step2.classList.remove('active'); step2.classList.add('completed'); }
+      if (step3) step3.classList.add('completed');
+
+      // Update header
+      const headerIcon = document.getElementById('conf-header-icon');
+      const titleEl = document.getElementById('conf-title');
+      const subtitleEl = document.getElementById('conf-subtitle');
+      if (headerIcon) { headerIcon.classList.remove('btc-waiting'); }
+      if (titleEl) titleEl.textContent = 'Payment Confirmed!';
+      if (subtitleEl) subtitleEl.textContent = 'Your Bitcoin payment has been received. Your order is now being processed and will ship soon.';
+
+      // Show completed state, hide timer
+      const timerBox = document.getElementById('btc-timer-box');
+      if (timerBox) timerBox.style.display = 'none';
+      const completedEl = document.getElementById('btc-completed');
+      if (completedEl) completedEl.style.display = 'block';
+
+      // Update timer display
+      const timerEl = document.getElementById('btc-timer');
+      if (timerEl) timerEl.textContent = '✓';
+
+      // Update order status in localStorage
+      try {
+        const orderStr = localStorage.getItem('vapelink_last_order');
+        if (orderStr) {
+          const updatedOrder = JSON.parse(orderStr);
+          updatedOrder.status = 'confirmed';
+          localStorage.setItem('vapelink_last_order', JSON.stringify(updatedOrder));
+
+          // Also update in order history
+          const user = JSON.parse(localStorage.getItem('vapelink_user') || 'null');
+          if (user && user.email) {
+            const ordersKey = `vapelink_orders_${user.email}`;
+            const orders = JSON.parse(localStorage.getItem(ordersKey) || '[]');
+            const idx = orders.findIndex((o: any) => o.orderNumber === updatedOrder.orderNumber);
+            if (idx !== -1) {
+              orders[idx].status = 'confirmed';
+              localStorage.setItem(ordersKey, JSON.stringify(orders));
+            }
+          }
+        }
+      } catch {}
     }
 
     renderConfirmation();

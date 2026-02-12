@@ -12,17 +12,37 @@ export function getStaticPaths() {
 const { page } = Astro.props;
 const plainDescription = (page.body_html || '').replace(/<[^>]*>/g, '').substring(0, 155).trim() || page.title;
 const seoTitle = `${page.title} | Vapelink Australia`;
----
 
-<Layout title={seoTitle} description={plainDescription}>
-  <Fragment slot="head">
-    <script type="application/ld+json" set:html={JSON.stringify({
+// FAQ page detection — extract Q&A pairs from HTML structure (h4 = question, followed by p = answer)
+const isFaqPage = page.handle === 'faq';
+let faqSchema: any = null;
+if (isFaqPage && page.body_html) {
+  const faqPairs: { question: string; answer: string }[] = [];
+  const h4Regex = /<h4[^>]*>(.*?)<\/h4>\s*<p[^>]*>(.*?)<\/p>/gs;
+  let match;
+  while ((match = h4Regex.exec(page.body_html)) !== null) {
+    const question = match[1].replace(/<[^>]*>/g, '').trim();
+    const answer = match[2].replace(/<[^>]*>/g, '').trim();
+    if (question && answer) {
+      faqPairs.push({ question, answer });
+    }
+  }
+  if (faqPairs.length > 0) {
+    faqSchema = {
       "@context": "https://schema.org",
-      "@type": "WebPage",
+      "@type": "FAQPage",
       "name": page.title,
       "description": plainDescription,
       "url": `https://vapelink.com.au/pages/${page.handle}`,
       "isPartOf": { "@type": "WebSite", "@id": "https://vapelink.com.au/#website" },
+      "mainEntity": faqPairs.map((faq) => ({
+        "@type": "Question",
+        "name": faq.question,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": faq.answer
+        }
+      })),
       "breadcrumb": {
         "@type": "BreadcrumbList",
         "itemListElement": [
@@ -30,7 +50,32 @@ const seoTitle = `${page.title} | Vapelink Australia`;
           { "@type": "ListItem", "position": 2, "name": page.title, "item": `https://vapelink.com.au/pages/${page.handle}` }
         ]
       }
-    })} />
+    };
+  }
+}
+---
+
+<Layout title={seoTitle} description={plainDescription}>
+  <Fragment slot="head">
+    {faqSchema ? (
+      <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+    ) : (
+      <script type="application/ld+json" set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": page.title,
+        "description": plainDescription,
+        "url": `https://vapelink.com.au/pages/${page.handle}`,
+        "isPartOf": { "@type": "WebSite", "@id": "https://vapelink.com.au/#website" },
+        "breadcrumb": {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://vapelink.com.au/" },
+            { "@type": "ListItem", "position": 2, "name": page.title, "item": `https://vapelink.com.au/pages/${page.handle}` }
+          ]
+        }
+      })} />
+    )}
   </Fragment>
 
   <!-- Page Header -->

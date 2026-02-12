@@ -82,7 +82,7 @@ import Layout from '../../layouts/Layout.astro';
         } else {
           listEl.innerHTML = orders.map((o: any, idx: number) => {
             const orderTotal = (o.items || []).reduce((s: number, i: any) => s + (parseFloat(i.price || '0') * (i.qty || 1)), 0);
-            const shippingPrices: Record<string, number> = { standard: 9.95, express: 14.95, pickup: 0 };
+            const shippingPrices: Record<string, number> = { standard: 9.95, express: 14.95 };
             const shippingCost = shippingPrices[o.shipping] || 0;
             const grandTotal = orderTotal + shippingCost;
             const date = o.date ? new Date(o.date).toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric' }) : '';

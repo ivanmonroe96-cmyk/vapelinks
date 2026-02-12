@@ -70,6 +70,53 @@ const navCollections = collectionsData
   <!-- Google Identity Services -->
   <script src="https://accounts.google.com/gsi/client" async defer></script>
 
+  <!-- Sitewide Organization & WebSite Schema -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://vapelink.com.au/#organization",
+        "name": "Vapelink Australia",
+        "url": "https://vapelink.com.au",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://vapelink.com.au/images/logo.png"
+        },
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "email": "info@vapelink.com.au",
+          "contactType": "customer service",
+          "areaServed": "AU",
+          "availableLanguage": "English"
+        },
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Coburg North",
+          "addressRegion": "VIC",
+          "addressCountry": "AU"
+        },
+        "sameAs": []
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://vapelink.com.au/#website",
+        "url": "https://vapelink.com.au",
+        "name": "Vapelink Australia",
+        "publisher": { "@id": "https://vapelink.com.au/#organization" },
+        "inLanguage": "en-AU",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://vapelink.com.au/search?q={search_term_string}"
+          },
+          "query-input": "required name=search_term_string"
+        }
+      }
+    ]
+  })} />
+
   <slot name="head" />
 </head>
 <body>

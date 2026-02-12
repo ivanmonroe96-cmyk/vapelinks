@@ -4,5 +4,14 @@
   "description": "Vapelink is a Melbourne-based online vape shop. We stock vape kits, disposable vapes, e-liquids, coils, pods and accessories from all the big brands. We ship across Australia with free delivery on orders over $100.",
   "contact_email": "info@vapelink.com.au",
   "currency": "AUD",
-  "money_format": "$ {{amount}} AUD"
+  "money_format": "$ {{amount}} AUD",
+  "bank_details": {
+    "bank_name": "Commonwealth Bank",
+    "account_name": "Vapelink Australia Pty Ltd",
+    "bsb": "063-000",
+    "account_number": "1234 5678",
+    "pay_id": "info@vapelink.com.au",
+    "pay_id_type": "Email"
+  },
+  "bitcoin_address": "bc1qxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 }

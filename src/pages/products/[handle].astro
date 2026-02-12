@@ -52,14 +52,27 @@ const structuredData = {
   "description": seoDescription,
   "image": product.images.map((img: any) => img.src),
   "sku": product.variants[0]?.sku || product.handle,
+  "mpn": product.variants[0]?.sku || product.handle,
   "brand": { "@type": "Brand", "name": product.vendor || "Vapelink" },
+  "category": product.product_type || "Vaping Products",
   "offers": {
     "@type": "Offer",
     "url": `https://vapelink.com.au/products/${product.handle}`,
     "price": price,
     "priceCurrency": "AUD",
     "availability": product.variants[0]?.available ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+    "itemCondition": "https://schema.org/NewCondition",
     "seller": { "@type": "Organization", "name": "Vapelink Australia" },
+    "priceValidUntil": new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+    "hasMerchantReturnPolicy": {
+      "@type": "MerchantReturnPolicy",
+      "applicableCountry": "AU",
+      "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+      "merchantReturnDays": 14,
+      "returnMethod": "https://schema.org/ReturnByMail",
+      "returnFees": "https://schema.org/FreeReturn",
+      "returnPolicySeasonalOverride": []
+    },
     "shippingDetails": {
       "@type": "OfferShippingDetails",
       "shippingRate": {
@@ -103,6 +116,21 @@ const starDist = getStarDistribution(reviewData.reviews);
   "bestRating": 5,
   "worstRating": 1
 };
+
+// Add individual reviews to structured data (top 10 for Google rich results)
+(structuredData as any).review = reviewData.reviews.slice(0, 10).map((r: any) => ({
+  "@type": "Review",
+  "author": { "@type": "Person", "name": r.name },
+  "datePublished": new Date(Date.parse(r.date) || Date.now()).toISOString().split('T')[0],
+  "reviewBody": r.body,
+  "name": r.title,
+  "reviewRating": {
+    "@type": "Rating",
+    "ratingValue": r.rating,
+    "bestRating": 5,
+    "worstRating": 1
+  }
+}));
 
 // ─── Intelligent SEO keyword generation from keyword database ───
 function getProductKeywords(prod: any): string {

@@ -132,6 +132,17 @@ const collectionKeywords = getCollectionKeywords(collection);
           { "@type": "ListItem", "position": 2, "name": "Collections", "item": "https://vapelink.com.au/collections" },
           { "@type": "ListItem", "position": 3, "name": collection.title, "item": `https://vapelink.com.au/collections/${collection.handle}` }
         ]
+      },
+      "mainEntity": {
+        "@type": "ItemList",
+        "numberOfItems": totalProducts,
+        "itemListElement": allProducts.slice(0, 30).map((p: any, idx: number) => ({
+          "@type": "ListItem",
+          "position": idx + 1,
+          "url": `https://vapelink.com.au/products/${p.handle}`,
+          "name": p.title,
+          "image": p.images?.[0]?.src || ''
+        }))
       }
     })} />
   </Fragment>
