@@ -36,53 +36,37 @@ import siteData from '../data/site.json';
         <div class="payment-instruction-card bank-card">
           <div class="payment-instruction-header">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 10h20"/><path d="M6 16h4"/></svg>
-            <h3 class="font-display">Bank Transfer / PayID Payment Details</h3>
-          </div>
-          <p class="payment-instruction-desc">Please transfer the exact amount shown below to complete your order.</p>
-
-          <div class="bank-details-grid">
-            <div class="bank-detail-row">
-              <span class="bank-label">Bank Name</span>
-              <span id="bank-name" class="bank-value font-display">—</span>
-            </div>
-            <div class="bank-detail-row">
-              <span class="bank-label">Account Name</span>
-              <span id="bank-account-name" class="bank-value font-display">—</span>
-            </div>
-            <div class="bank-detail-row">
-              <span class="bank-label">BSB</span>
-              <span id="bank-bsb" class="bank-value font-display">—</span>
-            </div>
-            <div class="bank-detail-row">
-              <span class="bank-label">Account Number</span>
-              <span id="bank-account-num" class="bank-value font-display">—</span>
-            </div>
-            <div class="bank-detail-row bank-detail-divider">
-              <span class="bank-label">PayID (<span id="bank-payid-type">Email</span>)</span>
-              <span id="bank-payid" class="bank-value font-display" style="color:var(--color-accent);">—</span>
-            </div>
-            <div class="bank-detail-row">
-              <span class="bank-label">Amount to Transfer</span>
-              <span id="bank-amount" class="bank-value font-display" style="font-size:1.15rem;color:var(--color-accent);font-weight:800;">—</span>
-            </div>
-            <div class="bank-detail-row">
-              <span class="bank-label">Reference</span>
-              <span id="bank-reference" class="bank-value font-display" style="color:var(--color-sale);">—</span>
-            </div>
+            <h3 class="font-display">Bank Transfer / PayID</h3>
           </div>
 
-          <div class="payment-important-note">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-            <div>
-              <p class="note-title">Important: Complete Your Order</p>
-              <p class="note-text">After making your payment, please send a <strong>photo of the payment receipt</strong> along with your <strong>order number (<span id="bank-note-order-num"></span>)</strong> to <a id="bank-note-email" href="#" style="color:var(--color-accent);font-weight:700;"></a> so we can mark your order as complete and ship it promptly.</p>
+          <div class="bank-pending-message">
+            <div class="bank-pending-icon">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
             </div>
-          </div>
+            <h4 class="font-display" style="font-size:1.1rem;font-weight:700;color:var(--color-text);margin-top:1rem;">Bank Details Coming to Your Inbox</h4>
+            <p style="color:var(--color-text-secondary);font-size:0.92rem;line-height:1.7;margin-top:0.65rem;max-width:480px;">
+              Thank you for placing your order! Our team will review it and send the <strong style="color:var(--color-text);">bank transfer / PayID payment details</strong> to your email address shortly.
+            </p>
 
-          <p class="payment-email-note">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-            Save this page or take a screenshot of these payment details for your records.
-          </p>
+            <div class="bank-pending-details">
+              <div class="bank-pending-row">
+                <span>Order Number</span>
+                <strong id="bank-reference" class="font-display" style="color:var(--color-accent);">—</strong>
+              </div>
+              <div class="bank-pending-row">
+                <span>Amount Due</span>
+                <strong id="bank-amount" class="font-display" style="color:var(--color-accent);">—</strong>
+              </div>
+              <div class="bank-pending-row">
+                <span>Email</span>
+                <strong id="bank-pending-email" class="font-display" style="color:var(--color-text);">—</strong>
+              </div>
+            </div>
+
+            <p style="color:var(--color-text-muted);font-size:0.82rem;margin-top:1.25rem;line-height:1.6;">
+              Please check your inbox (and spam folder) within the next few minutes. Once you receive the payment details, complete the transfer and send a screenshot of the payment to confirm your order.
+            </p>
+          </div>
         </div>
       </div>
 
@@ -251,17 +235,17 @@ import siteData from '../data/site.json';
       <!-- Next Steps (dynamic based on payment) -->
       <div id="next-steps-bank" class="confirmation-next-steps" style="display:none;">
         <div class="next-step-card">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
           <div>
-            <h4 class="font-display" style="font-size:0.88rem;font-weight:700;color:var(--color-text);">Make Your Payment</h4>
-            <p style="font-size:0.78rem;color:var(--color-text-secondary);margin-top:0.15rem;">Transfer the exact amount using the bank details or PayID shown above. Use your order number as the payment reference.</p>
+            <h4 class="font-display" style="font-size:0.88rem;font-weight:700;color:var(--color-text);">Check Your Email</h4>
+            <p style="font-size:0.78rem;color:var(--color-text-secondary);margin-top:0.15rem;">We'll send the bank transfer details to your email address shortly. Please check your inbox and spam folder.</p>
           </div>
         </div>
         <div class="next-step-card">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
           <div>
-            <h4 class="font-display" style="font-size:0.88rem;font-weight:700;color:var(--color-text);">Send Payment Receipt</h4>
-            <p style="font-size:0.78rem;color:var(--color-text-secondary);margin-top:0.15rem;">Email a photo of your payment receipt and order number to <a id="step-email-link" href="#" style="color:var(--color-accent);text-decoration:none;font-weight:600;"></a> to confirm your order.</p>
+            <h4 class="font-display" style="font-size:0.88rem;font-weight:700;color:var(--color-text);">Make Payment & Send Receipt</h4>
+            <p style="font-size:0.78rem;color:var(--color-text-secondary);margin-top:0.15rem;">Once you receive the bank details, transfer the amount and send a screenshot of the payment to confirm your order.</p>
           </div>
         </div>
         <div class="next-step-card">
@@ -416,38 +400,44 @@ import siteData from '../data/site.json';
       line-height: 1.5;
     }
 
-    /* Bank Details */
-    .bank-details-grid {
+    /* Bank Pending Message */
+    .bank-pending-message {
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+    .bank-pending-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: var(--color-accent-soft);
+      margin: 0 auto;
+    }
+    .bank-pending-details {
       display: flex;
       flex-direction: column;
       gap: 0;
-      margin-bottom: 1.5rem;
+      margin: 1.5rem auto 0;
+      max-width: 380px;
       background: var(--color-surface-alt);
       border: 1px solid var(--color-border);
       border-radius: var(--radius-md);
       overflow: hidden;
     }
-    .bank-detail-row {
+    .bank-pending-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 0.85rem 1.15rem;
       border-bottom: 1px solid var(--color-border);
+      font-size: 0.88rem;
     }
-    .bank-detail-row:last-child { border-bottom: none; }
-    .bank-detail-divider {
-      background: rgba(22, 163, 74, 0.05);
-    }
-    .bank-label {
-      font-size: 0.82rem;
+    .bank-pending-row:last-child { border-bottom: none; }
+    .bank-pending-row span {
       color: var(--color-text-secondary);
       font-weight: 500;
-    }
-    .bank-value {
-      font-size: 0.92rem;
-      font-weight: 700;
-      color: var(--color-text);
-      letter-spacing: 0.02em;
     }
 
     /* Important Note */
@@ -978,51 +968,20 @@ import siteData from '../data/site.json';
       // Update header
       const titleEl = document.getElementById('conf-title');
       const subtitleEl = document.getElementById('conf-subtitle');
-      if (titleEl) titleEl.textContent = 'Order Placed — Payment Required';
-      if (subtitleEl) subtitleEl.textContent = 'Your order has been received. Please complete the bank transfer or PayID payment below to confirm your order.';
+      if (titleEl) titleEl.textContent = 'Order Placed Successfully!';
+      if (subtitleEl) subtitleEl.textContent = 'Your order has been received. We will send you the bank transfer details to your email shortly so you can complete the payment.';
 
       // Show bank section
       const bankSection = document.getElementById('bank-payment-section');
       if (bankSection) bankSection.style.display = 'block';
 
-      // Fill bank details
-      const bd = order.bankDetails;
-      if (bd) {
-        const bankNameEl = document.getElementById('bank-name');
-        const acctNameEl = document.getElementById('bank-account-name');
-        const bsbEl = document.getElementById('bank-bsb');
-        const acctNumEl = document.getElementById('bank-account-num');
-        const payidEl = document.getElementById('bank-payid');
-        const payidTypeEl = document.getElementById('bank-payid-type');
-        if (bankNameEl) bankNameEl.textContent = bd.bank_name || '—';
-        if (acctNameEl) acctNameEl.textContent = bd.account_name || '—';
-        if (bsbEl) bsbEl.textContent = bd.bsb || '—';
-        if (acctNumEl) acctNumEl.textContent = bd.account_number || '—';
-        if (payidEl) payidEl.textContent = bd.pay_id || '—';
-        if (payidTypeEl) payidTypeEl.textContent = bd.pay_id_type || 'Email';
-      }
-
-      // Amount & reference
+      // Fill summary details (no bank info exposed)
       const amountEl = document.getElementById('bank-amount');
       const refEl = document.getElementById('bank-reference');
+      const pendingEmailEl = document.getElementById('bank-pending-email');
       if (amountEl) amountEl.textContent = `$${total.toFixed(2)} AUD`;
       if (refEl) refEl.textContent = order.orderNumber || '—';
-
-      // Important note order number and email
-      const noteOrderEl = document.getElementById('bank-note-order-num');
-      const noteEmailEl = document.getElementById('bank-note-email');
-      if (noteOrderEl) noteOrderEl.textContent = order.orderNumber || '';
-      if (noteEmailEl) {
-        noteEmailEl.textContent = order.contactEmail || 'info@vapelink.com.au';
-        (noteEmailEl as any).href = `mailto:${order.contactEmail || 'info@vapelink.com.au'}?subject=Payment Receipt - ${order.orderNumber}`;
-      }
-
-      // Next steps email link
-      const stepEmailEl = document.getElementById('step-email-link');
-      if (stepEmailEl) {
-        stepEmailEl.textContent = order.contactEmail || 'info@vapelink.com.au';
-        (stepEmailEl as any).href = `mailto:${order.contactEmail || 'info@vapelink.com.au'}?subject=Payment Receipt - ${order.orderNumber}`;
-      }
+      if (pendingEmailEl) pendingEmailEl.textContent = order.email || '—';
 
       // Show bank next steps
       const bankSteps = document.getElementById('next-steps-bank');
