@@ -1,11 +1,15 @@
 ---
 import { generateReviews } from '../utils/reviews.js';
+import bestSellers from '../data/best-sellers.json';
+
+const bestSellerSet = new Set(bestSellers);
 
 interface Props {
   product: any;
 }
 
 const { product } = Astro.props;
+const isBestSeller = bestSellerSet.has(product.handle);
 const price = product.variants[0]?.price || '0.00';
 const comparePrice = product.variants[0]?.compare_at_price;
 const hasDiscount = comparePrice && parseFloat(comparePrice) > parseFloat(price);
@@ -33,6 +37,12 @@ const reviewData = generateReviews(product.handle);
       )}
       {hasDiscount && (
         <span class="card-badge-sale">−{discountPercent}%</span>
+      )}
+      {isBestSeller && !hasDiscount && (
+        <span class="card-badge-best">Best Seller</span>
+      )}
+      {isBestSeller && hasDiscount && (
+        <span class="card-badge-best badge-best-secondary">Best Seller</span>
       )}
       <!-- Quick-add overlay -->
       <div class="card-overlay">
@@ -141,6 +151,28 @@ const reviewData = generateReviews(product.handle);
     border-radius: var(--radius-full);
     letter-spacing: 0.02em;
     box-shadow: 0 2px 6px rgba(220,38,38,0.35);
+  }
+
+  /* Best seller badge */
+  .card-badge-best {
+    position: absolute;
+    top: 0.6rem;
+    left: 0.6rem;
+    padding: 0.2rem 0.55rem;
+    font-family: var(--font-display);
+    font-size: 0.6rem;
+    font-weight: 800;
+    color: #fff;
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    border-radius: var(--radius-full);
+    letter-spacing: 0.03em;
+    box-shadow: 0 2px 6px rgba(245,158,11,0.4);
+    z-index: 2;
+  }
+  /* When both sale + best seller, shift best seller to top-right */
+  .badge-best-secondary {
+    left: auto;
+    right: 0.6rem;
   }
 
   /* Hover overlay */
