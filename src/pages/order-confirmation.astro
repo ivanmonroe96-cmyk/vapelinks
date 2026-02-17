@@ -885,10 +885,17 @@ import siteData from '../data/site.json';
         return;
       }
 
+      let order;
+      try {
+        order = JSON.parse(orderStr);
+      } catch {
+        noEl.style.display = 'block';
+        contentEl.style.display = 'none';
+        return;
+      }
+
       noEl.style.display = 'none';
       contentEl.style.display = 'block';
-
-      const order = JSON.parse(orderStr);
 
       // Order number
       const orderNumEl = document.getElementById('conf-order-num');
@@ -911,7 +918,11 @@ import siteData from '../data/site.json';
 
       // Shipping
       const shipEl = document.getElementById('conf-shipping');
-      if (shipEl) shipEl.textContent = shippingLabels[order.shipping] || order.shipping;
+      if (shipEl) {
+        const label = shippingLabels[order.shipping] || order.shipping;
+        const isFree = typeof order.shippingCost === 'number' && order.shippingCost === 0;
+        shipEl.textContent = isFree ? `${label} — FREE` : label;
+      }
 
       // Payment
       const payEl = document.getElementById('conf-payment');
@@ -945,7 +956,8 @@ import siteData from '../data/site.json';
         }).join('');
       }
 
-      const shipCost = shippingPrices[order.shipping] || 0;
+      // Use the shipping cost saved at checkout (respects free shipping logic)
+      const shipCost = typeof order.shippingCost === 'number' ? order.shippingCost : (shippingPrices[order.shipping] || 0);
       const subtotalEl = document.getElementById('conf-subtotal');
       const shipCostEl = document.getElementById('conf-ship-cost');
       const totalEl = document.getElementById('conf-total');
@@ -1042,7 +1054,7 @@ import siteData from '../data/site.json';
       // Generate QR code (using a simple QR code via an external API)
       const qrEl = document.getElementById('btc-qr-code');
       if (qrEl && btcAddr) {
-        const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=176x176&data=bitcoin:${encodeURIComponent(btcAddr)}?amount=0&format=svg`;
+        const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=176x176&data=bitcoin:${encodeURIComponent(btcAddr)}&format=svg`;
         qrEl.innerHTML = `<img src="${qrUrl}" alt="Bitcoin QR Code" width="176" height="176" style="border-radius:4px;" />`;
       }
 
