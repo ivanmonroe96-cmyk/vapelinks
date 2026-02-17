@@ -13,7 +13,7 @@ interface Props {
 const {
   title,
   description = "Vapelink is a Melbourne-based online vape shop. We stock vape kits, disposable vapes, e-liquids, coils, pods and accessories. Australia-wide shipping with free delivery over $100.",
-  image = '/images/logo.png',
+  image = '/images/logo.svg',
   canonicalUrl,
   type = 'website',
   noindex = false
@@ -39,7 +39,7 @@ const navCollections = collectionsData
   <title>{siteTitle}</title>
   <meta name="description" content={description} />
   {noindex && <meta name="robots" content="noindex, nofollow" />}
-  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
@@ -78,7 +78,7 @@ const navCollections = collectionsData
         "url": "https://vapelink.com.au",
         "logo": {
           "@type": "ImageObject",
-          "url": "https://vapelink.com.au/images/logo.png"
+          "url": "https://vapelink.com.au/images/logo.svg"
         },
         "contactPoint": {
           "@type": "ContactPoint",
@@ -165,7 +165,7 @@ const navCollections = collectionsData
     <div class="container header-inner">
       <!-- Logo -->
       <a href="/" class="logo-link">
-        <img src="/images/logo.png" alt="Vapelink Australia" class="logo-img" loading="eager" />
+        <img src="/images/logo.svg" alt="Vapelink Australia" class="logo-img" loading="eager" />
       </a>
 
       <!-- Desktop Nav -->
@@ -306,7 +306,7 @@ const navCollections = collectionsData
     <div class="container footer-inner">
       <div class="footer-grid">
         <div>
-          <img src="/images/logo.png" alt="Vapelink Australia" style="height:32px;margin-bottom:1rem;" />
+          <img src="/images/logo.svg" alt="Vapelink Australia" style="height:32px;margin-bottom:1rem;" />
           <p class="footer-desc">{siteData.description.substring(0, 180)}</p>
         </div>
         <div>
