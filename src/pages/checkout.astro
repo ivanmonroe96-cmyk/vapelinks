@@ -304,34 +304,41 @@ import siteData from '../data/site.json';
       justify-content: center;
       gap: 0;
       margin-bottom: 2.5rem;
+      padding: 1.5rem 2rem;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-sm);
     }
     .checkout-step {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
-      opacity: 0.4;
-      transition: opacity 0.2s ease;
+      gap: 0.55rem;
+      opacity: 0.38;
+      transition: opacity 0.25s ease;
     }
     .checkout-step.active { opacity: 1; }
-    .checkout-step.completed { opacity: 0.7; }
+    .checkout-step.completed { opacity: 0.75; }
     .step-num {
-      width: 28px;
-      height: 28px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
       background: var(--color-surface-alt);
       border: 1.5px solid var(--color-border);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.75rem;
+      font-size: 0.78rem;
       font-weight: 700;
-      font-family: 'Space Grotesk', sans-serif;
+      font-family: var(--font-display);
       color: var(--color-text-secondary);
+      transition: all 0.25s ease;
     }
     .checkout-step.active .step-num {
       background: var(--color-accent);
       border-color: var(--color-accent);
       color: #fff;
+      box-shadow: 0 0 0 4px rgba(37,99,235,0.15);
     }
     .checkout-step.completed .step-num {
       background: var(--color-accent-soft);
@@ -339,17 +346,19 @@ import siteData from '../data/site.json';
       color: var(--color-accent);
     }
     .step-label {
-      font-size: 0.82rem;
-      font-weight: 600;
+      font-size: 0.84rem;
+      font-weight: 700;
       color: var(--color-text-secondary);
-      font-family: 'Space Grotesk', sans-serif;
+      font-family: var(--font-display);
+      letter-spacing: -0.01em;
     }
     .checkout-step.active .step-label { color: var(--color-text); }
     .step-connector {
-      width: 40px;
+      flex: 1;
       height: 1.5px;
       background: var(--color-border);
-      margin: 0 0.75rem;
+      margin: 0 1rem;
+      min-width: 32px;
     }
 
     /* ── Grid ── */
@@ -368,16 +377,23 @@ import siteData from '../data/site.json';
 
     /* ── Sections ── */
     .checkout-section {
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      padding: 1.75rem;
+      box-shadow: var(--shadow-sm);
     }
     .checkout-section-title {
       display: flex;
       align-items: center;
       gap: 0.65rem;
-      font-size: 1.05rem;
+      font-size: 1rem;
       font-weight: 700;
       color: var(--color-text);
       margin-bottom: 1.25rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--color-border);
     }
 
     /* ── Forms ── */
@@ -406,24 +422,25 @@ import siteData from '../data/site.json';
       font-size: 0.78rem;
       font-weight: 600;
       color: var(--color-text-secondary);
-      font-family: 'Space Grotesk', sans-serif;
+      font-family: var(--font-display);
     }
     .req { color: var(--color-sale); }
     .form-input {
-      padding: 0.7rem 0.85rem;
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-md);
       font-size: 0.88rem;
       color: var(--color-text);
-      background: var(--color-surface);
+      background: var(--color-bg);
       outline: none;
-      font-family: 'Inter', sans-serif;
-      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+      font-family: var(--font-body);
+      transition: border-color 0.18s ease, box-shadow 0.18s ease;
       width: 100%;
     }
     .form-input:focus {
       border-color: var(--color-accent);
-      box-shadow: 0 0 0 3px var(--color-accent-soft);
+      box-shadow: 0 0 0 3px rgba(37,99,235,0.12);
+      background: var(--color-surface);
     }
     .form-input::placeholder { color: var(--color-text-muted); }
     .form-select {
@@ -471,15 +488,20 @@ import siteData from '../data/site.json';
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 1rem 1.15rem;
+      padding: 1rem 1.25rem;
       border: 1.5px solid var(--color-border);
-      border-radius: var(--radius-md);
-      background: var(--color-surface);
-      transition: all 0.15s ease;
+      border-radius: var(--radius-lg);
+      background: var(--color-bg);
+      transition: all 0.18s ease;
+    }
+    .shipping-option-content:hover {
+      border-color: rgba(37,99,235,0.4);
+      box-shadow: 0 2px 8px rgba(37,99,235,0.07);
     }
     .shipping-radio:checked + .shipping-option-content {
       border-color: var(--color-accent);
-      background: var(--color-accent-soft);
+      background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
+      box-shadow: 0 2px 12px rgba(37,99,235,0.12);
     }
     .shipping-name {
       display: block;
@@ -543,13 +565,14 @@ import siteData from '../data/site.json';
 
     /* ── Order Summary Sidebar ── */
     .checkout-summary {
-      background: var(--color-surface-alt);
+      background: linear-gradient(180deg, var(--color-surface) 0%, #F8FBFF 100%);
       border: 1px solid var(--color-border);
-      border-radius: var(--radius-lg);
-      padding: 1.75rem;
+      border-radius: var(--radius-xl);
+      padding: 2rem;
       position: sticky;
       top: 100px;
       height: fit-content;
+      box-shadow: var(--shadow-md);
     }
     .checkout-summary-title {
       font-size: 1rem;
@@ -599,7 +622,7 @@ import siteData from '../data/site.json';
       margin-top: 0.1rem;
     }
     .checkout-item-price {
-      font-family: 'Space Grotesk', sans-serif;
+      font-family: var(--font-display);
       font-size: 0.82rem;
       font-weight: 600;
       color: var(--color-text);
@@ -638,7 +661,7 @@ import siteData from '../data/site.json';
     }
   </style>
 
-  <script define:vars={{ contactEmail: siteData.contact_email, bankDetails: siteData.bank_details, bitcoinAddress: siteData.bitcoin_address }}>
+  <script define:vars={{ contactEmail: siteData.contact_email, bankDetails: siteData.bank_details, bitcoinAddress: siteData.bitcoin_address, emailjsConfig: (siteData).emailjs || {} }}>
     function getCart() {
       try { return JSON.parse(localStorage.getItem('vapelink_cart') || '[]'); } catch { return []; }
     }
@@ -848,6 +871,40 @@ import siteData from '../data/site.json';
           localStorage.setItem(ordersKey, JSON.stringify(orders));
         }
       } catch {}
+
+      // Send initial admin notification for Bitcoin orders
+      if (paymentMethod === 'bitcoin' && emailjsConfig.public_key && emailjsConfig.service_id && emailjsConfig.admin_template_id) {
+        try {
+          // Load EmailJS dynamically and send admin notification
+          const ejsScript = document.createElement('script');
+          ejsScript.src = 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js';
+          ejsScript.onload = function() {
+            try {
+              emailjs.init(emailjsConfig.public_key);
+              const itemsList = cart.map(function(item) {
+                return item.title + ' x' + (item.qty || 1) + ' — $' + (parseFloat(item.price || '0') * (item.qty || 1)).toFixed(2);
+              }).join('\n');
+              emailjs.send(emailjsConfig.service_id, emailjsConfig.admin_template_id, {
+                to_email: emailjsConfig.admin_email || contactEmail,
+                order_number: orderData.orderNumber,
+                customer_name: orderData.firstName + ' ' + orderData.lastName,
+                customer_email: orderData.email,
+                customer_phone: orderData.phone || 'Not provided',
+                items: itemsList,
+                total_aud: '$' + orderData.total.toFixed(2) + ' AUD',
+                total_btc: 'Pending BTC rate lookup',
+                payment_method: 'Bitcoin (BTC) — Awaiting Payment',
+                shipping_method: shippingMethod === 'express' ? 'Express Shipping' : 'Standard Shipping',
+                shipping_address: [orderData.address, orderData.address2, orderData.city, orderData.state, orderData.postcode, 'Australia'].filter(Boolean).join(', '),
+                order_date: new Date(orderData.date).toLocaleString('en-AU'),
+                status: 'New Order — Awaiting Bitcoin Payment',
+                notes: orderData.notes || 'None'
+              });
+            } catch(e) { console.error('Admin email error:', e); }
+          };
+          document.head.appendChild(ejsScript);
+        } catch(e) { console.error('EmailJS load error:', e); }
+      }
 
       // Clear cart
       saveCart([]);

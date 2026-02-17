@@ -157,15 +157,16 @@ const breadcrumbData = {
   }
   .blog-article-category {
     display: inline-block;
-    padding: 0.2rem 0.75rem;
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 0.68rem;
-    font-weight: 600;
+    padding: 0.22rem 0.85rem;
+    font-family: var(--font-display);
+    font-size: 0.65rem;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.07em;
     color: var(--color-accent);
     background: var(--color-accent-soft);
     border-radius: var(--radius-full);
+    border: 1px solid var(--color-accent-light);
     margin-bottom: 0.85rem;
   }
   .blog-article-title {
@@ -205,7 +206,7 @@ const breadcrumbData = {
     margin: 0 auto;
   }
   .blog-article-content h2 {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: var(--font-display);
     font-size: 1.3rem;
     font-weight: 700;
     color: var(--color-text);
@@ -214,7 +215,7 @@ const breadcrumbData = {
     line-height: 1.3;
   }
   .blog-article-content h3 {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: var(--font-display);
     font-size: 1.05rem;
     font-weight: 600;
     color: var(--color-text);
@@ -269,11 +270,12 @@ const breadcrumbData = {
   .blog-article-cta {
     max-width: 700px;
     margin: 0 auto;
-    padding: 2rem;
-    background: var(--color-surface-alt);
-    border: 1px solid var(--color-border);
+    padding: 2.25rem 2rem;
+    background: linear-gradient(145deg, #EFF6FF 0%, #DBEAFE 100%);
+    border: 1px solid rgba(37, 99, 235, 0.2);
     border-radius: var(--radius-lg);
     text-align: center;
+    box-shadow: 0 4px 16px rgba(37, 99, 235, 0.08);
   }
 
   .blog-related-section {
@@ -291,15 +293,17 @@ const breadcrumbData = {
   .blog-related-card {
     background: var(--color-surface);
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-lg);
     overflow: hidden;
     text-decoration: none;
     color: inherit;
-    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    box-shadow: var(--shadow-card);
+    transition: transform 0.22s var(--ease-out), box-shadow 0.22s var(--ease-out);
   }
   .blog-related-card:hover {
     border-color: var(--color-border-hover);
     box-shadow: var(--shadow-md);
+    transform: translateY(-3px);
   }
   .blog-related-image-wrap {
     aspect-ratio: 16/9;
@@ -315,11 +319,11 @@ const breadcrumbData = {
     padding: 0.85rem;
   }
   .blog-related-cat {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: var(--font-display);
     font-size: 0.62rem;
-    font-weight: 600;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.07em;
     color: var(--color-accent);
   }
   .blog-related-title {

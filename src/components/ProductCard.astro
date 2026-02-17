@@ -71,13 +71,15 @@ const reviewData = generateReviews(product.handle);
     flex-direction: column;
     background: var(--color-surface);
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-lg);
     overflow: hidden;
-    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    box-shadow: var(--shadow-card);
+    transition: border-color 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out), transform 0.2s var(--ease-out);
   }
   .product-card:hover {
     border-color: var(--color-border-hover);
     box-shadow: var(--shadow-md);
+    transform: translateY(-3px);
   }
   .card-link {
     display: flex;
@@ -90,15 +92,15 @@ const reviewData = generateReviews(product.handle);
   .card-image-wrap {
     position: relative;
     aspect-ratio: 1;
-    background: var(--color-surface-alt);
+    background: linear-gradient(145deg, #f8fbff, #eef3fb);
     overflow: hidden;
   }
   .card-image {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    padding: 0.75rem;
-    transition: transform 0.2s ease;
+    padding: 0.9rem;
+    transition: transform 0.25s var(--ease-out);
   }
   .product-card:hover .card-image {
     transform: scale(1.03);
@@ -113,15 +115,15 @@ const reviewData = generateReviews(product.handle);
 
   .card-sale-badge {
     position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
+    top: 0.7rem;
+    right: 0.7rem;
     padding: 0.2rem 0.5rem;
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: var(--font-display);
     font-size: 0.68rem;
     font-weight: 700;
     color: var(--color-sale);
     background: var(--color-sale-soft);
-    border-radius: var(--radius-sm);
+    border-radius: 999px;
   }
 
   .card-body {
@@ -130,16 +132,16 @@ const reviewData = generateReviews(product.handle);
   }
   .card-vendor {
     display: block;
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 0.65rem;
-    font-weight: 600;
-    letter-spacing: 0.06em;
+    font-family: var(--font-display);
+    font-size: 0.64rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--color-accent);
     margin-bottom: 0.25rem;
   }
   .card-title {
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-body);
     font-size: 0.82rem;
     font-weight: 600;
     color: var(--color-text);
@@ -157,9 +159,9 @@ const reviewData = generateReviews(product.handle);
     flex-wrap: wrap;
   }
   .card-price {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 1rem;
-    font-weight: 700;
+    font-family: var(--font-display);
+    font-size: 1.04rem;
+    font-weight: 800;
     color: var(--color-text);
   }
   .card-currency {
@@ -190,7 +192,7 @@ const reviewData = generateReviews(product.handle);
   .card-review-count {
     font-size: 0.65rem;
     color: var(--color-text-muted);
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: var(--font-display);
   }
 
   .card-footer {
@@ -199,6 +201,7 @@ const reviewData = generateReviews(product.handle);
     gap: 0.5rem;
     padding: 0.5rem 0.85rem;
     border-top: 1px solid var(--color-border);
+    background: #fbfdff;
   }
   @media (max-width: 400px) {
     .card-footer {
@@ -215,13 +218,13 @@ const reviewData = generateReviews(product.handle);
     align-items: center;
     justify-content: center;
     padding: 0.45rem 0;
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: var(--font-display);
     font-size: 0.75rem;
     font-weight: 600;
     color: var(--color-text-secondary);
     text-decoration: none;
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
+    border-radius: 10px;
     transition: all 0.15s ease;
   }
   .card-view:hover {
@@ -236,18 +239,19 @@ const reviewData = generateReviews(product.handle);
     justify-content: center;
     gap: 0.35rem;
     padding: 0.45rem 0;
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: var(--font-display);
     font-size: 0.75rem;
     font-weight: 600;
     color: #FFFFFF;
-    background: var(--color-accent);
+    background: linear-gradient(135deg, var(--color-accent), #3B82F6);
     border: none;
-    border-radius: var(--radius-sm);
+    border-radius: 10px;
     cursor: pointer;
-    transition: background 0.15s ease;
+    transition: transform 0.2s var(--ease-out), filter 0.2s var(--ease-out);
   }
   .card-cart-btn:hover {
-    background: var(--color-accent-hover);
+    filter: brightness(1.03);
+    transform: translateY(-1px);
   }
   .card-cart-btn:active {
     transform: scale(0.97);
