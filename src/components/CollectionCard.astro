@@ -53,14 +53,19 @@ const imageAlt = collection.image?.alt || collection.title;
       loading="lazy"
       onerror="this.onerror=null;this.style.display='none'"
     />
+    <!-- Bottom gradient overlay -->
+    <div class="cc-gradient"></div>
+    <!-- Product count badge -->
+    {collection.products_count > 0 && (
+      <span class="cc-count-badge">{collection.products_count} products</span>
+    )}
   </div>
   <div class="cc-body">
     <div class="cc-info">
       <h3 class="cc-title">{collection.title}</h3>
-      <span class="cc-count">{collection.products_count} products</span>
     </div>
     <div class="cc-arrow">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
     </div>
   </div>
 </a>
@@ -75,75 +80,107 @@ const imageAlt = collection.image?.alt || collection.title;
     overflow: hidden;
     text-decoration: none;
     box-shadow: var(--shadow-card);
-    transition: border-color 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out), transform 0.2s var(--ease-out);
+    transition:
+      border-color 0.22s var(--ease-out),
+      box-shadow   0.22s var(--ease-out),
+      transform    0.22s var(--ease-out);
+    will-change: transform;
   }
   .collection-card:hover {
-    border-color: var(--color-border-hover);
-    box-shadow: var(--shadow-md);
-    transform: translateY(-3px);
+    border-color: rgba(37, 99, 235, 0.22);
+    box-shadow: var(--shadow-md), 0 0 0 1px rgba(37,99,235,0.06);
+    transform: translateY(-4px);
   }
 
+  /* ── Image ── */
   .cc-image-wrap {
+    position: relative;
     aspect-ratio: 16/9;
-    background: linear-gradient(145deg, #f8fbff, #eef3fb);
+    background: linear-gradient(145deg, #f0f5ff, #e8f0fd);
     overflow: hidden;
   }
   .cc-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.3s var(--ease-out);
+    transition: transform 0.35s var(--ease-out);
   }
   .collection-card:hover .cc-image {
-    transform: scale(1.03);
-  }
-  .cc-placeholder {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    transform: scale(1.06);
   }
 
+  /* Dark gradient at the bottom of the image */
+  .cc-gradient {
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 55%;
+    background: linear-gradient(to top, rgba(6, 10, 22, 0.62) 0%, transparent 100%);
+    pointer-events: none;
+  }
+
+  /* Product count floating badge */
+  .cc-count-badge {
+    position: absolute;
+    bottom: 0.55rem;
+    left: 0.65rem;
+    font-family: var(--font-display);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: rgba(255,255,255,0.92);
+    background: rgba(255,255,255,0.14);
+    border: 1px solid rgba(255,255,255,0.22);
+    border-radius: var(--radius-full);
+    padding: 0.2rem 0.55rem;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+
+  /* ── Body ── */
   .cc-body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1rem 1.05rem;
+    padding: 0.85rem 1rem;
     gap: 0.75rem;
   }
   .cc-info { flex: 1; min-width: 0; }
   .cc-title {
     font-family: var(--font-display);
-    font-size: 0.9rem;
+    font-size: 0.88rem;
     font-weight: 700;
     color: var(--color-text);
     line-height: 1.3;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    letter-spacing: -0.01em;
+    transition: color 0.15s;
   }
-  .cc-count {
-    display: block;
-    font-size: 0.72rem;
-    color: var(--color-text-muted);
-    margin-top: 0.15rem;
-    font-weight: 600;
-  }
+  .collection-card:hover .cc-title { color: var(--color-accent); }
+
+  /* Arrow pill */
   .cc-arrow {
     flex-shrink: 0;
-    width: 32px;
-    height: 32px;
-    border-radius: 10px;
-    background: var(--color-surface-alt);
+    width: 30px;
+    height: 30px;
+    border-radius: var(--radius-sm);
+    background: var(--color-accent-soft);
+    border: 1.5px solid var(--color-accent-light);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--color-text-muted);
-    transition: all 0.15s ease;
+    color: var(--color-accent);
+    transition:
+      background   0.18s,
+      border-color 0.18s,
+      color        0.18s,
+      transform    0.22s var(--ease-spring);
   }
   .collection-card:hover .cc-arrow {
     background: var(--color-accent);
+    border-color: var(--color-accent);
     color: #FFFFFF;
+    transform: translateX(2px);
   }
 </style>

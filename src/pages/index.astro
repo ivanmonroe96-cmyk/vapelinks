@@ -205,6 +205,50 @@ const vendors = [...new Set(productsData.map((p: any) => p.vendor).filter(Boolea
     </div>
   </section>
 
+  <!-- ═══ FEATURES STRIP ═══ -->
+  <section class="features-section">
+    <div class="container">
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon-wrap">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          </div>
+          <div class="feature-content">
+            <strong class="feature-title">Free Shipping</strong>
+            <span class="feature-desc">On all orders over $99 across Australia</span>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon-wrap">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+          </div>
+          <div class="feature-content">
+            <strong class="feature-title">100% Genuine</strong>
+            <span class="feature-desc">Authentic products from authorised distributors</span>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon-wrap">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 1 0-16 0"/><path d="M12 13v2"/><path d="M12 17h.01"/></svg>
+          </div>
+          <div class="feature-content">
+            <strong class="feature-title">Expert Support</strong>
+            <span class="feature-desc">Real help from our knowledgeable team</span>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon-wrap">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div class="feature-content">
+            <strong class="feature-title">Australia-Wide</strong>
+            <span class="feature-desc">Fast dispatch from Melbourne every weekday</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ═══ COLLECTIONS ═══ -->
   <section class="section">
     <div class="container">
@@ -577,6 +621,66 @@ const vendors = [...new Set(productsData.map((p: any) => p.vendor).filter(Boolea
     .trust-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
     .trust-sep { display: none; }
     .trust-item { padding: 1rem; background: var(--color-surface-alt); border-radius: var(--radius-md); border: 1px solid var(--color-border); }
+  }
+
+  /* ── Features strip ── */
+  .features-section {
+    padding: 2.5rem 0;
+    background: var(--color-surface-alt);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--color-border);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+  .feature-card {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 1.25rem 1.5rem;
+    background: var(--color-surface);
+    transition: background 0.2s;
+  }
+  .feature-card:hover { background: #f5f8ff; }
+  .feature-icon-wrap {
+    flex-shrink: 0;
+    width: 46px;
+    height: 46px;
+    background: var(--color-accent-soft);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-accent);
+  }
+  .feature-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.18rem;
+  }
+  .feature-title {
+    font-family: var(--font-display);
+    font-size: 0.84rem;
+    font-weight: 700;
+    color: var(--color-text);
+    letter-spacing: -0.01em;
+  }
+  .feature-desc {
+    font-size: 0.72rem;
+    color: var(--color-text-muted);
+    line-height: 1.38;
+  }
+  @media (max-width: 900px) {
+    .features-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 500px) {
+    .features-grid { grid-template-columns: 1fr; }
+    .feature-card { padding: 1rem 1.2rem; }
   }
 
   /* ── Section shared ── */
