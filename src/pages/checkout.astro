@@ -57,7 +57,7 @@ import siteData from '../data/site.json';
             <div class="checkout-section">
               <h2 class="font-display checkout-section-title">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                Contact Information
+                Contact Information (Guest Checkout)
               </h2>
               <div class="form-row">
                 <label class="form-field">
@@ -761,19 +761,6 @@ import siteData from '../data/site.json';
     // Init
     initCheckout();
 
-    // Auto-fill logged-in user details
-    try {
-      const user = JSON.parse(localStorage.getItem('vapelink_user') || 'null');
-      if (user) {
-        const emailField = document.getElementById('checkout-email');
-        const fnameField = document.getElementById('checkout-fname');
-        const lnameField = document.getElementById('checkout-lname');
-        if (emailField && !emailField.value) emailField.value = user.email || '';
-        if (fnameField && !fnameField.value) fnameField.value = user.firstName || '';
-        if (lnameField && !lnameField.value) lnameField.value = user.lastName || '';
-      }
-    } catch {}
-
     // Step navigation
     document.getElementById('to-step-2')?.addEventListener('click', () => {
       if (validateStep1()) {
@@ -843,11 +830,11 @@ import siteData from '../data/site.json';
       // Save order for confirmation page
       localStorage.setItem('vapelink_last_order', JSON.stringify(orderData));
 
-      // Save to user's order history if logged in
+      // Save order history by email (works for guest checkout too)
       try {
-        const user = JSON.parse(localStorage.getItem('vapelink_user') || 'null');
-        if (user && user.email) {
-          const ordersKey = `vapelink_orders_${user.email}`;
+        const emailForHistory = (orderData.email || '').trim().toLowerCase();
+        if (emailForHistory) {
+          const ordersKey = `vapelink_orders_${emailForHistory}`;
           const orders = JSON.parse(localStorage.getItem(ordersKey) || '[]');
           orders.unshift(orderData);
           localStorage.setItem(ordersKey, JSON.stringify(orders));

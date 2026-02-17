@@ -2,347 +2,176 @@
 import Layout from '../../layouts/Layout.astro';
 ---
 
-<Layout title="Order History – Vapelink Australia" description="View your complete order history at Vapelink Australia." noindex={true}>
+<Layout title="Track Orders – Vapelink Australia" description="Look up your order history using your checkout email." noindex={true}>
   <nav class="breadcrumb-bar">
     <div class="container">
       <ol class="breadcrumb">
         <li><a href="/">Home</a></li>
         <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></li>
-        <li><a href="/account">Account</a></li>
-        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></li>
-        <li><span class="breadcrumb-current">Order History</span></li>
+        <li><span class="breadcrumb-current">Track Orders</span></li>
       </ol>
     </div>
   </nav>
 
   <section class="container orders-page">
-    <!-- Not logged in -->
-    <div id="orders-not-logged" class="account-not-logged" style="display:none;">
-      <div class="account-not-logged-inner">
-        <div class="auth-icon-wrap" style="width:64px;height:64px;">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-        </div>
-        <h1 class="font-display" style="font-size:1.5rem;font-weight:800;color:var(--color-text);margin-bottom:0.35rem;">Sign In Required</h1>
-        <p style="color:var(--color-text-secondary);font-size:0.92rem;margin-bottom:1.5rem;">Please sign in to view your order history.</p>
-        <a href="/account/login?redirect=/account/orders" class="btn-primary" style="padding:0.75rem 2rem;text-decoration:none;">Sign In</a>
+    <div class="orders-header">
+      <div>
+        <h1 class="font-display orders-title">Track Your Orders</h1>
+        <p class="orders-subtitle">Enter the same email used at checkout to view your orders on this device.</p>
       </div>
     </div>
 
-    <!-- Logged in -->
-    <div id="orders-logged" style="display:none;">
-      <div class="orders-header">
-        <div>
-          <h1 class="font-display orders-title">Order History</h1>
-          <p class="orders-subtitle" id="orders-count-text"></p>
+    <div class="lookup-card">
+      <form id="orders-lookup-form" class="lookup-form">
+        <label class="lookup-label" for="lookup-email">Checkout Email</label>
+        <div class="lookup-row">
+          <input id="lookup-email" type="email" class="lookup-input" placeholder="your@email.com" required />
+          <button type="submit" class="btn-primary" style="padding:0.75rem 1.5rem;">Find Orders</button>
         </div>
-        <a href="/account" class="btn-secondary" style="padding:0.6rem 1.25rem;font-size:0.85rem;text-decoration:none;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
-          Back to Account
-        </a>
-      </div>
-
-      <div id="orders-list" class="orders-list"></div>
+        <p id="lookup-msg" class="lookup-msg" style="display:none;"></p>
+      </form>
     </div>
+
+    <div id="orders-list" class="orders-list" style="margin-top:1.5rem;"></div>
   </section>
 
   <script>
-    function getCurrentUser(): any {
-      try { return JSON.parse(localStorage.getItem('vapelink_user') || 'null'); } catch { return null; }
-    }
     function getUserOrders(email: string): any[] {
       try { return JSON.parse(localStorage.getItem(`vapelink_orders_${email}`) || '[]'); } catch { return []; }
     }
 
-    const user = getCurrentUser();
-    const notLoggedEl = document.getElementById('orders-not-logged');
-    const loggedEl = document.getElementById('orders-logged');
-
-    if (!user) {
-      if (notLoggedEl) notLoggedEl.style.display = 'flex';
-    } else {
-      if (loggedEl) loggedEl.style.display = 'block';
-
-      const orders = getUserOrders(user.email);
-      const countText = document.getElementById('orders-count-text');
+    function renderOrdersForEmail(rawEmail: string) {
+      const email = (rawEmail || '').trim().toLowerCase();
       const listEl = document.getElementById('orders-list');
+      const msgEl = document.getElementById('lookup-msg');
+      if (!listEl || !msgEl) return;
 
-      if (countText) {
-        countText.textContent = orders.length === 0 ? 'No orders placed yet' : `${orders.length} order${orders.length !== 1 ? 's' : ''} placed`;
+      if (!email) {
+        msgEl.textContent = 'Please enter a valid email address.';
+        msgEl.style.display = 'block';
+        listEl.innerHTML = '';
+        return;
       }
 
-      if (listEl) {
-        if (orders.length === 0) {
-          listEl.innerHTML = `
-            <div class="orders-empty">
-              <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-dim)" stroke-width="1.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-              <p style="margin-top:1rem;font-size:1rem;font-weight:600;color:var(--color-text);">No orders yet</p>
-              <p style="color:var(--color-text-secondary);font-size:0.88rem;margin-top:0.25rem;">Once you place an order, it will appear here.</p>
-              <a href="/collections/shop" class="btn-primary" style="margin-top:1.5rem;padding:0.75rem 2rem;text-decoration:none;">Start Shopping</a>
-            </div>`;
-        } else {
-          listEl.innerHTML = orders.map((o: any, idx: number) => {
-            const orderTotal = (o.items || []).reduce((s: number, i: any) => s + (parseFloat(i.price || '0') * (i.qty || 1)), 0);
-            const shippingPrices: Record<string, number> = { standard: 9.95, express: 14.95 };
-            const shippingCost = shippingPrices[o.shipping] || 0;
-            const grandTotal = orderTotal + shippingCost;
-            const date = o.date ? new Date(o.date).toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric' }) : '';
-            const time = o.date ? new Date(o.date).toLocaleTimeString('en-AU', { hour: '2-digit', minute: '2-digit' }) : '';
+      const orders = getUserOrders(email);
+      msgEl.style.display = 'block';
+      msgEl.textContent = orders.length === 0
+        ? 'No orders found for this email on this browser/device yet.'
+        : `${orders.length} order${orders.length !== 1 ? 's' : ''} found.`;
 
-            return `
-              <div class="order-detail-card">
-                <div class="order-detail-header">
-                  <div class="order-detail-meta">
-                    <span class="order-detail-number">${o.orderNumber || 'N/A'}</span>
-                    <span class="order-detail-date">${date} at ${time}</span>
-                  </div>
-                  <div class="order-detail-total-wrap">
-                    <span class="order-detail-total font-display">$${grandTotal.toFixed(2)} AUD</span>
-                    <span class="order-detail-status">
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                      Order Placed
-                    </span>
-                  </div>
-                </div>
+      if (orders.length === 0) {
+        listEl.innerHTML = `
+          <div class="orders-empty">
+            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-dim)" stroke-width="1.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            <p style="margin-top:1rem;font-size:1rem;font-weight:600;color:var(--color-text);">No orders found</p>
+            <p style="color:var(--color-text-secondary);font-size:0.88rem;margin-top:0.25rem;">Place an order first, then come back here with the same checkout email.</p>
+            <a href="/collections/shop" class="btn-primary" style="margin-top:1.5rem;padding:0.75rem 2rem;text-decoration:none;">Start Shopping</a>
+          </div>`;
+        return;
+      }
 
-                <div class="order-detail-items">
-                  ${(o.items || []).map((i: any) => `
-                    <div class="order-detail-item">
-                      ${i.image ? `<img src="${i.image}" alt="" class="order-detail-item-img" onerror="this.style.display='none'" />` : '<div class="order-detail-item-img-placeholder"></div>'}
-                      <div class="order-detail-item-info">
-                        <a href="/products/${i.handle}" class="order-detail-item-title">${i.title}</a>
-                        <span class="order-detail-item-meta">Qty: ${i.qty || 1} &times; $${parseFloat(i.price || '0').toFixed(2)}</span>
-                      </div>
-                      <span class="order-detail-item-price font-display">$${(parseFloat(i.price || '0') * (i.qty || 1)).toFixed(2)}</span>
-                    </div>
-                  `).join('')}
-                </div>
+      listEl.innerHTML = orders.map((o: any) => {
+        const subtotal = parseFloat(o.subtotal || '0') || (o.items || []).reduce((s: number, i: any) => s + (parseFloat(i.price || '0') * (i.qty || 1)), 0);
+        const shipping = parseFloat(o.shippingCost || '0') || 0;
+        const total = parseFloat(o.total || '0') || (subtotal + shipping);
+        const date = o.date ? new Date(o.date).toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric' }) : '';
+        const time = o.date ? new Date(o.date).toLocaleTimeString('en-AU', { hour: '2-digit', minute: '2-digit' }) : '';
 
-                <div class="order-detail-summary">
-                  <div class="order-detail-summary-row">
-                    <span>Subtotal</span>
-                    <span class="font-display">$${orderTotal.toFixed(2)}</span>
-                  </div>
-                  <div class="order-detail-summary-row">
-                    <span>Shipping (${o.shipping || 'Standard'})</span>
-                    <span class="font-display">${shippingCost === 0 ? 'FREE' : '$' + shippingCost.toFixed(2)}</span>
-                  </div>
-                  <div class="order-detail-summary-row order-detail-summary-total">
-                    <span>Total</span>
-                    <span class="font-display">$${grandTotal.toFixed(2)} AUD</span>
-                  </div>
-                </div>
-
-                ${o.address || o.city ? `
-                  <div class="order-detail-shipping-info">
-                    <span class="order-detail-shipping-label">Shipped to:</span>
-                    <span>${o.firstName || ''} ${o.lastName || ''}, ${o.address || ''} ${o.address2 || ''}, ${o.city || ''} ${o.state || ''} ${o.postcode || ''}</span>
-                  </div>
-                ` : ''}
+        return `
+          <div class="order-detail-card">
+            <div class="order-detail-header">
+              <div class="order-detail-meta">
+                <span class="order-detail-number">${o.orderNumber || 'N/A'}</span>
+                <span class="order-detail-date">${date}${time ? ` at ${time}` : ''}</span>
               </div>
-            `;
-          }).join('');
-        }
-      }
+              <div class="order-detail-total-wrap">
+                <span class="order-detail-total font-display">$${total.toFixed(2)} AUD</span>
+                <span class="order-detail-status">Order Placed</span>
+              </div>
+            </div>
+
+            <div class="order-detail-items">
+              ${(o.items || []).map((i: any) => `
+                <div class="order-detail-item">
+                  ${i.image ? `<img src="${i.image}" alt="" class="order-detail-item-img" onerror="this.style.display='none'" />` : '<div class="order-detail-item-img-placeholder"></div>'}
+                  <div class="order-detail-item-info">
+                    <a href="/products/${i.handle}" class="order-detail-item-title">${i.title}</a>
+                    <span class="order-detail-item-meta">Qty: ${i.qty || 1} × $${parseFloat(i.price || '0').toFixed(2)}</span>
+                  </div>
+                  <span class="order-detail-item-price font-display">$${(parseFloat(i.price || '0') * (i.qty || 1)).toFixed(2)}</span>
+                </div>
+              `).join('')}
+            </div>
+
+            <div class="order-detail-summary">
+              <div class="order-detail-summary-row"><span>Subtotal</span><span class="font-display">$${subtotal.toFixed(2)}</span></div>
+              <div class="order-detail-summary-row"><span>Shipping</span><span class="font-display">${shipping === 0 ? 'FREE' : '$' + shipping.toFixed(2)}</span></div>
+              <div class="order-detail-summary-row order-detail-summary-total"><span>Total</span><span class="font-display">$${total.toFixed(2)} AUD</span></div>
+            </div>
+
+            ${o.address || o.city ? `
+              <div class="order-detail-shipping-info">
+                <span class="order-detail-shipping-label">Shipped to:</span>
+                <span>${o.firstName || ''} ${o.lastName || ''}, ${o.address || ''} ${o.address2 || ''}, ${o.city || ''} ${o.state || ''} ${o.postcode || ''}</span>
+              </div>
+            ` : ''}
+          </div>
+        `;
+      }).join('');
     }
+
+    const lookupForm = document.getElementById('orders-lookup-form');
+    const lookupEmailInput = document.getElementById('lookup-email') as HTMLInputElement | null;
+
+    lookupForm?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      renderOrdersForEmail(lookupEmailInput?.value || '');
+    });
+
+    try {
+      const lastOrder = JSON.parse(localStorage.getItem('vapelink_last_order') || 'null');
+      if (lastOrder?.email && lookupEmailInput) {
+        lookupEmailInput.value = String(lastOrder.email).toLowerCase();
+        renderOrdersForEmail(lookupEmailInput.value);
+      }
+    } catch {}
   </script>
 </Layout>
 
 <style is:global>
-  .orders-page {
-    padding-top: 2rem;
-    padding-bottom: 4rem;
-    min-height: 60vh;
-  }
-  .account-not-logged {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 40vh;
-  }
-  .account-not-logged-inner {
-    text-align: center;
-    padding: 3rem 1rem;
-  }
-  .auth-icon-wrap {
-    width: 56px;
-    height: 56px;
-    margin: 0 auto 1rem;
-    border-radius: 50%;
-    background: var(--color-accent-soft);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .orders-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 2rem;
-    flex-wrap: wrap;
-    gap: 1rem;
-  }
-  .orders-title {
-    font-size: 1.75rem;
-    font-weight: 800;
-    color: var(--color-text);
-    letter-spacing: -0.02em;
-  }
-  .orders-subtitle {
-    font-size: 0.88rem;
-    color: var(--color-text-muted);
-    margin-top: 0.25rem;
-  }
-  .orders-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-  .orders-empty {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 4rem 1rem;
-    text-align: center;
-  }
-
-  /* Order Detail Card */
-  .order-detail-card {
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-  }
-  .order-detail-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1.15rem 1.5rem;
-    background: var(--color-surface-alt);
-    border-bottom: 1px solid var(--color-border);
-    flex-wrap: wrap;
-    gap: 0.75rem;
-  }
-  .order-detail-meta {
-    display: flex;
-    flex-direction: column;
-    gap: 0.15rem;
-  }
-  .order-detail-number {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: var(--color-text);
-  }
-  .order-detail-date {
-    font-size: 0.78rem;
-    color: var(--color-text-muted);
-  }
-  .order-detail-total-wrap {
-    text-align: right;
-  }
-  .order-detail-total {
-    display: block;
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--color-text);
-  }
-  .order-detail-status {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--color-accent);
-    margin-top: 0.15rem;
-  }
-
-  /* Items */
-  .order-detail-items {
-    padding: 1rem 1.5rem;
-  }
-  .order-detail-item {
-    display: flex;
-    align-items: center;
-    gap: 0.85rem;
-    padding: 0.65rem 0;
-    border-bottom: 1px solid var(--color-border);
-  }
+  .orders-page { padding-top: 2rem; padding-bottom: 4rem; min-height: 60vh; }
+  .orders-header { margin-bottom: 1rem; }
+  .orders-title { font-size: 1.75rem; font-weight: 800; color: var(--color-text); letter-spacing: -0.02em; }
+  .orders-subtitle { font-size: 0.88rem; color: var(--color-text-muted); margin-top: 0.25rem; }
+  .lookup-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 1rem; }
+  .lookup-label { font-size: 0.8rem; color: var(--color-text-secondary); display: block; margin-bottom: 0.45rem; }
+  .lookup-row { display: flex; gap: 0.65rem; flex-wrap: wrap; }
+  .lookup-input { flex: 1; min-width: 240px; border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: var(--color-surface-alt); color: var(--color-text); padding: 0.75rem 0.85rem; font-size: 0.9rem; }
+  .lookup-input:focus { outline: none; border-color: var(--color-accent); box-shadow: 0 0 0 3px rgba(59,130,246,0.12); }
+  .lookup-msg { margin-top: 0.6rem; font-size: 0.82rem; color: var(--color-text-secondary); }
+  .orders-list { display: flex; flex-direction: column; gap: 1.5rem; }
+  .orders-empty { display: flex; flex-direction: column; align-items: center; padding: 3rem 1rem; text-align: center; }
+  .order-detail-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); overflow: hidden; }
+  .order-detail-header { display: flex; align-items: center; justify-content: space-between; padding: 1.15rem 1.5rem; background: var(--color-surface-alt); border-bottom: 1px solid var(--color-border); flex-wrap: wrap; gap: 0.75rem; }
+  .order-detail-meta { display: flex; flex-direction: column; gap: 0.15rem; }
+  .order-detail-number { font-family: 'Space Grotesk', sans-serif; font-size: 0.95rem; font-weight: 700; color: var(--color-text); }
+  .order-detail-date { font-size: 0.78rem; color: var(--color-text-muted); }
+  .order-detail-total-wrap { text-align: right; }
+  .order-detail-total { display: block; font-size: 1.1rem; font-weight: 700; color: var(--color-text); }
+  .order-detail-status { display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.75rem; font-weight: 600; color: var(--color-accent); margin-top: 0.15rem; }
+  .order-detail-items { padding: 1rem 1.5rem; }
+  .order-detail-item { display: flex; align-items: center; gap: 0.85rem; padding: 0.65rem 0; border-bottom: 1px solid var(--color-border); }
   .order-detail-item:last-child { border-bottom: none; }
-  .order-detail-item-img {
-    width: 52px;
-    height: 52px;
-    object-fit: contain;
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--color-border);
-    background: var(--color-surface-alt);
-    flex-shrink: 0;
-  }
-  .order-detail-item-img-placeholder {
-    width: 52px;
-    height: 52px;
-    border-radius: var(--radius-sm);
-    background: var(--color-surface-alt);
-    border: 1px solid var(--color-border);
-    flex-shrink: 0;
-  }
-  .order-detail-item-info {
-    flex: 1;
-    min-width: 0;
-  }
-  .order-detail-item-title {
-    display: block;
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--color-text);
-    text-decoration: none;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+  .order-detail-item-img, .order-detail-item-img-placeholder { width: 52px; height: 52px; border-radius: var(--radius-sm); border: 1px solid var(--color-border); background: var(--color-surface-alt); flex-shrink: 0; }
+  .order-detail-item-img { object-fit: contain; }
+  .order-detail-item-info { flex: 1; min-width: 0; }
+  .order-detail-item-title { display: block; font-size: 0.85rem; font-weight: 600; color: var(--color-text); text-decoration: none; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .order-detail-item-title:hover { color: var(--color-accent); }
-  .order-detail-item-meta {
-    display: block;
-    font-size: 0.75rem;
-    color: var(--color-text-muted);
-    margin-top: 0.15rem;
-  }
-  .order-detail-item-price {
-    font-size: 0.88rem;
-    font-weight: 700;
-    color: var(--color-text);
-    flex-shrink: 0;
-  }
-
-  /* Summary footer */
-  .order-detail-summary {
-    padding: 0.85rem 1.5rem;
-    background: var(--color-surface-alt);
-    border-top: 1px solid var(--color-border);
-  }
-  .order-detail-summary-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 0.3rem 0;
-    font-size: 0.82rem;
-    color: var(--color-text-secondary);
-  }
-  .order-detail-summary-total {
-    font-size: 0.92rem;
-    font-weight: 700;
-    color: var(--color-text);
-    padding-top: 0.5rem;
-    border-top: 1px solid var(--color-border);
-    margin-top: 0.3rem;
-  }
-  .order-detail-shipping-info {
-    padding: 0.75rem 1.5rem;
-    border-top: 1px solid var(--color-border);
-    font-size: 0.78rem;
-    color: var(--color-text-secondary);
-  }
-  .order-detail-shipping-label {
-    font-weight: 600;
-    color: var(--color-text-muted);
-    margin-right: 0.5rem;
-  }
+  .order-detail-item-meta { display: block; font-size: 0.75rem; color: var(--color-text-muted); margin-top: 0.15rem; }
+  .order-detail-item-price { font-size: 0.88rem; font-weight: 700; color: var(--color-text); flex-shrink: 0; }
+  .order-detail-summary { padding: 0.85rem 1.5rem; background: var(--color-surface-alt); border-top: 1px solid var(--color-border); }
+  .order-detail-summary-row { display: flex; justify-content: space-between; padding: 0.3rem 0; font-size: 0.82rem; color: var(--color-text-secondary); }
+  .order-detail-summary-total { font-size: 0.92rem; font-weight: 700; color: var(--color-text); padding-top: 0.5rem; border-top: 1px solid var(--color-border); margin-top: 0.3rem; }
+  .order-detail-shipping-info { padding: 0.75rem 1.5rem; border-top: 1px solid var(--color-border); font-size: 0.78rem; color: var(--color-text-secondary); }
+  .order-detail-shipping-label { font-weight: 600; color: var(--color-text-muted); margin-right: 0.5rem; }
 </style>
