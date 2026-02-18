@@ -558,7 +558,7 @@ const seoKeywords = getProductKeywords(product);
       // Open cart drawer for consistency
       const drawerEl = document.getElementById('cart-drawer');
       const overlayEl = document.getElementById('cart-overlay');
-      if (drawerEl) drawerEl.classList.add('open');
+      if (drawerEl) drawerEl.style.transform = 'translateX(0)';
       if (overlayEl) overlayEl.style.display = 'block';
       document.body.style.overflow = 'hidden';
 
