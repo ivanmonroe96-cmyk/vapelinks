@@ -1,0 +1,420 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const faqCategories = [
+  {
+    title: "Ordering & Payments",
+    icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/></svg>',
+    questions: [
+      {
+        q: "What payment methods do you accept?",
+        a: "We accept <strong>Bank Transfer</strong>, <strong>PayID</strong>, and <strong>Bitcoin (BTC)</strong>. In-store payments are also available at our Coburg North shop. All prices are in AUD."
+      },
+      {
+        q: "Do I need to be 18+ to order?",
+        a: "Yes — it's a legal requirement in Australia. We verify age at checkout and may request photo ID upon delivery."
+      },
+      {
+        q: "Can I change or cancel my order?",
+        a: "If we haven't shipped it yet, email us at <a href='mailto:info@vapelink.com.au'>info@vapelink.com.au</a> as soon as possible and we'll see what we can do. Once it's been dispatched, we can't cancel — but you can arrange a return."
+      },
+      {
+        q: "Is there a minimum order?",
+        a: "Yes, the minimum order for online purchases is <strong>$300 AUD</strong>. This applies to all checkout methods."
+      },
+      {
+        q: "How do I pay with Bitcoin?",
+        a: "Select Bitcoin at checkout. You'll be shown a BTC address and the exact amount to send. Once your transaction is confirmed on the blockchain, we'll process your order."
+      }
+    ]
+  },
+  {
+    title: "Shipping & Delivery",
+    icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>',
+    questions: [
+      {
+        q: "How long does delivery take?",
+        a: "<strong>Standard shipping:</strong> 3–7 business days.<br /><strong>Express shipping:</strong> 1–3 business days.<br />We usually process orders within 1–2 business days."
+      },
+      {
+        q: "Is there free shipping?",
+        a: "Yes — free standard shipping on all orders over <strong>$100</strong> within Australia. No coupon code needed."
+      },
+      {
+        q: "Do you ship internationally?",
+        a: "Not at the moment — Australia only. We deliver to all states and territories including regional and remote areas."
+      },
+      {
+        q: "Can I track my parcel?",
+        a: "Absolutely. Once your order ships, we'll email you an Australia Post tracking number so you can follow your parcel every step of the way."
+      },
+      {
+        q: "Can I pick up in store?",
+        a: "Yes! We offer click & collect from our <strong>Coburg North</strong> store. Select it at checkout and we'll let you know when your order is ready."
+      }
+    ]
+  },
+  {
+    title: "Products",
+    icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="m3.27 6.96 8.73 5.05 8.73-5.05"/><path d="M12 22.08V12.01"/></svg>',
+    questions: [
+      {
+        q: "Is everything genuine?",
+        a: "100%. Every product is sourced directly from <strong>authorised distributors</strong>. We don't stock knockoffs, clones, or grey-market gear."
+      },
+      {
+        q: "What brands do you stock?",
+        a: "We carry all the big names including <strong>SMOK, Vaporesso, GeekVape, Voopoo, Uwell, Aspire, Innokin, FreeMax</strong>, and many more. Check our <a href='/collections'>collections page</a> for the full range."
+      },
+      {
+        q: "Do you sell nicotine e-liquids?",
+        a: "We sell nicotine-free e-liquids. For anything containing nicotine, you'll need to check <a href='https://www.tga.gov.au/nicotine-e-cigarettes' target='_blank' rel='noopener'>current Australian TGA regulations</a> regarding personal importation."
+      },
+      {
+        q: "How do I know which product is right for me?",
+        a: "Check out our <a href='/blog'>blog</a> for guides and comparisons, or email us at <a href='mailto:info@vapelink.com.au'>info@vapelink.com.au</a> and we'll personally recommend something based on your needs."
+      }
+    ]
+  },
+  {
+    title: "Returns & Refunds",
+    icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>',
+    questions: [
+      {
+        q: "What's your return policy?",
+        a: "We offer <strong>14-day returns</strong> on unused, unopened products in their original packaging. Items must be in resaleable condition. See our full <a href='/pages/refund-policy'>refund policy</a> for details."
+      },
+      {
+        q: "How do I return something faulty?",
+        a: "Email <a href='mailto:info@vapelink.com.au'>info@vapelink.com.au</a> with your order number, a description of the fault, and a photo. We'll sort it out — usually with a replacement or refund."
+      },
+      {
+        q: "How long do refunds take?",
+        a: "Once we receive and inspect the returned item, refunds are processed within <strong>3–5 business days</strong>. Bank transfers may take an additional 1–2 days to appear in your account."
+      }
+    ]
+  },
+  {
+    title: "Store & Contact",
+    icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>',
+    questions: [
+      {
+        q: "Where are you located?",
+        a: "Our shop is at <strong>5/951 Sydney Rd, Coburg North VIC 3058</strong>, Melbourne. Feel free to pop in during opening hours."
+      },
+      {
+        q: "What are your opening hours?",
+        a: "<strong>Mon–Fri:</strong> 10:30 AM – 7:30 PM<br /><strong>Saturday:</strong> 10:30 AM – 6:00 PM<br /><strong>Sunday:</strong> 10:30 AM – 4:00 PM<br /><strong>Public Holidays:</strong> Closed<br /><br />The online shop is always open at <a href='/'>vapelink.com.au</a>."
+      },
+      {
+        q: "How do I get in touch?",
+        a: "Email us at <a href='mailto:info@vapelink.com.au'>info@vapelink.com.au</a> or call <a href='tel:0451085862'>0451 085 862</a>. We usually reply within 24 hours on business days. You can also visit our <a href='/contact'>contact page</a>."
+      }
+    ]
+  }
+];
+
+// Build FAQ schema
+const allPairs = faqCategories.flatMap(cat => cat.questions.map(q => ({
+  question: q.q,
+  answer: q.a.replace(/<[^>]*>/g, '')
+})));
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "name": "Frequently Asked Questions — Vapelink Australia",
+  "description": "Find answers to common questions about ordering, shipping, products, returns and more at Vapelink Australia.",
+  "url": "https://vapelink.com.au/faq",
+  "isPartOf": { "@type": "WebSite", "@id": "https://vapelink.com.au/#website" },
+  "mainEntity": allPairs.map(faq => ({
+    "@type": "Question",
+    "name": faq.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": faq.answer
+    }
+  })),
+  "breadcrumb": {
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://vapelink.com.au/" },
+      { "@type": "ListItem", "position": 2, "name": "FAQ", "item": "https://vapelink.com.au/faq" }
+    ]
+  }
+};
+---
+
+<Layout title="FAQ — Frequently Asked Questions | Vapelink Australia" description="Find answers to common questions about ordering, shipping, payments, products, returns and more at Vapelink Australia.">
+  <Fragment slot="head">
+    <meta name="keywords" content="vapelink faq, vape shop questions, shipping australia vape, returns vape, payment methods vape, vapelink help" />
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  </Fragment>
+
+  <!-- Breadcrumb -->
+  <nav class="breadcrumb-bar" aria-label="Breadcrumb">
+    <div class="container">
+      <ol class="breadcrumb">
+        <li><a href="/">Home</a></li>
+        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></li>
+        <li><span class="breadcrumb-current">FAQ</span></li>
+      </ol>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="faq-hero">
+    <div class="container">
+      <span class="section-label">Help Centre</span>
+      <h1 class="font-display faq-hero-title">Frequently Asked Questions</h1>
+      <p class="faq-hero-desc">Got questions? We've got answers. Browse the categories below or search for something specific.</p>
+    </div>
+  </section>
+
+  <!-- Quick Nav -->
+  <section class="faq-nav-section">
+    <div class="container">
+      <div class="faq-nav">
+        {faqCategories.map((cat, i) => (
+          <a href={`#faq-${i}`} class="faq-nav-item">
+            <span class="faq-nav-icon" set:html={cat.icon} />
+            <span class="faq-nav-label">{cat.title}</span>
+            <span class="faq-nav-count">{cat.questions.length}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Sections -->
+  <section class="faq-content">
+    <div class="container">
+      {faqCategories.map((cat, i) => (
+        <div id={`faq-${i}`} class="faq-category">
+          <div class="faq-category-header">
+            <span class="faq-category-icon" set:html={cat.icon} />
+            <h2 class="font-display faq-category-title">{cat.title}</h2>
+          </div>
+          <div class="faq-list">
+            {cat.questions.map((item) => (
+              <details class="faq-item">
+                <summary class="faq-question">
+                  <span class="faq-q-text">{item.q}</span>
+                  <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+                </summary>
+                <div class="faq-answer" set:html={item.a} />
+              </details>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="faq-cta-section">
+    <div class="container">
+      <div class="faq-cta-box">
+        <h2 class="font-display" style="font-size:1.3rem;color:var(--color-text);margin-bottom:0.5rem;">Still Have Questions?</h2>
+        <p style="color:var(--color-text-secondary);font-size:0.88rem;margin-bottom:1.25rem;max-width:480px;margin-left:auto;margin-right:auto;">Can't find what you're looking for? Our team is happy to help — reach out anytime.</p>
+        <div style="display:flex;gap:0.75rem;flex-wrap:wrap;justify-content:center;">
+          <a href="/contact" class="btn-primary" style="padding:0.7rem 1.75rem;">Contact Us</a>
+          <a href="/collections/shop" class="btn-secondary" style="padding:0.7rem 1.75rem;">Shop Now</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style is:global>
+  .breadcrumb-bar { background: var(--color-surface); border-bottom: 1px solid var(--color-border); padding: 0.85rem 0; }
+  .breadcrumb { display: flex; align-items: center; gap: 0.45rem; flex-wrap: wrap; font-size: 0.8rem; list-style: none; }
+  .breadcrumb a { color: var(--color-text-secondary); text-decoration: none; transition: color 0.15s ease; }
+  .breadcrumb a:hover { color: var(--color-accent); }
+  .breadcrumb svg { color: var(--color-text-dim); }
+  .breadcrumb-current { color: var(--color-text); font-weight: 500; }
+
+  .faq-hero {
+    padding: 5rem 0 3.5rem;
+    text-align: center;
+    background: linear-gradient(180deg, #F0FDF4 0%, var(--color-bg) 100%);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .faq-hero-title {
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 800;
+    color: var(--color-text);
+    margin-top: 0.35rem;
+    margin-bottom: 0.65rem;
+    letter-spacing: -0.02em;
+  }
+  .faq-hero-desc {
+    color: var(--color-text-secondary);
+    font-size: 1.05rem;
+    max-width: 540px;
+    margin: 0 auto;
+    line-height: 1.65;
+  }
+
+  /* Quick Nav */
+  .faq-nav-section { padding: 2rem 0 0.5rem; }
+  .faq-nav {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+  @media (min-width: 640px) { .faq-nav { grid-template-columns: repeat(3, 1fr); } }
+  @media (min-width: 900px) { .faq-nav { grid-template-columns: repeat(5, 1fr); } }
+  .faq-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 1.15rem 0.75rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+    cursor: pointer;
+  }
+  .faq-nav-item:hover {
+    border-color: var(--color-accent);
+    box-shadow: 0 4px 16px rgba(22, 163, 74, 0.1);
+    transform: translateY(-2px);
+  }
+  .faq-nav-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #F0FDF4, #DCFCE7);
+    border-radius: var(--radius-md);
+    color: var(--color-accent);
+  }
+  .faq-nav-label {
+    font-family: var(--font-display);
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--color-text);
+    text-align: center;
+  }
+  .faq-nav-count {
+    font-size: 0.68rem;
+    color: var(--color-text-muted);
+    background: var(--color-surface-alt);
+    padding: 0.1rem 0.45rem;
+    border-radius: var(--radius-full);
+  }
+
+  /* FAQ Content */
+  .faq-content {
+    padding: 2rem 0 3rem;
+    max-width: 780px;
+    margin: 0 auto;
+  }
+  .faq-category {
+    margin-bottom: 2.5rem;
+    scroll-margin-top: 100px;
+  }
+  .faq-category:last-child { margin-bottom: 0; }
+  .faq-category-header {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.85rem;
+    border-bottom: 2px solid var(--color-border);
+  }
+  .faq-category-icon {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #F0FDF4, #DCFCE7);
+    border-radius: var(--radius-md);
+    color: var(--color-accent);
+    flex-shrink: 0;
+  }
+  .faq-category-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .faq-item {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .faq-item:hover {
+    border-color: var(--color-border-hover);
+  }
+  .faq-item[open] {
+    border-color: rgba(22, 163, 74, 0.3);
+    box-shadow: 0 2px 12px rgba(22, 163, 74, 0.06);
+  }
+  .faq-question {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+    transition: background 0.15s;
+  }
+  .faq-question::-webkit-details-marker { display: none; }
+  .faq-question::marker { display: none; content: ''; }
+  .faq-question:hover { background: var(--color-surface-alt); }
+  .faq-q-text {
+    font-family: var(--font-display);
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--color-text);
+    line-height: 1.4;
+  }
+  .faq-chevron {
+    color: var(--color-text-muted);
+    flex-shrink: 0;
+    transition: transform 0.25s var(--ease-out);
+  }
+  .faq-item[open] .faq-chevron { transform: rotate(180deg); }
+  .faq-item[open] .faq-q-text { color: var(--color-accent); }
+  .faq-answer {
+    padding: 0 1.25rem 1.15rem;
+    font-size: 0.88rem;
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+    border-top: 1px solid var(--color-border);
+    padding-top: 1rem;
+  }
+  .faq-answer a {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    font-weight: 500;
+  }
+  .faq-answer a:hover { color: var(--color-accent-hover); }
+  .faq-answer strong { color: var(--color-text); font-weight: 600; }
+
+  .faq-cta-section { padding: 0 0 4rem; }
+  .faq-cta-box {
+    background: linear-gradient(145deg, #F0FDF4 0%, #DCFCE7 100%);
+    border: 1px solid rgba(22, 163, 74, 0.2);
+    border-radius: var(--radius-xl);
+    padding: 3rem 2rem;
+    text-align: center;
+    box-shadow: 0 4px 24px rgba(22, 163, 74, 0.08);
+  }
+</style>
