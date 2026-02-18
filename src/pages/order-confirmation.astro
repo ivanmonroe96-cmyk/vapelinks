@@ -35,7 +35,7 @@ import siteData from '../data/site.json';
       <div id="bank-payment-section" class="payment-instruction-section" style="display:none;">
         <div class="payment-instruction-card bank-card">
           <div class="payment-instruction-header">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 10h20"/><path d="M6 16h4"/></svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><path d="M3 21h18"/><path d="M3 10h18"/><path d="M5 6l7-3 7 3"/><path d="M4 10v11"/><path d="M20 10v11"/><path d="M8 14v4"/><path d="M12 14v4"/><path d="M16 14v4"/></svg>
             <h3 class="font-display">Bank Transfer / PayID</h3>
           </div>
 
@@ -43,9 +43,9 @@ import siteData from '../data/site.json';
             <div class="bank-pending-icon">
               <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
             </div>
-            <h4 class="font-display" style="font-size:1.1rem;font-weight:700;color:var(--color-text);margin-top:1rem;">Bank Details Coming to Your Inbox</h4>
+            <h4 class="font-display" style="font-size:1.1rem;font-weight:700;color:var(--color-text);margin-top:1rem;">Payment Details Coming to Your Inbox</h4>
             <p style="color:var(--color-text-secondary);font-size:0.92rem;line-height:1.7;margin-top:0.65rem;max-width:480px;">
-              Thank you for placing your order! Our team will review it and send the <strong style="color:var(--color-text);">bank transfer / PayID payment details</strong> to your email address shortly.
+              Thank you for placing your order! Our team will review it and send the <strong style="color:var(--color-text);">bank transfer or PayID payment details</strong> to your email address shortly.
             </p>
 
             <div class="bank-pending-details">
@@ -1220,7 +1220,7 @@ import siteData from '../data/site.json';
       if (totalEl) totalEl.textContent = `$${grandTotal.toFixed(2)} AUD`;
 
       // ═══ Payment-specific rendering ═══
-      if (order.payment === 'bank') {
+      if (order.payment === 'bank' || order.payment === 'payid') {
         renderBankPayment(order, grandTotal);
       } else if (order.payment === 'bitcoin') {
         renderBitcoinPayment(order, grandTotal);
