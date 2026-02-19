@@ -7,7 +7,7 @@ const resend = new Resend(import.meta.env.RESEND_API_KEY);
 
 // Default sender — uses Resend's onboarding domain until custom domain is verified
 const FROM_EMAIL = 'Vapelink Australia <onboarding@resend.dev>';
-const ADMIN_EMAIL = 'info@vapelink.com.au';
+const ADMIN_EMAIL = 'info@vapelinks.com.au';
 
 export const POST: APIRoute = async ({ request }) => {
   try {
@@ -116,7 +116,7 @@ export const POST: APIRoute = async ({ request }) => {
                 <p style="font-size:14px;color:#475569;margin:0;">${data.firstName} ${data.lastName}<br/>${[data.address, data.address2, data.city, `${data.state} ${data.postcode}`, 'Australia'].filter(Boolean).join(', ')}</p>
               </div>
               <div style="padding:20px;text-align:center;background:#f8fafc;border:1px solid #e5e7eb;border-top:none;border-radius:0 0 12px 12px;">
-                <p style="font-size:13px;color:#64748b;margin:0;">Need help? Email us at <a href="mailto:info@vapelink.com.au" style="color:#16a34a;">info@vapelink.com.au</a></p>
+                <p style="font-size:13px;color:#64748b;margin:0;">Need help? Email us at <a href="mailto:info@vapelinks.com.au" style="color:#16a34a;">info@vapelinks.com.au</a></p>
                 <p style="font-size:12px;color:#94a3b8;margin:8px 0 0;">Vapelink Australia · vapelink.com.au</p>
               </div>
             </div>
