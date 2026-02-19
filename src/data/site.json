@@ -13,12 +13,5 @@
     "pay_id": "info@vapelink.com.au",
     "pay_id_type": "Email"
   },
-  "bitcoin_address": "bc1qxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-  "emailjs": {
-    "public_key": "YOUR_EMAILJS_PUBLIC_KEY",
-    "service_id": "YOUR_EMAILJS_SERVICE_ID",
-    "admin_template_id": "YOUR_ADMIN_TEMPLATE_ID",
-    "user_template_id": "YOUR_USER_TEMPLATE_ID",
-    "admin_email": "info@vapelink.com.au"
-  }
+  "bitcoin_address": "bc1qxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 }

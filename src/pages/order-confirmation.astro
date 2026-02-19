@@ -894,16 +894,13 @@ import siteData from '../data/site.json';
     }
   </style>
 
-  <!-- EmailJS config passed from server -->
-  <script define:vars={{ emailjsConfig: (siteData as any).emailjs || {}, siteContactEmail: siteData.contact_email }}>
-    window.__VAPELINK_EMAIL_CONFIG = { emailjs: emailjsConfig, contactEmail: siteContactEmail };
-  </script>
+
 
   <script>
     // ═══════════════════════════════════════════════════════════════
     // Vapelink Order Confirmation — Bitcoin Blockchain Monitor
     // Uses Mempool.space API for real blockchain monitoring
-    // Uses EmailJS for email notifications
+    // Uses Resend API for email notifications (server-side)
     // ═══════════════════════════════════════════════════════════════
 
     const shippingLabels: Record<string, string> = {
@@ -916,10 +913,7 @@ import siteData from '../data/site.json';
       bitcoin: 'Bitcoin (BTC)'
     };
 
-    // ── Config from server ──
-    const __emailConfig = (window as any).__VAPELINK_EMAIL_CONFIG || {};
-    const emailjsConfig = __emailConfig.emailjs || {};
-    const contactEmail = __emailConfig.contactEmail || '';
+
 
     // ── Constants ──
     const PAYMENT_WINDOW_SECS = 30 * 60; // 30 minute payment window
@@ -930,96 +924,80 @@ import siteData from '../data/site.json';
     // ── State ──
     let btcTimerInterval: any = null;
     let btcPollInterval: any = null;
-    let emailjsLoaded = false;
     let adminEmailSent = false;
     let userEmailSent = false;
     let btcAmountForOrder = '';
     let detectedTxId = '';
 
     // ═══════════════════════════════════════════
-    // EmailJS Integration
+    // Resend Email Integration (Server-side API)
     // ═══════════════════════════════════════════
-
-    function loadEmailJS(): Promise<boolean> {
-      return new Promise((resolve) => {
-        if ((window as any).emailjs) {
-          (window as any).emailjs.init(emailjsConfig.public_key);
-          emailjsLoaded = true;
-          resolve(true);
-          return;
-        }
-        const script = document.createElement('script');
-        script.src = 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js';
-        script.onload = () => {
-          try {
-            (window as any).emailjs.init(emailjsConfig.public_key);
-            emailjsLoaded = true;
-            resolve(true);
-          } catch { resolve(false); }
-        };
-        script.onerror = () => resolve(false);
-        document.head.appendChild(script);
-      });
-    }
-
-    async function sendEmail(templateId: string, params: Record<string, string>): Promise<boolean> {
-      if (!emailjsLoaded || !emailjsConfig.service_id || !emailjsConfig.public_key || !templateId) {
-        console.warn('EmailJS not configured — skipping email send. Configure emailjs in site.json.');
-        return false;
-      }
-      try {
-        await (window as any).emailjs.send(emailjsConfig.service_id, templateId, params);
-        console.log('Email sent successfully via template:', templateId);
-        return true;
-      } catch (e) {
-        console.error('Email send error:', e);
-        return false;
-      }
-    }
-
-    function formatItemsList(items: any[]): string {
-      return items.map((item: any) =>
-        `${item.title} x${item.qty || 1} — $${(parseFloat(item.price || '0') * (item.qty || 1)).toFixed(2)}`
-      ).join('\n');
-    }
 
     async function sendAdminOrderEmail(order: any) {
       if (adminEmailSent) return;
       adminEmailSent = true;
-      await sendEmail(emailjsConfig.admin_template_id, {
-        to_email: emailjsConfig.admin_email || contactEmail,
-        order_number: order.orderNumber,
-        customer_name: `${order.firstName} ${order.lastName}`,
-        customer_email: order.email,
-        customer_phone: order.phone || 'Not provided',
-        items: formatItemsList(order.items || []),
-        total_aud: `$${order.total.toFixed(2)} AUD`,
-        total_btc: btcAmountForOrder || 'N/A',
-        payment_method: 'Bitcoin (BTC)',
-        shipping_method: order.shipping === 'express' ? 'Express Shipping' : 'Standard Shipping',
-        shipping_address: [order.address, order.address2, order.city, order.state, order.postcode, 'Australia'].filter(Boolean).join(', '),
-        order_date: new Date(order.date).toLocaleString('en-AU'),
-        status: 'Payment Confirmed (2+ blockchain confirmations)',
-        tx_id: detectedTxId || 'N/A',
-        notes: order.notes || 'None'
-      });
+      try {
+        await fetch('/api/send-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            type: 'btc-confirmed',
+            data: {
+              orderNumber: order.orderNumber,
+              firstName: order.firstName,
+              lastName: order.lastName,
+              email: order.email,
+              phone: order.phone,
+              items: order.items,
+              total: order.total.toFixed(2),
+              btcAmount: btcAmountForOrder || 'N/A',
+              txId: detectedTxId || 'N/A',
+              confirmations: REQUIRED_CONFIRMATIONS + '+',
+              date: order.date
+            }
+          })
+        });
+        console.log('Admin order email sent via Resend');
+      } catch (e) {
+        console.error('Admin email error:', e);
+      }
     }
 
     async function sendUserConfirmationEmail(order: any) {
       if (userEmailSent) return;
       userEmailSent = true;
-      await sendEmail(emailjsConfig.user_template_id, {
-        to_email: order.email,
-        customer_name: order.firstName,
-        order_number: order.orderNumber,
-        items: formatItemsList(order.items || []),
-        total_aud: `$${order.total.toFixed(2)} AUD`,
-        total_btc: btcAmountForOrder || 'N/A',
-        payment_method: 'Bitcoin (BTC)',
-        order_date: new Date(order.date).toLocaleString('en-AU'),
-        shipping_method: order.shipping === 'express' ? 'Express Shipping (2–4 business days)' : 'Standard Shipping (5–10 business days)',
-        tx_id: detectedTxId || 'N/A'
-      });
+      try {
+        await fetch('/api/send-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            type: 'customer-confirmation',
+            data: {
+              orderNumber: order.orderNumber,
+              firstName: order.firstName,
+              lastName: order.lastName,
+              email: order.email,
+              address: order.address,
+              address2: order.address2,
+              city: order.city,
+              state: order.state,
+              postcode: order.postcode,
+              items: order.items,
+              subtotal: order.subtotal?.toFixed(2) || order.total.toFixed(2),
+              shippingMethod: order.shipping === 'express' ? 'Express Shipping' : 'Standard Shipping',
+              shippingCost: order.shippingCost?.toFixed(2) || '0.00',
+              total: order.total.toFixed(2),
+              paymentMethod: 'Bitcoin (BTC)',
+              btcAmount: btcAmountForOrder || 'N/A',
+              txId: detectedTxId || 'N/A',
+              date: order.date
+            }
+          })
+        });
+        console.log('Customer confirmation email sent via Resend');
+      } catch (e) {
+        console.error('Customer email error:', e);
+      }
     }
 
     // ═══════════════════════════════════════════
@@ -1329,9 +1307,6 @@ import siteData from '../data/site.json';
           setTimeout(() => { if (copyText) copyText.textContent = 'Copy'; }, 2000);
         });
       });
-
-      // Load EmailJS in the background
-      loadEmailJS();
 
       // Start countdown timer + blockchain monitoring
       startPaymentMonitor(order, btcAddr, expectedSatoshis);

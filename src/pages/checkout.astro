@@ -670,7 +670,7 @@ import siteData from '../data/site.json';
     }
   </style>
 
-  <script define:vars={{ contactEmail: siteData.contact_email, bankDetails: siteData.bank_details, bitcoinAddress: siteData.bitcoin_address, emailjsConfig: (siteData).emailjs || {} }}>
+  <script define:vars={{ contactEmail: siteData.contact_email, bankDetails: siteData.bank_details, bitcoinAddress: siteData.bitcoin_address }}>
     function getCart() {
       try { return JSON.parse(localStorage.getItem('vapelink_cart') || '[]'); } catch { return []; }
     }
@@ -881,39 +881,37 @@ import siteData from '../data/site.json';
         }
       } catch {}
 
-      // Send initial admin notification for Bitcoin orders
-      if (paymentMethod === 'bitcoin' && emailjsConfig.public_key && emailjsConfig.service_id && emailjsConfig.admin_template_id) {
-        try {
-          // Load EmailJS dynamically and send admin notification
-          const ejsScript = document.createElement('script');
-          ejsScript.src = 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js';
-          ejsScript.onload = function() {
-            try {
-              emailjs.init(emailjsConfig.public_key);
-              const itemsList = cart.map(function(item) {
-                return item.title + ' x' + (item.qty || 1) + ' — $' + (parseFloat(item.price || '0') * (item.qty || 1)).toFixed(2);
-              }).join('\n');
-              emailjs.send(emailjsConfig.service_id, emailjsConfig.admin_template_id, {
-                to_email: emailjsConfig.admin_email || contactEmail,
-                order_number: orderData.orderNumber,
-                customer_name: orderData.firstName + ' ' + orderData.lastName,
-                customer_email: orderData.email,
-                customer_phone: orderData.phone || 'Not provided',
-                items: itemsList,
-                total_aud: '$' + orderData.total.toFixed(2) + ' AUD',
-                total_btc: 'Pending BTC rate lookup',
-                payment_method: 'Bitcoin (BTC) — Awaiting Payment',
-                shipping_method: shippingMethod === 'express' ? 'Express Shipping' : 'Standard Shipping',
-                shipping_address: [orderData.address, orderData.address2, orderData.city, orderData.state, orderData.postcode, 'Australia'].filter(Boolean).join(', '),
-                order_date: new Date(orderData.date).toLocaleString('en-AU'),
-                status: 'New Order — Awaiting Bitcoin Payment',
-                notes: orderData.notes || 'None'
-              });
-            } catch(e) { console.error('Admin email error:', e); }
-          };
-          document.head.appendChild(ejsScript);
-        } catch(e) { console.error('EmailJS load error:', e); }
-      }
+      // Send admin notification for new orders via Resend API
+      try {
+        fetch('/api/send-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            type: 'admin-order',
+            data: {
+              orderNumber: orderData.orderNumber,
+              firstName: orderData.firstName,
+              lastName: orderData.lastName,
+              email: orderData.email,
+              phone: orderData.phone,
+              address: orderData.address,
+              address2: orderData.address2,
+              city: orderData.city,
+              state: orderData.state,
+              postcode: orderData.postcode,
+              items: orderData.items,
+              subtotal: orderData.subtotal.toFixed(2),
+              shippingMethod: shippingMethod === 'express' ? 'Express Shipping' : 'Standard Shipping',
+              shippingCost: shipCost.toFixed(2),
+              total: orderData.total.toFixed(2),
+              paymentMethod: paymentMethod === 'bitcoin' ? 'Bitcoin (BTC) — Awaiting Payment' : paymentMethod === 'bank' ? 'Bank Transfer' : 'PayID',
+              status: paymentMethod === 'bitcoin' ? 'New Order — Awaiting Bitcoin Payment' : 'New Order — Pending Payment',
+              date: orderData.date,
+              notes: orderData.notes
+            }
+          })
+        }).catch(function(e) { console.error('Admin email error:', e); });
+      } catch(e) { console.error('Email send error:', e); }
 
       // Clear cart
       saveCart([]);

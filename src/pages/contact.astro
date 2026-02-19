@@ -266,21 +266,24 @@ import siteData from '../data/site.json';
       submitBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="spin"><circle cx="12" cy="12" r="10"/></svg> Sending...';
 
       try {
-        // Store message to localStorage as fallback (since EmailJS may not be configured)
-        const messages = JSON.parse(localStorage.getItem('vapelink_contact_messages') || '[]');
-        messages.push({ name, email, subject, message, date: new Date().toISOString() });
-        localStorage.setItem('vapelink_contact_messages', JSON.stringify(messages));
+        const res = await fetch('/api/send-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            type: 'contact',
+            data: { name, email, subject: subject || 'General Enquiry', message }
+          })
+        });
 
-        // Construct mailto fallback
-        const mailSubject = encodeURIComponent(subject ? `[Vapelink Contact] ${subject}` : '[Vapelink Contact] New Message');
-        const mailBody = encodeURIComponent(`Name: ${name}\nEmail: ${email}\nSubject: ${subject || 'General'}\n\nMessage:\n${message}`);
-
-        // Open email client as a reliable approach
-        window.location.href = `mailto:info@vapelink.com.au?subject=${mailSubject}&body=${mailBody}`;
+        if (!res.ok) {
+          const errData = await res.json().catch(() => ({}));
+          throw new Error(errData.error || 'Failed to send message');
+        }
 
         successEl.style.display = 'flex';
         form.reset();
-      } catch (err) {
+      } catch (err: any) {
+        errorEl.querySelector('span')!.textContent = err.message || 'Something went wrong. Please try again or email us directly at info@vapelink.com.au';
         errorEl.style.display = 'flex';
       } finally {
         submitBtn.disabled = false;
