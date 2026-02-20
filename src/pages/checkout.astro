@@ -881,37 +881,52 @@ import siteData from '../data/site.json';
         }
       } catch {}
 
-      // Send admin notification for new orders via Resend API
+      // Send order emails via Resend API
+      const emailPayload = {
+        orderNumber: orderData.orderNumber,
+        firstName: orderData.firstName,
+        lastName: orderData.lastName,
+        email: orderData.email,
+        phone: orderData.phone,
+        address: orderData.address,
+        address2: orderData.address2,
+        city: orderData.city,
+        state: orderData.state,
+        postcode: orderData.postcode,
+        items: orderData.items,
+        subtotal: orderData.subtotal.toFixed(2),
+        shippingMethod: shippingMethod === 'express' ? 'Express Shipping' : 'Standard Shipping',
+        shippingCost: shipCost.toFixed(2),
+        total: orderData.total.toFixed(2),
+        paymentMethod: paymentMethod === 'bitcoin' ? 'Bitcoin (BTC) — Awaiting Payment' : paymentMethod === 'bank' ? 'Bank Transfer' : 'PayID',
+        status: paymentMethod === 'bitcoin' ? 'New Order — Awaiting Bitcoin Payment' : 'New Order — Pending Payment',
+        date: orderData.date,
+        notes: orderData.notes
+      };
+
+      // Send admin notification
       try {
         fetch('/api/send-email', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            type: 'admin-order',
-            data: {
-              orderNumber: orderData.orderNumber,
-              firstName: orderData.firstName,
-              lastName: orderData.lastName,
-              email: orderData.email,
-              phone: orderData.phone,
-              address: orderData.address,
-              address2: orderData.address2,
-              city: orderData.city,
-              state: orderData.state,
-              postcode: orderData.postcode,
-              items: orderData.items,
-              subtotal: orderData.subtotal.toFixed(2),
-              shippingMethod: shippingMethod === 'express' ? 'Express Shipping' : 'Standard Shipping',
-              shippingCost: shipCost.toFixed(2),
-              total: orderData.total.toFixed(2),
-              paymentMethod: paymentMethod === 'bitcoin' ? 'Bitcoin (BTC) — Awaiting Payment' : paymentMethod === 'bank' ? 'Bank Transfer' : 'PayID',
-              status: paymentMethod === 'bitcoin' ? 'New Order — Awaiting Bitcoin Payment' : 'New Order — Pending Payment',
-              date: orderData.date,
-              notes: orderData.notes
-            }
-          })
-        }).catch(function(e) { console.error('Admin email error:', e); });
+          body: JSON.stringify({ type: 'admin-order', data: emailPayload })
+        })
+          .then(function(r) { return r.json(); })
+          .then(function(d) { if (d.error) console.error('Admin email error:', d.error); })
+          .catch(function(e) { console.error('Admin email fetch error:', e); });
       } catch(e) { console.error('Email send error:', e); }
+
+      // Send customer confirmation email
+      try {
+        fetch('/api/send-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ type: 'customer-confirmation', data: emailPayload })
+        })
+          .then(function(r) { return r.json(); })
+          .then(function(d) { if (d.error) console.error('Customer email error:', d.error); })
+          .catch(function(e) { console.error('Customer email fetch error:', e); });
+      } catch(e) { console.error('Customer email error:', e); }
 
       // Clear cart
       saveCart([]);

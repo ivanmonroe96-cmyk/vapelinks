@@ -35,7 +35,7 @@ import siteData from '../data/site.json';
       <div id="bank-payment-section" class="payment-instruction-section" style="display:none;">
         <div class="payment-instruction-card bank-card">
           <div class="payment-instruction-header">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><path d="M3 21h18"/><path d="M3 10h18"/><path d="M5 6l7-3 7 3"/><path d="M4 10v11"/><path d="M20 10v11"/><path d="M8 14v4"/><path d="M12 14v4"/><path d="M16 14v4"/></svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 10h20"/><path d="M6 16h4"/></svg>
             <h3 class="font-display">Bank Transfer / PayID</h3>
           </div>
 
@@ -43,9 +43,9 @@ import siteData from '../data/site.json';
             <div class="bank-pending-icon">
               <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
             </div>
-            <h4 class="font-display" style="font-size:1.1rem;font-weight:700;color:var(--color-text);margin-top:1rem;">Payment Details Coming to Your Inbox</h4>
+            <h4 class="font-display" style="font-size:1.1rem;font-weight:700;color:var(--color-text);margin-top:1rem;">Bank Details Coming to Your Inbox</h4>
             <p style="color:var(--color-text-secondary);font-size:0.92rem;line-height:1.7;margin-top:0.65rem;max-width:480px;">
-              Thank you for placing your order! Our team will review it and send the <strong style="color:var(--color-text);">bank transfer or PayID payment details</strong> to your email address shortly.
+              Thank you for placing your order! Our team will review it and send the <strong style="color:var(--color-text);">bank transfer / PayID payment details</strong> to your email address shortly.
             </p>
 
             <div class="bank-pending-details">
@@ -74,7 +74,7 @@ import siteData from '../data/site.json';
       <div id="bitcoin-payment-section" class="payment-instruction-section" style="display:none;">
         <div class="payment-instruction-card bitcoin-card">
           <div class="payment-instruction-header">
-            <svg width="24" height="24" viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="32" fill="#F7931A"/><path d="M46.1 27.4c.6-4.2-2.6-6.5-7-8l1.4-5.7-3.5-.9-1.4 5.5c-.9-.2-1.9-.4-2.8-.7l1.4-5.5-3.5-.9-1.4 5.7c-.8-.2-1.5-.3-2.2-.5l0 0-4.8-1.2-1 3.7s2.6.6 2.5.6c1.4.4 1.7 1.3 1.6 2l-1.6 6.5c.1 0 .2.1.3.1l-.3-.1-2.3 9.1c-.2.4-.6 1.1-1.6.8 0 0-2.5-.6-2.5-.6l-1.7 4 4.5 1.1c.8.2 1.7.4 2.5.6l-1.5 5.8 3.5.9 1.4-5.7c1 .3 1.9.5 2.8.7l-1.4 5.7 3.5.9 1.5-5.8c5.8 1.1 10.2.7 12-4.6 1.5-4.2-.1-6.7-3.2-8.3 2.2-.5 3.9-2 4.4-5.1zM39.5 38.2c-1.1 4.2-8.2 1.9-10.5 1.4l1.9-7.5c2.3.6 9.7 1.7 8.6 6.1zm1-10.9c-1 3.9-6.9 1.9-8.8 1.4l1.7-6.8c2 .5 8.2 1.4 7.1 5.4z" fill="white"/></svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f7931a" stroke-width="2"><path d="M11.767 19.089c4.924.868 6.14-6.025 1.216-6.894m-1.216 6.894L5.86 18.047m5.908 1.042-.347 1.97m1.563-8.864c4.924.869 6.14-6.025 1.215-6.893m-1.215 6.893-3.94-.694m5.155-6.2L8.29 4.26m5.908 1.042.348-1.97M7.48 20.364l3.126-17.727"/></svg>
             <h3 class="font-display">Bitcoin Payment</h3>
           </div>
           <p class="payment-instruction-desc">Scan the QR code below or copy the Bitcoin address to send your payment.</p>
@@ -82,12 +82,8 @@ import siteData from '../data/site.json';
           <!-- BTC Amount and Timer -->
           <div class="btc-payment-status">
             <div class="btc-amount-box">
-              <span class="btc-amount-label">Amount (AUD)</span>
+              <span class="btc-amount-label">Amount Due (AUD)</span>
               <span id="btc-aud-amount" class="btc-amount-value font-display">$0.00</span>
-            </div>
-            <div class="btc-amount-box">
-              <span class="btc-amount-label">Amount (BTC)</span>
-              <span id="btc-btc-amount" class="btc-amount-value font-display" style="color:#f7931a;">Loading...</span>
             </div>
             <div class="btc-timer-box" id="btc-timer-box">
               <span class="btc-timer-label">Payment Window</span>
@@ -136,15 +132,9 @@ import siteData from '../data/site.json';
               </div>
               <div class="btc-progress-step" id="btc-step-3">
                 <span class="btc-step-dot"></span>
-                <span class="btc-step-text">2 Confirmations</span>
+                <span class="btc-step-text">Confirmed</span>
               </div>
             </div>
-          </div>
-
-          <!-- Confirmation counter -->
-          <div id="btc-confirmations" class="btc-confirmations" style="display:none;">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            <span>Blockchain Confirmations: <strong id="btc-conf-count">0</strong> / 2</span>
           </div>
 
           <!-- Completed state (hidden initially) -->
@@ -269,7 +259,7 @@ import siteData from '../data/site.json';
 
       <div id="next-steps-bitcoin" class="confirmation-next-steps" style="display:none;">
         <div class="next-step-card">
-          <svg width="20" height="20" viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="32" fill="#F7931A"/><path d="M46.1 27.4c.6-4.2-2.6-6.5-7-8l1.4-5.7-3.5-.9-1.4 5.5c-.9-.2-1.9-.4-2.8-.7l1.4-5.5-3.5-.9-1.4 5.7c-.8-.2-1.5-.3-2.2-.5l0 0-4.8-1.2-1 3.7s2.6.6 2.5.6c1.4.4 1.7 1.3 1.6 2l-1.6 6.5c.1 0 .2.1.3.1l-.3-.1-2.3 9.1c-.2.4-.6 1.1-1.6.8 0 0-2.5-.6-2.5-.6l-1.7 4 4.5 1.1c.8.2 1.7.4 2.5.6l-1.5 5.8 3.5.9 1.4-5.7c1 .3 1.9.5 2.8.7l-1.4 5.7 3.5.9 1.5-5.8c5.8 1.1 10.2.7 12-4.6 1.5-4.2-.1-6.7-3.2-8.3 2.2-.5 3.9-2 4.4-5.1zM39.5 38.2c-1.1 4.2-8.2 1.9-10.5 1.4l1.9-7.5c2.3.6 9.7 1.7 8.6 6.1zm1-10.9c-1 3.9-6.9 1.9-8.8 1.4l1.7-6.8c2 .5 8.2 1.4 7.1 5.4z" fill="white"/></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f7931a" stroke-width="2"><path d="M11.767 19.089c4.924.868 6.14-6.025 1.216-6.894m-1.216 6.894L5.86 18.047m5.908 1.042-.347 1.97m1.563-8.864c4.924.869 6.14-6.025 1.215-6.893m-1.215 6.893-3.94-.694m5.155-6.2L8.29 4.26m5.908 1.042.348-1.97M7.48 20.364l3.126-17.727"/></svg>
           <div>
             <h4 class="font-display" style="font-size:0.88rem;font-weight:700;color:var(--color-text);">Send Bitcoin Payment</h4>
             <p style="font-size:0.78rem;color:var(--color-text-secondary);margin-top:0.15rem;">Scan the QR code or copy the Bitcoin address above and send the exact amount from your wallet.</p>
@@ -322,32 +312,27 @@ import siteData from '../data/site.json';
     .confirmation-header {
       text-align: center;
       margin-bottom: 2.5rem;
-      padding: 3rem 2rem;
-      background: linear-gradient(145deg, #F0FDF4 0%, #DCFCE7 100%);
-      border: 1px solid rgba(22,163,74,0.18);
-      border-radius: var(--radius-xl);
-      box-shadow: 0 8px 40px rgba(22,163,74,0.08);
     }
     .confirmation-check {
-      width: 68px;
-      height: 68px;
+      width: 64px;
+      height: 64px;
       border-radius: 50%;
-      background: linear-gradient(135deg, var(--color-accent) 0%, #15803d 100%);
+      background: var(--color-accent);
       display: flex;
       align-items: center;
       justify-content: center;
       margin: 0 auto 1.25rem;
-      box-shadow: 0 6px 24px rgba(22,163,74,0.35);
+      box-shadow: 0 4px 20px rgba(22, 163, 74, 0.3);
     }
     .confirmation-check.btc-waiting {
-      background: linear-gradient(135deg, #f7931a 0%, #e67e00 100%);
-      box-shadow: 0 6px 24px rgba(247, 147, 26, 0.35);
+      background: #f7931a;
+      box-shadow: 0 4px 20px rgba(247, 147, 26, 0.3);
     }
     .confirmation-title {
-      font-size: 1.85rem;
+      font-size: 1.75rem;
       font-weight: 800;
       color: var(--color-text);
-      letter-spacing: -0.025em;
+      letter-spacing: -0.02em;
     }
     .confirmation-subtitle {
       color: var(--color-text-secondary);
@@ -363,22 +348,21 @@ import siteData from '../data/site.json';
       flex-direction: column;
       align-items: center;
       gap: 0.25rem;
-      margin-top: 1.5rem;
-      padding: 1rem 2.25rem;
-      background: var(--color-surface);
-      border: 1.5px solid rgba(22,163,74,0.25);
-      border-radius: var(--radius-lg);
-      box-shadow: 0 4px 16px rgba(22,163,74,0.1);
+      margin-top: 1.25rem;
+      padding: 0.85rem 1.75rem;
+      background: var(--color-surface-alt);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
     }
     .confirmation-order-num span {
-      font-size: 0.7rem;
-      font-weight: 700;
+      font-size: 0.72rem;
+      font-weight: 600;
       color: var(--color-text-muted);
       text-transform: uppercase;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.06em;
     }
     .confirmation-order-num strong {
-      font-size: 1.25rem;
+      font-size: 1.15rem;
       color: var(--color-accent);
     }
 
@@ -504,33 +488,12 @@ import siteData from '../data/site.json';
     /* ── Bitcoin Payment ── */
     .btc-payment-status {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr;
       gap: 0.75rem;
       margin-bottom: 1.5rem;
     }
     @media (max-width: 640px) {
       .btc-payment-status { grid-template-columns: 1fr; }
-    }
-    .btc-confirmations {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      justify-content: center;
-      padding: 0.75rem 1rem;
-      background: var(--color-surface-alt);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-md);
-      margin-bottom: 1.5rem;
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--color-text-secondary);
-    }
-    .btc-confirmations strong {
-      color: #f7931a;
-      font-size: 1rem;
-    }
-    .btc-confirmations.confirmed strong {
-      color: var(--color-accent);
     }
     .btc-amount-box, .btc-timer-box, .btc-status-box {
       background: var(--color-surface-alt);
@@ -579,7 +542,7 @@ import siteData from '../data/site.json';
       animation: pulse-dot 1.5s ease-in-out infinite;
     }
     .btc-status-dot.detected {
-      background: #22c55e;
+      background: #3b82f6;
       animation: pulse-dot 0.8s ease-in-out infinite;
     }
     .btc-status-dot.confirmed {
@@ -643,7 +606,7 @@ import siteData from '../data/site.json';
     .btc-address-text {
       flex: 1;
       font-size: 0.82rem;
-      font-family: 'ui-monospace', 'SFMono-Regular', 'Monaco', 'Cascadia Code', monospace;
+      font-family: 'Space Grotesk', monospace;
       color: var(--color-text);
       word-break: break-all;
       line-height: 1.4;
@@ -781,12 +744,11 @@ import siteData from '../data/site.json';
 
     /* ── Items Card ── */
     .confirmation-items-card {
-      background: linear-gradient(180deg, var(--color-surface) 0%, #F0FDF4 100%);
+      background: var(--color-surface-alt);
       border: 1px solid var(--color-border);
-      border-radius: var(--radius-xl);
-      padding: 2rem;
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
       height: fit-content;
-      box-shadow: var(--shadow-md);
     }
     .conf-items-list {
       display: flex;
@@ -825,7 +787,7 @@ import siteData from '../data/site.json';
       color: var(--color-text-muted);
     }
     .conf-item-price {
-      font-family: var(--font-display);
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.82rem;
       font-weight: 600;
       color: var(--color-text);
@@ -869,16 +831,10 @@ import siteData from '../data/site.json';
       display: flex;
       gap: 0.85rem;
       align-items: flex-start;
-      padding: 1.35rem;
+      padding: 1.15rem;
       background: var(--color-surface);
       border: 1px solid var(--color-border);
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-sm);
-      transition: box-shadow 0.2s ease, transform 0.2s ease;
-    }
-    .next-step-card:hover {
-      box-shadow: var(--shadow-md);
-      transform: translateY(-2px);
+      border-radius: var(--radius-md);
     }
     .next-step-card svg {
       flex-shrink: 0;
@@ -894,15 +850,7 @@ import siteData from '../data/site.json';
     }
   </style>
 
-
-
   <script>
-    // ═══════════════════════════════════════════════════════════════
-    // Vapelink Order Confirmation — Bitcoin Blockchain Monitor
-    // Uses Mempool.space API for real blockchain monitoring
-    // Uses Resend API for email notifications (server-side)
-    // ═══════════════════════════════════════════════════════════════
-
     const shippingLabels: Record<string, string> = {
       standard: 'Standard Shipping (5–10 business days)',
       express: 'Express Shipping (2–4 business days)'
@@ -913,196 +861,7 @@ import siteData from '../data/site.json';
       bitcoin: 'Bitcoin (BTC)'
     };
 
-
-
-    // ── Constants ──
-    const PAYMENT_WINDOW_SECS = 30 * 60; // 30 minute payment window
-    const BLOCKCHAIN_POLL_INTERVAL = 15000; // Poll every 15 seconds
-    const REQUIRED_CONFIRMATIONS = 2;
-    const MEMPOOL_API = 'https://mempool.space/api';
-
-    // ── State ──
     let btcTimerInterval: any = null;
-    let btcPollInterval: any = null;
-    let adminEmailSent = false;
-    let userEmailSent = false;
-    let btcAmountForOrder = '';
-    let detectedTxId = '';
-
-    // ═══════════════════════════════════════════
-    // Resend Email Integration (Server-side API)
-    // ═══════════════════════════════════════════
-
-    async function sendAdminOrderEmail(order: any) {
-      if (adminEmailSent) return;
-      adminEmailSent = true;
-      try {
-        await fetch('/api/send-email', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            type: 'btc-confirmed',
-            data: {
-              orderNumber: order.orderNumber,
-              firstName: order.firstName,
-              lastName: order.lastName,
-              email: order.email,
-              phone: order.phone,
-              items: order.items,
-              total: order.total.toFixed(2),
-              btcAmount: btcAmountForOrder || 'N/A',
-              txId: detectedTxId || 'N/A',
-              confirmations: REQUIRED_CONFIRMATIONS + '+',
-              date: order.date
-            }
-          })
-        });
-        console.log('Admin order email sent via Resend');
-      } catch (e) {
-        console.error('Admin email error:', e);
-      }
-    }
-
-    async function sendUserConfirmationEmail(order: any) {
-      if (userEmailSent) return;
-      userEmailSent = true;
-      try {
-        await fetch('/api/send-email', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            type: 'customer-confirmation',
-            data: {
-              orderNumber: order.orderNumber,
-              firstName: order.firstName,
-              lastName: order.lastName,
-              email: order.email,
-              address: order.address,
-              address2: order.address2,
-              city: order.city,
-              state: order.state,
-              postcode: order.postcode,
-              items: order.items,
-              subtotal: order.subtotal?.toFixed(2) || order.total.toFixed(2),
-              shippingMethod: order.shipping === 'express' ? 'Express Shipping' : 'Standard Shipping',
-              shippingCost: order.shippingCost?.toFixed(2) || '0.00',
-              total: order.total.toFixed(2),
-              paymentMethod: 'Bitcoin (BTC)',
-              btcAmount: btcAmountForOrder || 'N/A',
-              txId: detectedTxId || 'N/A',
-              date: order.date
-            }
-          })
-        });
-        console.log('Customer confirmation email sent via Resend');
-      } catch (e) {
-        console.error('Customer email error:', e);
-      }
-    }
-
-    // ═══════════════════════════════════════════
-    // Bitcoin Price API
-    // ═══════════════════════════════════════════
-
-    async function fetchBtcAudRate(): Promise<number | null> {
-      // Try CoinGecko first
-      try {
-        const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=aud');
-        if (res.ok) {
-          const data = await res.json();
-          return data?.bitcoin?.aud || null;
-        }
-      } catch {}
-      // Fallback: Blockchain.info ticker
-      try {
-        const res = await fetch('https://blockchain.info/ticker');
-        if (res.ok) {
-          const data = await res.json();
-          return data?.AUD?.last || null;
-        }
-      } catch {}
-      return null;
-    }
-
-    function audToBtc(audAmount: number, btcRate: number): string {
-      return (audAmount / btcRate).toFixed(8);
-    }
-
-    function btcToSatoshis(btcString: string): number {
-      return Math.round(parseFloat(btcString) * 100000000);
-    }
-
-    // ═══════════════════════════════════════════
-    // Blockchain Monitoring (Mempool.space API)
-    // ═══════════════════════════════════════════
-
-    interface BlockchainResult {
-      found: boolean;
-      txid?: string;
-      amountSats?: number;
-      confirmations?: number;
-      error?: boolean;
-    }
-
-    async function pollBlockchain(address: string, expectedSatoshis: number, orderTimeMs: number): Promise<BlockchainResult> {
-      try {
-        const [txsRes, heightRes] = await Promise.all([
-          fetch(`${MEMPOOL_API}/address/${address}/txs`),
-          fetch(`${MEMPOOL_API}/blocks/tip/height`)
-        ]);
-
-        if (!txsRes.ok || !heightRes.ok) {
-          return { found: false, error: true };
-        }
-
-        const txs = await txsRes.json();
-        const currentHeight = parseInt(await heightRes.text());
-
-        if (!Array.isArray(txs)) return { found: false };
-
-        for (const tx of txs) {
-          // Look for an output sent to our address
-          const output = tx.vout?.find((out: any) => out.scriptpubkey_address === address);
-          if (!output) continue;
-
-          const receivedSats = output.value;
-
-          // Amount tolerance: accept within 2% to account for rounding and fee differences
-          if (expectedSatoshis > 0) {
-            const tolerance = expectedSatoshis * 0.02;
-            if (Math.abs(receivedSats - expectedSatoshis) > tolerance) continue;
-          }
-
-          // Timing check: skip transactions confirmed well before the order was placed
-          if (tx.status?.confirmed && tx.status?.block_time) {
-            const txTimeMs = tx.status.block_time * 1000;
-            // Allow 10 minutes grace before order time
-            if (txTimeMs < orderTimeMs - 600000) continue;
-          }
-
-          // Calculate confirmations
-          const confirmations = tx.status?.confirmed
-            ? (currentHeight - tx.status.block_height + 1)
-            : 0;
-
-          return {
-            found: true,
-            txid: tx.txid,
-            amountSats: receivedSats,
-            confirmations: Math.max(0, confirmations)
-          };
-        }
-
-        return { found: false };
-      } catch (err) {
-        console.error('Blockchain poll error:', err);
-        return { found: false, error: true };
-      }
-    }
-
-    // ═══════════════════════════════════════════
-    // UI Rendering
-    // ═══════════════════════════════════════════
 
     function renderConfirmation() {
       const orderStr = localStorage.getItem('vapelink_last_order');
@@ -1198,7 +957,7 @@ import siteData from '../data/site.json';
       if (totalEl) totalEl.textContent = `$${grandTotal.toFixed(2)} AUD`;
 
       // ═══ Payment-specific rendering ═══
-      if (order.payment === 'bank' || order.payment === 'payid') {
+      if (order.payment === 'bank') {
         renderBankPayment(order, grandTotal);
       } else if (order.payment === 'bitcoin') {
         renderBitcoinPayment(order, grandTotal);
@@ -1206,14 +965,17 @@ import siteData from '../data/site.json';
     }
 
     function renderBankPayment(order: any, total: number) {
+      // Update header
       const titleEl = document.getElementById('conf-title');
       const subtitleEl = document.getElementById('conf-subtitle');
       if (titleEl) titleEl.textContent = 'Order Placed Successfully!';
       if (subtitleEl) subtitleEl.textContent = 'Your order has been received. We will send you the bank transfer details to your email shortly so you can complete the payment.';
 
+      // Show bank section
       const bankSection = document.getElementById('bank-payment-section');
       if (bankSection) bankSection.style.display = 'block';
 
+      // Fill summary details (no bank info exposed)
       const amountEl = document.getElementById('bank-amount');
       const refEl = document.getElementById('bank-reference');
       const pendingEmailEl = document.getElementById('bank-pending-email');
@@ -1221,28 +983,19 @@ import siteData from '../data/site.json';
       if (refEl) refEl.textContent = order.orderNumber || '—';
       if (pendingEmailEl) pendingEmailEl.textContent = order.email || '—';
 
+      // Show bank next steps
       const bankSteps = document.getElementById('next-steps-bank');
       if (bankSteps) bankSteps.style.display = 'grid';
     }
 
-    // ═══════════════════════════════════════════
-    // Bitcoin Payment Flow
-    // ═══════════════════════════════════════════
-
-    async function renderBitcoinPayment(order: any, total: number) {
-      // If already confirmed (e.g. page refresh), show confirmed state immediately
-      if (order.status === 'confirmed') {
-        showConfirmedState(order);
-        return;
-      }
-
+    function renderBitcoinPayment(order: any, total: number) {
       // Update header
       const headerIcon = document.getElementById('conf-header-icon');
       const titleEl = document.getElementById('conf-title');
       const subtitleEl = document.getElementById('conf-subtitle');
       if (headerIcon) headerIcon.classList.add('btc-waiting');
       if (titleEl) titleEl.textContent = 'Awaiting Bitcoin Payment';
-      if (subtitleEl) subtitleEl.textContent = 'Please send the exact BTC amount to the address below. Your payment is monitored on the blockchain in real time.';
+      if (subtitleEl) subtitleEl.textContent = 'Please send the exact amount to the Bitcoin address below. Your order will be confirmed automatically once payment is detected.';
 
       // Show bitcoin section
       const btcSection = document.getElementById('bitcoin-payment-section');
@@ -1252,41 +1005,16 @@ import siteData from '../data/site.json';
       const audEl = document.getElementById('btc-aud-amount');
       if (audEl) audEl.textContent = `$${total.toFixed(2)}`;
 
-      // Fetch real BTC/AUD rate and calculate BTC amount
-      const btcBtcEl = document.getElementById('btc-btc-amount');
-      let expectedSatoshis = 0;
-
-      const btcRate = await fetchBtcAudRate();
-      if (btcRate) {
-        const btcAmount = audToBtc(total, btcRate);
-        btcAmountForOrder = `${btcAmount} BTC`;
-        expectedSatoshis = btcToSatoshis(btcAmount);
-        if (btcBtcEl) btcBtcEl.textContent = `₿ ${btcAmount}`;
-
-        // Save BTC amount to order for reference
-        try {
-          const o = JSON.parse(localStorage.getItem('vapelink_last_order') || '{}');
-          o.btcAmount = btcAmount;
-          o.btcRate = btcRate;
-          localStorage.setItem('vapelink_last_order', JSON.stringify(o));
-        } catch {}
-      } else {
-        if (btcBtcEl) btcBtcEl.textContent = 'Rate unavailable';
-      }
-
       // Bitcoin address
       const btcAddr = order.bitcoinAddress || '';
       const addrEl = document.getElementById('btc-address');
       if (addrEl) addrEl.textContent = btcAddr;
 
-      // Generate QR code with bitcoin: URI including amount
+      // Generate QR code (using a simple QR code via an external API)
       const qrEl = document.getElementById('btc-qr-code');
       if (qrEl && btcAddr) {
-        const btcUri = btcRate
-          ? `bitcoin:${btcAddr}?amount=${audToBtc(total, btcRate)}`
-          : `bitcoin:${btcAddr}`;
-        const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(btcUri)}&format=svg&margin=8`;
-        qrEl.innerHTML = `<img src="${qrUrl}" alt="Bitcoin Payment QR Code" width="176" height="176" style="border-radius:4px;" />`;
+        const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=176x176&data=bitcoin:${encodeURIComponent(btcAddr)}&format=svg`;
+        qrEl.innerHTML = `<img src="${qrUrl}" alt="Bitcoin QR Code" width="176" height="176" style="border-radius:4px;" />`;
       }
 
       // Copy button
@@ -1297,6 +1025,7 @@ import siteData from '../data/site.json';
           if (copyText) copyText.textContent = 'Copied!';
           setTimeout(() => { if (copyText) copyText.textContent = 'Copy'; }, 2000);
         }).catch(() => {
+          // Fallback
           const ta = document.createElement('textarea');
           ta.value = btcAddr;
           document.body.appendChild(ta);
@@ -1308,104 +1037,72 @@ import siteData from '../data/site.json';
         });
       });
 
-      // Start countdown timer + blockchain monitoring
-      startPaymentMonitor(order, btcAddr, expectedSatoshis);
+      // Start payment timer (30 minutes)
+      startBtcTimer(order);
 
       // Show bitcoin next steps
       const btcSteps = document.getElementById('next-steps-bitcoin');
       if (btcSteps) btcSteps.style.display = 'grid';
     }
 
-    // ── Combined Timer + Blockchain Polling ──
-
-    function startPaymentMonitor(order: any, address: string, expectedSatoshis: number) {
-      const orderTimeMs = new Date(order.date).getTime();
+    function startBtcTimer(order: any) {
+      const PAYMENT_WINDOW = 30 * 60; // 30 minutes in seconds
+      const orderTime = new Date(order.date).getTime();
       const timerEl = document.getElementById('btc-timer');
       const statusEl = document.getElementById('btc-status');
+
+      // Simulated payment detection timing (demo: triggers after random 45-120 seconds)
+      const detectDelay = 45000 + Math.random() * 75000;
+      const confirmDelay = detectDelay + 15000 + Math.random() * 20000;
 
       let paymentDetected = false;
       let paymentConfirmed = false;
 
-      // ── Countdown Timer (every 1 second) ──
+      // Payment detection simulation
+      setTimeout(() => {
+        if (paymentConfirmed) return;
+        paymentDetected = true;
+        onPaymentDetected(order);
+      }, detectDelay);
+
+      // Payment confirmation simulation
+      setTimeout(() => {
+        paymentConfirmed = true;
+        onPaymentConfirmed(order);
+      }, confirmDelay);
+
       btcTimerInterval = setInterval(() => {
         if (paymentConfirmed) {
           clearInterval(btcTimerInterval);
           return;
         }
 
-        const elapsed = Math.floor((Date.now() - orderTimeMs) / 1000);
-        const remaining = Math.max(0, PAYMENT_WINDOW_SECS - elapsed);
+        const elapsed = Math.floor((Date.now() - orderTime) / 1000);
+        const remaining = Math.max(0, PAYMENT_WINDOW - elapsed);
         const mins = Math.floor(remaining / 60);
         const secs = remaining % 60;
 
         if (timerEl) {
           timerEl.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-          if (remaining <= 300 && remaining > 0) timerEl.classList.add('expired');
+          if (remaining <= 300) timerEl.classList.add('expired');
         }
 
-        // Timer expired and no payment detected
         if (remaining <= 0 && !paymentDetected) {
           clearInterval(btcTimerInterval);
-          if (btcPollInterval) clearInterval(btcPollInterval);
           if (timerEl) timerEl.textContent = 'EXPIRED';
-          if (statusEl) {
-            statusEl.innerHTML = '<span class="btc-status-dot" style="background:var(--color-sale);animation:none;"></span> Payment window expired';
-          }
-          // Update order status
-          updateOrderStatus('expired');
+          if (statusEl) statusEl.innerHTML = '<span class="btc-status-dot" style="background:var(--color-sale);animation:none;"></span> Payment window expired';
         }
       }, 1000);
-
-      // ── Blockchain Polling (every 15 seconds) ──
-      async function doBlockchainPoll() {
-        if (paymentConfirmed) return;
-
-        const result = await pollBlockchain(address, expectedSatoshis, orderTimeMs);
-
-        if (result.found && result.txid) {
-          detectedTxId = result.txid;
-          const confirmations = result.confirmations || 0;
-
-          if (!paymentDetected) {
-            // First time detecting the transaction
-            paymentDetected = true;
-            onPaymentDetected(order, result.txid, confirmations);
-          }
-
-          // Update confirmation count display
-          updateConfirmationCount(confirmations);
-
-          if (confirmations >= REQUIRED_CONFIRMATIONS && !paymentConfirmed) {
-            // Payment fully confirmed!
-            paymentConfirmed = true;
-            if (btcPollInterval) clearInterval(btcPollInterval);
-            if (btcTimerInterval) clearInterval(btcTimerInterval);
-            onPaymentConfirmed(order, result.txid, confirmations);
-          }
-        }
-      }
-
-      // Initial poll immediately, then every BLOCKCHAIN_POLL_INTERVAL
-      doBlockchainPoll();
-      btcPollInterval = setInterval(doBlockchainPoll, BLOCKCHAIN_POLL_INTERVAL);
     }
 
-    // ── Payment Detected (0 confirmations — tx in mempool) ──
-
-    function onPaymentDetected(order: any, txid: string, confirmations: number) {
+    function onPaymentDetected(order: any) {
+      // Update status
       const statusEl = document.getElementById('btc-status');
-      if (statusEl) {
-        statusEl.innerHTML = `<span class="btc-status-dot detected"></span> Payment detected — awaiting ${REQUIRED_CONFIRMATIONS} confirmations...`;
-      }
+      if (statusEl) statusEl.innerHTML = '<span class="btc-status-dot detected"></span> Payment detected — confirming...';
 
-      // Show confirmations counter
-      const confSection = document.getElementById('btc-confirmations');
-      if (confSection) confSection.style.display = 'flex';
-      updateConfirmationCount(confirmations);
-
-      // Update progress bar
+      // Update progress
       const progressBar = document.getElementById('btc-progress-bar');
-      if (progressBar) progressBar.style.width = '50%';
+      if (progressBar) progressBar.style.width = '60%';
 
       const step1 = document.getElementById('btc-step-1');
       const step2 = document.getElementById('btc-step-2');
@@ -1415,54 +1112,22 @@ import siteData from '../data/site.json';
       // Update header
       const titleEl = document.getElementById('conf-title');
       if (titleEl) titleEl.textContent = 'Payment Detected!';
-
-      // Update order status in localStorage
-      updateOrderStatus('awaiting_confirmation');
     }
 
-    // ── Update confirmation count display ──
+    function onPaymentConfirmed(order: any) {
+      if (btcTimerInterval) clearInterval(btcTimerInterval);
 
-    function updateConfirmationCount(confirmations: number) {
-      const countEl = document.getElementById('btc-conf-count');
-      if (countEl) countEl.textContent = String(confirmations);
-
-      const confSection = document.getElementById('btc-confirmations');
-      if (confSection && confirmations >= REQUIRED_CONFIRMATIONS) {
-        confSection.classList.add('confirmed');
-      }
-
-      // Update progress bar proportionally
-      const progressBar = document.getElementById('btc-progress-bar');
-      if (progressBar && confirmations > 0 && confirmations < REQUIRED_CONFIRMATIONS) {
-        const pct = 50 + (confirmations / REQUIRED_CONFIRMATIONS) * 50;
-        progressBar.style.width = `${Math.min(pct, 95)}%`;
-      }
-
-      // Update status text
-      const statusEl = document.getElementById('btc-status');
-      if (statusEl && confirmations > 0 && confirmations < REQUIRED_CONFIRMATIONS) {
-        statusEl.innerHTML = `<span class="btc-status-dot detected"></span> ${confirmations} / ${REQUIRED_CONFIRMATIONS} confirmations...`;
-      }
-    }
-
-    // ── Payment Confirmed (2+ confirmations) ──
-
-    async function onPaymentConfirmed(order: any, txid: string, confirmations: number) {
       // Update status
       const statusEl = document.getElementById('btc-status');
       if (statusEl) statusEl.innerHTML = '<span class="btc-status-dot confirmed"></span> Payment confirmed!';
 
-      // Update confirmations display
-      updateConfirmationCount(confirmations);
-
-      // Update progress bar
+      // Update progress
       const progressBar = document.getElementById('btc-progress-bar');
       if (progressBar) {
         progressBar.style.width = '100%';
         progressBar.classList.add('confirmed');
       }
 
-      // Update progress steps
       const step1 = document.getElementById('btc-step-1');
       const step2 = document.getElementById('btc-step-2');
       const step3 = document.getElementById('btc-step-3');
@@ -1474,123 +1139,43 @@ import siteData from '../data/site.json';
       const headerIcon = document.getElementById('conf-header-icon');
       const titleEl = document.getElementById('conf-title');
       const subtitleEl = document.getElementById('conf-subtitle');
-      if (headerIcon) headerIcon.classList.remove('btc-waiting');
+      if (headerIcon) { headerIcon.classList.remove('btc-waiting'); }
       if (titleEl) titleEl.textContent = 'Payment Confirmed!';
-      if (subtitleEl) subtitleEl.textContent = 'Your Bitcoin payment has been verified on the blockchain. Your order is now being processed and will ship soon.';
+      if (subtitleEl) subtitleEl.textContent = 'Your Bitcoin payment has been received. Your order is now being processed and will ship soon.';
 
       // Show completed state, hide timer
       const timerBox = document.getElementById('btc-timer-box');
       if (timerBox) timerBox.style.display = 'none';
       const completedEl = document.getElementById('btc-completed');
       if (completedEl) completedEl.style.display = 'block';
+
+      // Update timer display
       const timerEl = document.getElementById('btc-timer');
       if (timerEl) timerEl.textContent = '✓';
 
       // Update order status in localStorage
-      updateOrderStatus('confirmed');
-
-      // ═══ Send Email Notifications ═══
-      // Admin: New confirmed Bitcoin order
-      await sendAdminOrderEmail(order);
-      // User: Order confirmation
-      await sendUserConfirmationEmail(order);
-    }
-
-    // ── Show already-confirmed state (for page refreshes) ──
-
-    function showConfirmedState(order: any) {
-      const btcSection = document.getElementById('bitcoin-payment-section');
-      if (btcSection) btcSection.style.display = 'block';
-
-      // Header
-      const headerIcon = document.getElementById('conf-header-icon');
-      const titleEl = document.getElementById('conf-title');
-      const subtitleEl = document.getElementById('conf-subtitle');
-      if (headerIcon) headerIcon.classList.remove('btc-waiting');
-      if (titleEl) titleEl.textContent = 'Payment Confirmed!';
-      if (subtitleEl) subtitleEl.textContent = 'Your Bitcoin payment has been verified on the blockchain. Your order is now being processed and will ship soon.';
-
-      // AUD amount
-      const audEl = document.getElementById('btc-aud-amount');
-      if (audEl) audEl.textContent = `$${order.total.toFixed(2)}`;
-
-      // BTC amount (from saved order)
-      const btcBtcEl = document.getElementById('btc-btc-amount');
-      if (btcBtcEl && order.btcAmount) btcBtcEl.textContent = `₿ ${order.btcAmount}`;
-
-      // Timer
-      const timerBox = document.getElementById('btc-timer-box');
-      if (timerBox) timerBox.style.display = 'none';
-
-      // Status
-      const statusEl = document.getElementById('btc-status');
-      if (statusEl) statusEl.innerHTML = '<span class="btc-status-dot confirmed"></span> Payment confirmed!';
-
-      // Address
-      const addrEl = document.getElementById('btc-address');
-      if (addrEl) addrEl.textContent = order.bitcoinAddress || '';
-
-      // QR
-      const qrEl = document.getElementById('btc-qr-code');
-      if (qrEl) qrEl.innerHTML = '';
-
-      // Progress bar
-      const progressBar = document.getElementById('btc-progress-bar');
-      if (progressBar) { progressBar.style.width = '100%'; progressBar.classList.add('confirmed'); }
-      const step1 = document.getElementById('btc-step-1');
-      const step2 = document.getElementById('btc-step-2');
-      const step3 = document.getElementById('btc-step-3');
-      if (step1) { step1.classList.remove('active'); step1.classList.add('completed'); }
-      if (step2) step2.classList.add('completed');
-      if (step3) step3.classList.add('completed');
-
-      // Completed block
-      const completedEl = document.getElementById('btc-completed');
-      if (completedEl) completedEl.style.display = 'block';
-
-      // Copy button
-      const copyBtn = document.getElementById('btc-copy-btn');
-      const copyText = document.getElementById('btc-copy-text');
-      const btcAddr = order.bitcoinAddress || '';
-      copyBtn?.addEventListener('click', () => {
-        navigator.clipboard.writeText(btcAddr).then(() => {
-          if (copyText) copyText.textContent = 'Copied!';
-          setTimeout(() => { if (copyText) copyText.textContent = 'Copy'; }, 2000);
-        }).catch(() => {});
-      });
-
-      // Show bitcoin next steps
-      const btcSteps = document.getElementById('next-steps-bitcoin');
-      if (btcSteps) btcSteps.style.display = 'grid';
-    }
-
-    // ── Update order status in localStorage ──
-
-    function updateOrderStatus(status: string) {
       try {
         const orderStr = localStorage.getItem('vapelink_last_order');
-        if (!orderStr) return;
-        const updatedOrder = JSON.parse(orderStr);
-        updatedOrder.status = status;
-        if (detectedTxId) updatedOrder.btcTxId = detectedTxId;
-        localStorage.setItem('vapelink_last_order', JSON.stringify(updatedOrder));
+        if (orderStr) {
+          const updatedOrder = JSON.parse(orderStr);
+          updatedOrder.status = 'confirmed';
+          localStorage.setItem('vapelink_last_order', JSON.stringify(updatedOrder));
 
-        // Also update in order history
-        const emailForHistory = (updatedOrder.email || '').trim().toLowerCase();
-        if (emailForHistory) {
-          const ordersKey = `vapelink_orders_${emailForHistory}`;
-          const orders = JSON.parse(localStorage.getItem(ordersKey) || '[]');
-          const idx = orders.findIndex((o: any) => o.orderNumber === updatedOrder.orderNumber);
-          if (idx !== -1) {
-            orders[idx].status = status;
-            if (detectedTxId) orders[idx].btcTxId = detectedTxId;
-            localStorage.setItem(ordersKey, JSON.stringify(orders));
+          // Also update in order history (guest email key)
+          const emailForHistory = (updatedOrder.email || '').trim().toLowerCase();
+          if (emailForHistory) {
+            const ordersKey = `vapelink_orders_${emailForHistory}`;
+            const orders = JSON.parse(localStorage.getItem(ordersKey) || '[]');
+            const idx = orders.findIndex((o: any) => o.orderNumber === updatedOrder.orderNumber);
+            if (idx !== -1) {
+              orders[idx].status = 'confirmed';
+              localStorage.setItem(ordersKey, JSON.stringify(orders));
+            }
           }
         }
       } catch {}
     }
 
-    // ═══ Initialize ═══
     renderConfirmation();
   </script>
 

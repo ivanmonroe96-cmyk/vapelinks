@@ -140,110 +140,194 @@ const navCollections = collectionsData
     </div>
   </div>
 
-  <!-- ═══ USP Strip ═══ -->
-  <div class="usp-strip">
-    <div class="container usp-inner">
-      <div class="usp-item">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
-        Melbourne, VIC
-      </div>
-      <div class="usp-divider"></div>
-      <div class="usp-item">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
-        Australia's Favourite Vape Shop
-      </div>
-      <div class="usp-divider"></div>
-      <div class="usp-item">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        18+ Only
+  <!-- ═══ Announcement Bar ═══ -->
+  <div class="announcement-bar" id="announcement-bar">
+    <div class="announcement-track">
+      <div class="announcement-inner" id="announcement-inner">
+        <span class="announcement-item">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          Free shipping on orders over $100
+        </span>
+        <span class="announcement-sep">·</span>
+        <span class="announcement-item">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          18+ only — Age verification required
+        </span>
+        <span class="announcement-sep">·</span>
+        <span class="announcement-item">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+          Melbourne, VIC — Australia-wide shipping
+        </span>
+        <span class="announcement-sep">·</span>
+        <span class="announcement-item">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
+          Australia's favourite vape shop
+        </span>
+        <span class="announcement-sep">·</span>
+        <span class="announcement-item">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          Free shipping on orders over $100
+        </span>
+        <span class="announcement-sep">·</span>
+        <span class="announcement-item">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          18+ only — Age verification required
+        </span>
+        <span class="announcement-sep">·</span>
+        <span class="announcement-item">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+          Melbourne, VIC — Australia-wide shipping
+        </span>
+        <span class="announcement-sep">·</span>
+        <span class="announcement-item">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
+          Australia's favourite vape shop
+        </span>
+        <span class="announcement-sep">·</span>
       </div>
     </div>
   </div>
 
   <!-- ═══ Header ═══ -->
   <header id="site-header" class="site-header">
-    <div class="container header-inner">
+    <div class="header-container">
+
       <!-- Logo -->
-      <a href="/" class="logo-link">
+      <a href="/" class="logo-link" aria-label="Vapelink Australia — Home">
         <img src="/images/logo.svg" alt="Vapelink Australia" class="logo-img" loading="eager" />
       </a>
 
       <!-- Desktop Nav -->
-      <nav class="desktop-nav">
+      <nav class="desktop-nav" aria-label="Main navigation">
         <a href="/" class="nav-link">Home</a>
         <a href="/collections/shop" class="nav-link">Shop</a>
-        <div class="nav-dropdown-wrap">
-          <button class="nav-link nav-dropdown-btn">
+
+        <!-- Collections Mega Menu -->
+        <div class="mega-wrap" id="mega-wrap">
+          <button class="nav-link mega-trigger" id="mega-trigger" aria-haspopup="true" aria-expanded="false">
             Collections
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+            <svg class="mega-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
           </button>
-          <div class="nav-dropdown">
-            {navCollections.map((c: any) => (
-              <a href={`/collections/${c.handle}`} class="dropdown-item">
-                <span>{c.title}</span>
-                <span class="dropdown-count">{c.products_count}</span>
-              </a>
-            ))}
-            <div class="dropdown-divider"></div>
-            <a href="/collections" class="dropdown-all">View All Collections &rarr;</a>
+          <div class="mega-menu" id="mega-menu" role="menu">
+            <div class="mega-menu-inner">
+              <div class="mega-grid">
+                {navCollections.map((c: any) => (
+                  <a href={`/collections/${c.handle}`} class="mega-item" role="menuitem">
+                    <span class="mega-item-name">{c.title}</span>
+                    <span class="mega-item-count">{c.products_count}</span>
+                  </a>
+                ))}
+              </div>
+              <div class="mega-footer">
+                <a href="/collections" class="mega-all-link">
+                  Browse all collections
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                </a>
+              </div>
+            </div>
           </div>
         </div>
+
         <a href="/blog" class="nav-link">Blog</a>
         <a href="/about" class="nav-link">About</a>
         <a href="/contact" class="nav-link">Contact</a>
       </nav>
 
-      <!-- Icon Actions (single set for desktop & mobile) -->
+      <!-- Header Actions -->
       <div class="header-actions">
-        <!-- Search Icon -->
-        <button id="search-toggle" class="header-icon-btn" aria-label="Search" title="Search">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <!-- Search -->
+        <button id="search-toggle" class="hdr-btn" aria-label="Open search">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
         </button>
 
-        <!-- Cart Icon -->
-        <button id="cart-toggle" class="header-icon-btn cart-icon-btn" aria-label="Cart" title="Cart">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        <!-- Cart -->
+        <button id="cart-toggle" class="hdr-btn hdr-cart-btn" aria-label="Open cart">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
           <span id="cart-count" class="cart-badge" style="display:none;">0</span>
         </button>
 
-        <!-- Mobile menu button -->
-        <button id="mobile-menu-btn" class="header-icon-btn mobile-only-btn" aria-label="Menu" title="Menu">
-          <svg id="menu-icon-open" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
-          <svg id="menu-icon-close" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        <!-- Mobile Hamburger -->
+        <button id="mobile-menu-btn" class="hdr-btn hdr-menu-btn" aria-label="Open menu" aria-expanded="false">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
         </button>
       </div>
+
     </div>
 
-    <!-- Mobile Nav -->
-    <div id="mobile-menu" class="mobile-nav mobile-only-nav" style="display:none;">
-      <div class="container mobile-nav-inner">
-        <a href="/" class="mobile-link">Home</a>
-        <a href="/collections/shop" class="mobile-link">Shop</a>
-        <a href="/collections" class="mobile-link">Collections</a>
-        <a href="/blog" class="mobile-link">Blog</a>
-        <a href="/about" class="mobile-link">About</a>
-        <a href="/contact" class="mobile-link">Contact</a>
-        <div style="border-top:1px solid var(--color-border);margin:0.5rem 0;"></div>
-        <a href="/account/orders" class="mobile-link">Track Orders</a>
-      </div>
+    <!-- Search Slide-Down Bar -->
+    <div id="search-bar" class="search-bar" aria-hidden="true">
+      <form action="/search" method="get" class="search-bar-form">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input id="search-bar-input" type="text" name="q" placeholder="Search products, brands, collections…" class="search-bar-input" autocomplete="off" spellcheck="false" />
+        <button type="button" id="search-close" class="search-bar-close" aria-label="Close search">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+      </form>
     </div>
   </header>
 
-  <!-- ═══ Search Overlay ═══ -->
-  <div id="search-overlay" class="search-overlay" style="display:none;">
-    <div class="search-overlay-inner">
-      <button id="search-close" class="search-overlay-close" aria-label="Close search">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+  <!-- ═══ Mobile Nav Overlay ═══ -->
+  <div id="mobile-overlay" class="mobile-overlay" aria-hidden="true"></div>
+  <aside id="mobile-menu" class="mobile-drawer" aria-label="Mobile navigation" aria-hidden="true">
+    <div class="mobile-drawer-head">
+      <a href="/" class="logo-link">
+        <img src="/images/logo.svg" alt="Vapelink Australia" style="height:36px;" />
+      </a>
+      <button id="mobile-close" class="hdr-btn" aria-label="Close menu">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
       </button>
-      <form action="/search" method="get" class="search-overlay-form">
-        <div class="search-overlay-field">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-          <input id="search-overlay-input" type="text" name="q" placeholder="Search products, brands, collections..." class="search-overlay-input" autocomplete="off" />
-        </div>
-        <p class="search-overlay-hint">Press <kbd>Enter</kbd> to search or <kbd>Esc</kbd> to close</p>
-      </form>
     </div>
-  </div>
+    <nav class="mobile-nav-list">
+      <a href="/" class="mobile-nav-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Home
+      </a>
+      <a href="/collections/shop" class="mobile-nav-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        Shop All
+      </a>
+      <!-- Mobile Collections Accordion -->
+      <div class="mobile-accordion">
+        <button class="mobile-nav-item mobile-accordion-trigger" id="mobile-collections-btn" aria-expanded="false">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="7" height="7"/><rect x="15" y="3" width="7" height="7"/><rect x="15" y="14" width="7" height="7"/><rect x="2" y="14" width="7" height="7"/></svg>
+          Collections
+          <svg class="accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="mobile-accordion-panel" id="mobile-collections-panel">
+          {navCollections.map((c: any) => (
+            <a href={`/collections/${c.handle}`} class="mobile-sub-item">
+              {c.title}
+              <span class="mobile-sub-count">{c.products_count}</span>
+            </a>
+          ))}
+          <a href="/collections" class="mobile-sub-item mobile-sub-all">All collections →</a>
+        </div>
+      </div>
+      <a href="/blog" class="mobile-nav-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Blog
+      </a>
+      <a href="/about" class="mobile-nav-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+        About
+      </a>
+      <a href="/contact" class="mobile-nav-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.53 3.47 2 2 0 0 1 3.5 1.26h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.34a16 16 0 0 0 6.29 6.29l.38-.38a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.28 16.92z"/></svg>
+        Contact
+      </a>
+    </nav>
+    <div class="mobile-drawer-foot">
+      <a href="/account/orders" class="mobile-foot-link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l2-1.14"/><path d="m7.5 4.27 9 5.15"/><polyline points="3.29 7 12 12 20.71 7"/><line x1="12" y1="22" x2="12" y2="12"/><circle cx="18.5" cy="15.5" r="2.5"/><path d="M20.27 17.27 22 19"/></svg>
+        Track My Orders
+      </a>
+      <p class="mobile-legal">18+ only. Products contain nicotine, an addictive substance.</p>
+    </div>
+  </aside>
+
+  <!-- Search overlay hidden — search bar now in header -->
 
   <!-- Main -->
   <main>
@@ -396,64 +480,82 @@ const navCollections = collectionsData
   </div>
 
   <style is:global>
-    /* ── USP Strip ── */
-    .usp-strip {
-      background: linear-gradient(90deg, #050d1f 0%, #0d1f3f 50%, #050d1f 100%);
-      color: #94a3b8;
-      font-size: 0.72rem;
+    /* ═══════════════════════════════════════
+       ANNOUNCEMENT BAR
+    ═══════════════════════════════════════ */
+    .announcement-bar {
+      background: #0a0f1e;
+      color: rgba(255,255,255,0.72);
+      font-size: 0.7rem;
       font-weight: 600;
-      letter-spacing: 0.03em;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
-    .usp-inner {
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      overflow: hidden;
+      height: 34px;
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 1.5rem;
-      padding: 0.55rem var(--space-lg);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
     }
-    .usp-item {
-      display: flex;
+    .announcement-track {
+      overflow: hidden;
+      flex: 1;
+    }
+    .announcement-inner {
+      display: inline-flex;
       align-items: center;
-      gap: 0.45rem;
       white-space: nowrap;
-      transition: color 0.2s;
+      gap: 0;
+      animation: ticker 36s linear infinite;
     }
-    .usp-item:hover { color: #e2e8f0; }
-    .usp-item svg { color: rgba(22,163,74,0.75); flex-shrink: 0; }
-    .usp-divider {
-      width: 1px;
-      height: 14px;
-      background: rgba(255,255,255,0.12);
+    .announcement-inner:hover { animation-play-state: paused; }
+    .announcement-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0 2rem;
     }
-    @media (max-width: 640px) {
-      .usp-inner { gap: 0.85rem; font-size: 0.66rem; }
-      .usp-item:last-child { display: none; }
-      .usp-divider:last-of-type { display: none; }
+    .announcement-item svg { opacity: 0.55; color: #22c55e; flex-shrink: 0; }
+    .announcement-sep {
+      color: rgba(255,255,255,0.2);
+      font-size: 1em;
+      padding: 0 0.25rem;
+    }
+    @keyframes ticker {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
     }
 
-    /* ── Header ── */
+    /* ═══════════════════════════════════════
+       SITE HEADER
+    ═══════════════════════════════════════ */
     .site-header {
       position: sticky;
       top: 0;
-      z-index: 50;
-      background: color-mix(in srgb, var(--color-surface) 82%, transparent);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      border-bottom: 1px solid var(--color-border);
-      transition: box-shadow 0.25s ease, border-color 0.25s ease;
+      z-index: 200;
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      border-bottom: 1px solid #E8EDF5;
+      transition: box-shadow 0.3s ease, border-color 0.3s ease;
     }
     .site-header.scrolled {
-      box-shadow: 0 10px 28px rgba(15, 23, 42, 0.08);
-      border-color: #d5deea;
+      box-shadow: 0 4px 24px rgba(10, 15, 30, 0.07), 0 1px 4px rgba(10, 15, 30, 0.04);
+      border-color: #D8E0EC;
     }
-    .header-inner {
+    .header-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      height: 68px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      padding-top: 0.75rem;
-      padding-bottom: 0.75rem;
+      gap: 2rem;
     }
+    @media (min-width: 1200px) {
+      .header-container { padding: 0 2.5rem; }
+    }
+
+    /* ── Logo ── */
     .logo-link {
       display: flex;
       align-items: center;
@@ -461,252 +563,442 @@ const navCollections = collectionsData
       flex-shrink: 0;
     }
     .logo-img {
-      height: 46px;
-      filter: saturate(1.05);
+      height: 42px;
+      width: auto;
+      filter: saturate(1.1);
     }
 
-    /* ── Desktop Nav ── */
+    /* ═══════════════════════════════════════
+       DESKTOP NAVIGATION
+    ═══════════════════════════════════════ */
     .desktop-nav {
       display: none;
       align-items: center;
-      gap: 1.5rem;
+      gap: 0.15rem;
+      flex: 1;
     }
     @media (min-width: 1024px) {
       .desktop-nav { display: flex; }
     }
 
-    /* ── Mobile-only elements ── */
-    .mobile-only-btn { display: flex; }
-    .mobile-only-nav { }
-    @media (min-width: 1024px) {
-      .mobile-only-btn { display: none !important; }
-      .mobile-only-nav { display: none !important; }
-    }
     .nav-link {
-      color: var(--color-text-secondary);
+      position: relative;
+      color: #3D4E66;
       font-size: 0.83rem;
-      font-weight: 700;
-      letter-spacing: 0.01em;
-      text-decoration: none;
-      transition: color 0.15s ease, background 0.15s ease;
+      font-weight: 600;
       font-family: var(--font-display);
-      background: none;
+      letter-spacing: 0.005em;
+      text-decoration: none;
+      padding: 0.4rem 0.7rem;
+      border-radius: 8px;
       border: none;
+      background: none;
       cursor: pointer;
       display: flex;
       align-items: center;
       gap: 0.3rem;
-      padding: 0.45rem 0.75rem;
-      border-radius: var(--radius-full);
+      transition: color 0.15s ease, background 0.15s ease;
+      white-space: nowrap;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 2px;
+      left: 0.7rem;
+      right: 0.7rem;
+      height: 2px;
+      background: var(--color-accent);
+      border-radius: 2px;
+      transform: scaleX(0);
+      transform-origin: center;
+      transition: transform 0.2s var(--ease-out);
     }
     .nav-link:hover {
-      color: var(--color-text);
-      background: var(--color-surface-alt);
+      color: #0D1526;
+      background: #F3F6FB;
+    }
+    .nav-link:hover::after { transform: scaleX(1); }
+    .nav-link.active {
+      color: var(--color-accent);
+    }
+    .nav-link.active::after { transform: scaleX(1); }
+
+    /* ── Mega Menu ── */
+    .mega-wrap {
+      position: static;
+    }
+    .mega-trigger {
+      /* inherits .nav-link */
+    }
+    .mega-chevron {
+      transition: transform 0.25s var(--ease-out);
+      flex-shrink: 0;
+    }
+    .mega-wrap.open .mega-chevron,
+    .mega-trigger[aria-expanded="true"] .mega-chevron {
+      transform: rotate(180deg);
     }
 
-    /* ── Dropdown ── */
-    .nav-dropdown-wrap { position: relative; }
-    .nav-dropdown {
+    .mega-menu {
       position: absolute;
-      top: calc(100% + 0.5rem);
-      left: -1rem;
-      background: var(--color-surface);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-lg);
-      padding: 0.6rem;
-      width: 280px;
+      left: 0;
+      right: 0;
+      top: 100%;
+      background: #fff;
+      border-top: 1px solid #E8EDF5;
+      border-bottom: 1px solid #E8EDF5;
+      box-shadow: 0 24px 64px rgba(10, 15, 30, 0.10), 0 4px 16px rgba(10, 15, 30, 0.05);
+      z-index: 300;
       opacity: 0;
       visibility: hidden;
-      transform: translateY(-4px);
-      transition: all 0.2s var(--ease-out);
-      z-index: 60;
+      transform: translateY(-8px);
+      transition: opacity 0.22s var(--ease-out),
+                  visibility 0.22s var(--ease-out),
+                  transform 0.22s var(--ease-out);
+      pointer-events: none;
     }
-    .nav-dropdown-wrap:hover .nav-dropdown {
+    .mega-menu.open {
       opacity: 1;
       visibility: visible;
       transform: translateY(0);
+      pointer-events: auto;
     }
-    .dropdown-item {
+    .mega-menu-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 1.75rem 2.5rem 1.25rem;
+    }
+    .mega-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+      gap: 0.25rem;
+    }
+    .mega-item {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0.55rem 0.75rem;
-      font-size: 0.82rem;
-      color: var(--color-text-secondary);
+      padding: 0.5rem 0.7rem;
+      border-radius: 8px;
       text-decoration: none;
-      border-radius: 10px;
-      transition: all 0.15s ease;
+      transition: background 0.13s ease, color 0.13s ease;
     }
-    .dropdown-item:hover {
-      background: var(--color-surface-alt);
-      color: var(--color-text);
+    .mega-item:hover {
+      background: #F3F6FB;
     }
-    .dropdown-count {
-      font-size: 0.68rem;
-      color: var(--color-text-muted);
-      background: #dcfce7;
-      padding: 0.1rem 0.45rem;
-      border-radius: var(--radius-full);
+    .mega-item-name {
+      font-size: 0.8rem;
       font-weight: 500;
+      color: #344156;
+      transition: color 0.13s ease;
     }
-    .dropdown-divider {
-      border-top: 1px solid var(--color-border);
-      margin: 0.35rem 0;
+    .mega-item:hover .mega-item-name { color: #0D1526; }
+    .mega-item-count {
+      font-size: 0.67rem;
+      font-weight: 600;
+      color: #16a34a;
+      background: rgba(22,163,74,0.08);
+      padding: 0.1rem 0.45rem;
+      border-radius: 99px;
+      flex-shrink: 0;
+      margin-left: 0.5rem;
+      letter-spacing: 0.01em;
     }
-    .dropdown-all {
-      display: block;
-      padding: 0.55rem 0.75rem;
-      font-size: 0.82rem;
+    .mega-footer {
+      margin-top: 1rem;
+      padding-top: 0.9rem;
+      border-top: 1px solid #EEF2F8;
+    }
+    .mega-all-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      font-family: var(--font-display);
       color: var(--color-accent);
       text-decoration: none;
-      font-weight: 600;
-      border-radius: 10px;
-      transition: background 0.15s ease;
+      letter-spacing: 0.01em;
+      transition: gap 0.2s ease;
+      padding: 0.1rem 0;
     }
-    .dropdown-all:hover { background: var(--color-accent-soft); }
+    .mega-all-link:hover { gap: 0.7rem; }
 
-    /* ── Header Actions (unified icons) ── */
+    /* ═══════════════════════════════════════
+       HEADER ACTIONS (icons)
+    ═══════════════════════════════════════ */
     .header-actions {
       display: flex;
       align-items: center;
-      gap: 0.2rem;
+      gap: 0.3rem;
+      margin-left: auto;
+      flex-shrink: 0;
     }
-    .header-icon-btn {
+    .hdr-btn {
       position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 40px;
-      height: 40px;
+      width: 38px;
+      height: 38px;
       border-radius: 10px;
-      color: var(--color-text-secondary);
-      transition: all 0.2s var(--ease-out);
-      text-decoration: none;
-      background: var(--color-surface);
-      border: 1px solid var(--color-border);
+      border: none;
+      background: transparent;
+      color: #4A5A72;
       cursor: pointer;
+      transition: background 0.15s ease, color 0.15s ease;
     }
-    .header-icon-btn:hover {
-      color: var(--color-accent);
-      background: var(--color-accent-soft);
-      border-color: #c9d7ef;
-      transform: translateY(-1px);
+    .hdr-btn:hover {
+      background: #F0F4FB;
+      color: #0D1526;
     }
+    .hdr-menu-btn {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 4.5px;
+      width: 38px;
+      height: 38px;
+    }
+    @media (min-width: 1024px) {
+      .hdr-menu-btn { display: none !important; }
+    }
+    .hamburger-line {
+      display: block;
+      width: 18px;
+      height: 1.5px;
+      background: currentColor;
+      border-radius: 2px;
+      transition: transform 0.25s var(--ease-out), opacity 0.2s ease, width 0.2s ease;
+      transform-origin: center;
+    }
+    .menu-open .hamburger-line:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    .menu-open .hamburger-line:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .menu-open .hamburger-line:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
     .cart-badge {
       position: absolute;
-      top: 2px;
-      right: 2px;
+      top: 4px;
+      right: 4px;
       background: var(--color-accent);
       color: #fff;
-      font-size: 0.6rem;
+      font-size: 0.58rem;
       font-weight: 700;
       font-family: var(--font-display);
-      min-width: 16px;
-      height: 16px;
+      min-width: 15px;
+      height: 15px;
       border-radius: 999px;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 0 4px;
+      padding: 0 3px;
       line-height: 1;
+      border: 1.5px solid #fff;
     }
 
-    /* ── Mobile ── */
-    .mobile-nav {
-      border-top: 1px solid var(--color-border);
-      background: var(--color-surface);
+    /* ═══════════════════════════════════════
+       SEARCH SLIDE-DOWN BAR
+    ═══════════════════════════════════════ */
+    .search-bar {
+      border-top: 1px solid #E8EDF5;
+      background: #fff;
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition: max-height 0.3s var(--ease-out), opacity 0.25s ease;
     }
-    .mobile-nav-inner {
-      padding: 1rem 0;
-      display: flex;
-      flex-direction: column;
-      gap: 0.15rem;
+    .search-bar.open {
+      max-height: 80px;
+      opacity: 1;
     }
-    .mobile-link {
-      display: block;
-      padding: 0.65rem 0.75rem;
-      color: var(--color-text);
-      text-decoration: none;
-      font-size: 0.9rem;
-      font-weight: 500;
-      border-radius: 10px;
-      transition: background 0.15s ease;
-      font-family: var(--font-display);
-    }
-    .mobile-link:hover { background: var(--color-surface-alt); }
-
-    /* ── Search Overlay ── */
-    .search-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 9000;
-      background: rgba(15, 23, 42, 0.56);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      padding-top: 12vh;
-      animation: fadeIn 0.15s ease;
-    }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    .search-overlay-inner {
-      width: 100%;
-      max-width: 640px;
-      margin: 0 1rem;
-      position: relative;
-    }
-    .search-overlay-close {
-      position: absolute;
-      top: -48px;
-      right: 0;
-      background: none;
-      border: none;
-      color: rgba(255,255,255,0.7);
-      cursor: pointer;
-      transition: color 0.15s ease;
-      padding: 0.25rem;
-    }
-    .search-overlay-close:hover { color: #fff; }
-    .search-overlay-form { width: 100%; }
-    .search-overlay-field {
+    .search-bar-form {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0.75rem 1.5rem;
       display: flex;
       align-items: center;
-      gap: 0.85rem;
-      background: var(--color-surface);
-      border-radius: var(--radius-xl);
-      padding: 1rem 1.25rem;
-      box-shadow: var(--shadow-lg);
-      border: 1px solid var(--color-border);
+      gap: 0.75rem;
     }
-    .search-overlay-field svg {
-      color: var(--color-text-muted);
-      flex-shrink: 0;
-    }
-    .search-overlay-input {
+    .search-bar-form svg:first-child { color: #7A8DA8; flex-shrink: 0; }
+    .search-bar-input {
       flex: 1;
       border: none;
       background: none;
-      font-size: 1.05rem;
-      color: var(--color-text);
+      font-size: 0.95rem;
+      color: #0D1526;
       outline: none;
       font-family: var(--font-body);
     }
-    .search-overlay-input::placeholder { color: var(--color-text-muted); }
-    .search-overlay-hint {
-      text-align: center;
-      font-size: 0.75rem;
-      color: rgba(255,255,255,0.5);
-      margin-top: 0.85rem;
+    .search-bar-input::placeholder { color: #9DAEC4; }
+    .search-bar-close {
+      background: none;
+      border: none;
+      color: #9DAEC4;
+      cursor: pointer;
+      padding: 0.2rem;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.15s ease, background 0.15s ease;
+      flex-shrink: 0;
     }
-    .search-overlay-hint kbd {
-      display: inline-block;
-      padding: 0.1rem 0.4rem;
-      background: rgba(255,255,255,0.15);
-      border-radius: 4px;
+    .search-bar-close:hover { color: #0D1526; background: #F0F4FB; }
+
+    /* ═══════════════════════════════════════
+       MOBILE DRAWER
+    ═══════════════════════════════════════ */
+    .mobile-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 15, 30, 0.4);
+      backdrop-filter: blur(4px);
+      z-index: 298;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .mobile-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .mobile-drawer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: min(340px, 88vw);
+      height: 100dvh;
+      background: #fff;
+      z-index: 299;
+      display: flex;
+      flex-direction: column;
+      transform: translateX(-100%);
+      transition: transform 0.32s var(--ease-out);
+      border-right: 1px solid #E8EDF5;
+      box-shadow: 8px 0 48px rgba(10, 15, 30, 0.15);
+    }
+    .mobile-drawer.open {
+      transform: translateX(0);
+    }
+    @media (min-width: 1024px) {
+      .mobile-overlay, .mobile-drawer { display: none !important; }
+    }
+    .mobile-drawer-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid #EEF2F8;
+      flex-shrink: 0;
+    }
+    .mobile-nav-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0.75rem 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .mobile-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      padding: 0.7rem 0.85rem;
+      font-size: 0.88rem;
+      font-weight: 600;
       font-family: var(--font-display);
-      font-size: 0.7rem;
+      color: #2D3A4F;
+      text-decoration: none;
+      border-radius: 10px;
+      transition: background 0.13s ease, color 0.13s ease;
+      border: none;
+      background: none;
+      cursor: pointer;
+      width: 100%;
+      text-align: left;
+    }
+    .mobile-nav-item:hover {
+      background: #F3F6FB;
+      color: #0D1526;
+    }
+    .mobile-nav-item svg { flex-shrink: 0; color: #7A8DA8; }
+    .mobile-nav-item:hover svg { color: var(--color-accent); }
+
+    /* Accordion */
+    .mobile-accordion { display: flex; flex-direction: column; gap: 2px; }
+    .mobile-accordion-trigger {
+      width: 100%;
+      justify-content: flex-start;
+    }
+    .accordion-chevron {
+      margin-left: auto;
+      transition: transform 0.25s var(--ease-out);
+      flex-shrink: 0;
+    }
+    .mobile-accordion-trigger[aria-expanded="true"] .accordion-chevron {
+      transform: rotate(180deg);
+    }
+    .mobile-accordion-panel {
+      display: none;
+      flex-direction: column;
+      gap: 1px;
+      padding: 0 0 0.35rem 0;
+    }
+    .mobile-accordion-panel.open { display: flex; }
+    .mobile-sub-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.5rem 0.85rem 0.5rem 2.8rem;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: #4A5A72;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: background 0.13s ease, color 0.13s ease;
+    }
+    .mobile-sub-item:hover {
+      background: #F3F6FB;
+      color: #0D1526;
+    }
+    .mobile-sub-count {
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: #16a34a;
+      background: rgba(22,163,74,0.09);
+      padding: 0.08rem 0.4rem;
+      border-radius: 99px;
+      flex-shrink: 0;
+    }
+    .mobile-sub-all {
+      font-weight: 700;
+      color: var(--color-accent);
+      font-family: var(--font-display);
+    }
+    .mobile-sub-all:hover { background: rgba(22,163,74,0.06); }
+
+    .mobile-drawer-foot {
+      padding: 1rem 1.5rem 1.5rem;
+      border-top: 1px solid #EEF2F8;
+      background: #FAFBFC;
+      flex-shrink: 0;
+    }
+    .mobile-foot-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--color-accent);
+      text-decoration: none;
+      transition: opacity 0.15s ease;
+    }
+    .mobile-foot-link:hover { opacity: 0.75; }
+    .mobile-legal {
+      font-size: 0.65rem;
+      color: #9DAEC4;
+      line-height: 1.5;
+      margin-top: 0.75rem;
     }
 
     /* ── Cart Clear Link ── */
@@ -1118,40 +1410,90 @@ const navCollections = collectionsData
     });
 
     // ── Mobile menu ──
-    const mobileBtn = document.getElementById('mobile-menu-btn');
+    const mobileBtn = document.getElementById('mobile-menu-btn') as HTMLButtonElement | null;
     const mobileMenu = document.getElementById('mobile-menu');
-    const menuIconOpen = document.getElementById('menu-icon-open');
-    const menuIconClose = document.getElementById('menu-icon-close');
+    const mobileOverlay = document.getElementById('mobile-overlay');
+    const mobileClose = document.getElementById('mobile-close');
+
+    function openMobileMenu() {
+      mobileMenu?.classList.add('open');
+      mobileOverlay?.classList.add('open');
+      mobileBtn?.classList.add('menu-open');
+      mobileBtn?.setAttribute('aria-expanded', 'true');
+      mobileMenu?.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeMobileMenu() {
+      mobileMenu?.classList.remove('open');
+      mobileOverlay?.classList.remove('open');
+      mobileBtn?.classList.remove('menu-open');
+      mobileBtn?.setAttribute('aria-expanded', 'false');
+      mobileMenu?.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
     mobileBtn?.addEventListener('click', () => {
-      const isOpen = mobileMenu?.style.display === 'block';
-      if (mobileMenu) mobileMenu.style.display = isOpen ? 'none' : 'block';
-      if (menuIconOpen) menuIconOpen.style.display = isOpen ? 'block' : 'none';
-      if (menuIconClose) menuIconClose.style.display = isOpen ? 'none' : 'block';
+      mobileMenu?.classList.contains('open') ? closeMobileMenu() : openMobileMenu();
+    });
+    mobileClose?.addEventListener('click', closeMobileMenu);
+    mobileOverlay?.addEventListener('click', closeMobileMenu);
+
+    // ── Mobile collections accordion ──
+    const accBtn = document.getElementById('mobile-collections-btn') as HTMLButtonElement | null;
+    const accPanel = document.getElementById('mobile-collections-panel');
+    accBtn?.addEventListener('click', () => {
+      const isOpen = accPanel?.classList.contains('open');
+      accPanel?.classList.toggle('open', !isOpen);
+      accBtn.setAttribute('aria-expanded', String(!isOpen));
     });
 
     // ── Header scroll ──
     const header = document.getElementById('site-header');
     window.addEventListener('scroll', () => {
-      header?.classList.toggle('scrolled', window.scrollY > 50);
-    });
+      header?.classList.toggle('scrolled', window.scrollY > 40);
+    }, { passive: true });
 
-    // ── Search overlay ──
-    const searchOverlay = document.getElementById('search-overlay');
-    const searchInput = document.getElementById('search-overlay-input') as HTMLInputElement | null;
+    // ── Mega Menu (desktop Collections) ──
+    const megaWrap = document.getElementById('mega-wrap');
+    const megaMenu = document.getElementById('mega-menu');
+    const megaTrigger = document.getElementById('mega-trigger') as HTMLButtonElement | null;
+    let megaTimer: ReturnType<typeof setTimeout>;
+
+    function openMega() {
+      clearTimeout(megaTimer);
+      megaMenu?.classList.add('open');
+      megaTrigger?.setAttribute('aria-expanded', 'true');
+    }
+    function closeMega() {
+      megaTimer = setTimeout(() => {
+        megaMenu?.classList.remove('open');
+        megaTrigger?.setAttribute('aria-expanded', 'false');
+      }, 120);
+    }
+    megaWrap?.addEventListener('mouseenter', openMega);
+    megaWrap?.addEventListener('mouseleave', closeMega);
+    megaTrigger?.addEventListener('click', () => {
+      megaMenu?.classList.contains('open') ? closeMega() : openMega();
+    });
+    megaMenu?.addEventListener('mouseenter', () => clearTimeout(megaTimer));
+    megaMenu?.addEventListener('mouseleave', closeMega);
+
+    // ── Search slide-down bar ──
+    const searchBar = document.getElementById('search-bar');
+    const searchBarInput = document.getElementById('search-bar-input') as HTMLInputElement | null;
+    // keep legacy overlay reference (null) to avoid errors from old JS
+    const searchOverlay = null;
     function openSearch() {
-      if (searchOverlay) { searchOverlay.style.display = 'flex'; }
-      document.body.style.overflow = 'hidden';
-      setTimeout(() => searchInput?.focus(), 50);
+      searchBar?.classList.add('open');
+      searchBar?.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = '';
+      setTimeout(() => searchBarInput?.focus(), 60);
     }
     function closeSearch() {
-      if (searchOverlay) searchOverlay.style.display = 'none';
-      document.body.style.overflow = '';
+      searchBar?.classList.remove('open');
+      searchBar?.setAttribute('aria-hidden', 'true');
     }
     document.getElementById('search-toggle')?.addEventListener('click', openSearch);
     document.getElementById('search-close')?.addEventListener('click', closeSearch);
-    searchOverlay?.addEventListener('click', (e) => {
-      if (e.target === searchOverlay) closeSearch();
-    });
 
     // ── Cart system ──
     function getCart(): any[] {
@@ -1343,6 +1685,8 @@ const navCollections = collectionsData
       if (e.key === 'Escape') {
         closeCart();
         closeSearch();
+        closeMega();
+        closeMobileMenu();
       }
     });
 

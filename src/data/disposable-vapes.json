@@ -9,7 +9,13 @@
     "created_at": "2025-09-15T10:00:00+11:00",
     "updated_at": "2026-02-10T10:00:00+11:00",
     "published_at": "2025-09-15T10:00:00+11:00",
-    "tags": ["Brand IGET", "Disposable", "Disposable Vapes", "Fruity", "3500 Puffs"],
+    "tags": [
+      "Brand IGET",
+      "Disposable",
+      "Disposable Vapes",
+      "Fruity",
+      "3500 Puffs"
+    ],
     "variants": [
       {
         "id": 90000001,
@@ -23,7 +29,15 @@
         "available": true
       }
     ],
-    "options": [{"name": "Title", "position": 1, "values": ["Default Title"]}],
+    "options": [
+      {
+        "name": "Title",
+        "position": 1,
+        "values": [
+          "Default Title"
+        ]
+      }
+    ],
     "images": [
       {
         "src": "https://cdn.shopify.com/s/files/1/0693/7583/4882/products/iget-bar-strawberry-watermelon.png",
@@ -42,7 +56,14 @@
     "created_at": "2025-09-18T10:00:00+11:00",
     "updated_at": "2026-02-10T10:00:00+11:00",
     "published_at": "2025-09-18T10:00:00+11:00",
-    "tags": ["Brand IGET", "Disposable", "Disposable Vapes", "Tropical", "Fruity", "3500 Puffs"],
+    "tags": [
+      "Brand IGET",
+      "Disposable",
+      "Disposable Vapes",
+      "Tropical",
+      "Fruity",
+      "3500 Puffs"
+    ],
     "variants": [
       {
         "id": 90000002,
@@ -56,7 +77,15 @@
         "available": true
       }
     ],
-    "options": [{"name": "Title", "position": 1, "values": ["Default Title"]}],
+    "options": [
+      {
+        "name": "Title",
+        "position": 1,
+        "values": [
+          "Default Title"
+        ]
+      }
+    ],
     "images": [
       {
         "src": "https://cdn.shopify.com/s/files/1/0693/7583/4882/products/iget-bar-mango-bomb.png",
@@ -75,7 +104,14 @@
     "created_at": "2025-09-20T10:00:00+11:00",
     "updated_at": "2026-02-10T10:00:00+11:00",
     "published_at": "2025-09-20T10:00:00+11:00",
-    "tags": ["Brand IGET", "Disposable", "Disposable Vapes", "Candy", "Berry", "3500 Puffs"],
+    "tags": [
+      "Brand IGET",
+      "Disposable",
+      "Disposable Vapes",
+      "Candy",
+      "Berry",
+      "3500 Puffs"
+    ],
     "variants": [
       {
         "id": 90000003,
@@ -89,7 +125,15 @@
         "available": true
       }
     ],
-    "options": [{"name": "Title", "position": 1, "values": ["Default Title"]}],
+    "options": [
+      {
+        "name": "Title",
+        "position": 1,
+        "values": [
+          "Default Title"
+        ]
+      }
+    ],
     "images": [
       {
         "src": "https://cdn.shopify.com/s/files/1/0693/7583/4882/products/iget-bar-blue-razz.png",
@@ -108,7 +152,15 @@
     "created_at": "2025-09-22T10:00:00+11:00",
     "updated_at": "2026-02-10T10:00:00+11:00",
     "published_at": "2025-09-22T10:00:00+11:00",
-    "tags": ["Brand IGET", "Disposable", "Disposable Vapes", "Fruity", "Menthol", "Ice", "3500 Puffs"],
+    "tags": [
+      "Brand IGET",
+      "Disposable",
+      "Disposable Vapes",
+      "Fruity",
+      "Menthol",
+      "Ice",
+      "3500 Puffs"
+    ],
     "variants": [
       {
         "id": 90000004,
@@ -122,7 +174,15 @@
         "available": true
       }
     ],
-    "options": [{"name": "Title", "position": 1, "values": ["Default Title"]}],
+    "options": [
+      {
+        "name": "Title",
+        "position": 1,
+        "values": [
+          "Default Title"
+        ]
+      }
+    ],
     "images": [
       {
         "src": "https://cdn.shopify.com/s/files/1/0693/7583/4882/products/iget-bar-grape-ice.png",
@@ -141,7 +201,15 @@
     "created_at": "2025-09-25T10:00:00+11:00",
     "updated_at": "2026-02-10T10:00:00+11:00",
     "published_at": "2025-09-25T10:00:00+11:00",
-    "tags": ["Brand IGET", "Disposable", "Disposable Vapes", "Fruity", "Menthol", "Ice", "3500 Puffs"],
+    "tags": [
+      "Brand IGET",
+      "Disposable",
+      "Disposable Vapes",
+      "Fruity",
+      "Menthol",
+      "Ice",
+      "3500 Puffs"
+    ],
     "variants": [
       {
         "id": 90000005,
@@ -155,7 +223,15 @@
         "available": true
       }
     ],
-    "options": [{"name": "Title", "position": 1, "values": ["Default Title"]}],
+    "options": [
+      {
+        "name": "Title",
+        "position": 1,
+        "values": [
+          "Default Title"
+        ]
+      }
+    ],
     "images": [
       {
         "src": "https://cdn.shopify.com/s/files/1/0693/7583/4882/products/iget-bar-lush-ice.png",
@@ -174,7 +250,14 @@
     "created_at": "2025-09-28T10:00:00+11:00",
     "updated_at": "2026-02-10T10:00:00+11:00",
     "published_at": "2025-09-28T10:00:00+11:00",
-    "tags": ["Brand IGET", "Disposable", "Disposable Vapes", "Berry", "Fruity", "3500 Puffs"],
+    "tags": [
+      "Brand IGET",
+      "Disposable",
+      "Disposable Vapes",
+      "Berry",
+      "Fruity",
+      "3500 Puffs"
+    ],
     "variants": [
       {
         "id": 90000006,
@@ -188,7 +271,15 @@
         "available": true
       }
     ],
-    "options": [{"name": "Title", "position": 1, "values": ["Default Title"]}],
+    "options": [
+      {
+        "name": "Title",
+        "position": 1,
+        "values": [
+          "Default Title"
+        ]
+      }
+    ],
     "images": [
       {
         "src": "https://cdn.shopify.com/s/files/1/0693/7583/4882/products/iget-bar-mixed-berry.png",
@@ -207,7 +298,15 @@
     "created_at": "2025-10-15T10:00:00+11:00",
     "updated_at": "2026-02-10T10:00:00+11:00",
     "published_at": "2025-10-15T10:00:00+11:00",
-    "tags": ["Brand IGET", "Disposable", "Disposable Vapes", "Menthol", "Ice", "Drink", "4000 Puffs"],
+    "tags": [
+      "Brand IGET",
+      "Disposable",
+      "Disposable Vapes",
+      "Menthol",
+      "Ice",
+      "Drink",
+      "4000 Puffs"
+    ],
     "variants": [
       {
         "id": 90000007,
@@ -221,7 +320,15 @@
         "available": true
       }
     ],
-    "options": [{"name": "Title", "position": 1, "values": ["Default Title"]}],
+    "options": [
+      {
+        "name": "Title",
+        "position": 1,
+        "values": [
+          "Default Title"
+        ]
+      }
+    ],
     "images": [
       {
         "src": "https://cdn.shopify.com/s/files/1/0693/7583/4882/products/iget-legend-cola-ice.png",
@@ -240,7 +347,15 @@
     "created_at": "2025-10-18T10:00:00+11:00",
     "updated_at": "2026-02-10T10:00:00+11:00",
     "published_at": "2025-10-18T10:00:00+11:00",
-    "tags": ["Brand IGET", "Disposable", "Disposable Vapes", "Berry", "Menthol", "Ice", "4000 Puffs"],
+    "tags": [
+      "Brand IGET",
+      "Disposable",
+      "Disposable Vapes",
+      "Berry",
+      "Menthol",
+      "Ice",
+      "4000 Puffs"
+    ],
     "variants": [
       {
         "id": 90000008,
@@ -254,7 +369,15 @@
         "available": true
       }
     ],
-    "options": [{"name": "Title", "position": 1, "values": ["Default Title"]}],
+    "options": [
+      {
+        "name": "Title",
+        "position": 1,
+        "values": [
+          "Default Title"
+        ]
+      }
+    ],
     "images": [
       {
         "src": "https://cdn.shopify.com/s/files/1/0693/7583/4882/products/iget-legend-blackberry-ice.png",
@@ -273,7 +396,14 @@
     "created_at": "2025-10-20T10:00:00+11:00",
     "updated_at": "2026-02-10T10:00:00+11:00",
     "published_at": "2025-10-20T10:00:00+11:00",
-    "tags": ["Brand IGET", "Disposable", "Disposable Vapes", "Tropical", "Fruity", "4000 Puffs"],
+    "tags": [
+      "Brand IGET",
+      "Disposable",
+      "Disposable Vapes",
+      "Tropical",
+      "Fruity",
+      "4000 Puffs"
+    ],
     "variants": [
       {
         "id": 90000009,
@@ -287,7 +417,15 @@
         "available": true
       }
     ],
-    "options": [{"name": "Title", "position": 1, "values": ["Default Title"]}],
+    "options": [
+      {
+        "name": "Title",
+        "position": 1,
+        "values": [
+          "Default Title"
+        ]
+      }
+    ],
     "images": [
       {
         "src": "https://cdn.shopify.com/s/files/1/0693/7583/4882/products/iget-legend-passion-fruit-mango.png",
@@ -306,7 +444,15 @@
     "created_at": "2025-10-23T10:00:00+11:00",
     "updated_at": "2026-02-10T10:00:00+11:00",
     "published_at": "2025-10-23T10:00:00+11:00",
-    "tags": ["Brand IGET", "Disposable", "Disposable Vapes", "Fruity", "Menthol", "Ice", "4000 Puffs"],
+    "tags": [
+      "Brand IGET",
+      "Disposable",
+      "Disposable Vapes",
+      "Fruity",
+      "Menthol",
+      "Ice",
+      "4000 Puffs"
+    ],
     "variants": [
       {
         "id": 90000010,
@@ -320,7 +466,15 @@
         "available": true
       }
     ],
-    "options": [{"name": "Title", "position": 1, "values": ["Default Title"]}],
+    "options": [
+      {
+        "name": "Title",
+        "position": 1,
+        "values": [
+          "Default Title"
+        ]
+      }
+    ],
     "images": [
       {
         "src": "https://cdn.shopify.com/s/files/1/0693/7583/4882/products/iget-legend-peach-ice.png",
@@ -339,7 +493,13 @@
     "created_at": "2025-10-26T10:00:00+11:00",
     "updated_at": "2026-02-10T10:00:00+11:00",
     "published_at": "2025-10-26T10:00:00+11:00",
-    "tags": ["Brand IGET", "Disposable", "Disposable Vapes", "Fruity", "4000 Puffs"],
+    "tags": [
+      "Brand IGET",
+      "Disposable",
+      "Disposable Vapes",
+      "Fruity",
+      "4000 Puffs"
+    ],
     "variants": [
       {
         "id": 90000011,
@@ -353,7 +513,15 @@
         "available": true
       }
     ],
-    "options": [{"name": "Title", "position": 1, "values": ["Default Title"]}],
+    "options": [
+      {
+        "name": "Title",
+        "position": 1,
+        "values": [
+          "Default Title"
+        ]
+      }
+    ],
     "images": [
       {
         "src": "https://cdn.shopify.com/s/files/1/0693/7583/4882/products/iget-legend-strawberry-kiwi.png",
@@ -372,7 +540,14 @@
     "created_at": "2025-10-30T10:00:00+11:00",
     "updated_at": "2026-02-10T10:00:00+11:00",
     "published_at": "2025-10-30T10:00:00+11:00",
-    "tags": ["Brand IGET", "Disposable", "Disposable Vapes", "Fruity", "Citrus", "4000 Puffs"],
+    "tags": [
+      "Brand IGET",
+      "Disposable",
+      "Disposable Vapes",
+      "Fruity",
+      "Citrus",
+      "4000 Puffs"
+    ],
     "variants": [
       {
         "id": 90000012,
@@ -386,7 +561,15 @@
         "available": true
       }
     ],
-    "options": [{"name": "Title", "position": 1, "values": ["Default Title"]}],
+    "options": [
+      {
+        "name": "Title",
+        "position": 1,
+        "values": [
+          "Default Title"
+        ]
+      }
+    ],
     "images": [
       {
         "src": "https://cdn.shopify.com/s/files/1/0693/7583/4882/products/iget-legend-watermelon-lemon.png",
@@ -405,7 +588,15 @@
     "created_at": "2025-11-15T10:00:00+11:00",
     "updated_at": "2026-02-10T10:00:00+11:00",
     "published_at": "2025-11-15T10:00:00+11:00",
-    "tags": ["Brand GunnPod", "Disposable", "Disposable Vapes", "Fruity", "Menthol", "Ice", "2000 Puffs"],
+    "tags": [
+      "Brand GunnPod",
+      "Disposable",
+      "Disposable Vapes",
+      "Fruity",
+      "Menthol",
+      "Ice",
+      "2000 Puffs"
+    ],
     "variants": [
       {
         "id": 90000013,
@@ -419,7 +610,15 @@
         "available": true
       }
     ],
-    "options": [{"name": "Title", "position": 1, "values": ["Default Title"]}],
+    "options": [
+      {
+        "name": "Title",
+        "position": 1,
+        "values": [
+          "Default Title"
+        ]
+      }
+    ],
     "images": [
       {
         "src": "https://cdn.shopify.com/s/files/1/0693/7583/4882/products/gunnpod-banana-ice.png",
@@ -438,7 +637,14 @@
     "created_at": "2025-11-18T10:00:00+11:00",
     "updated_at": "2026-02-10T10:00:00+11:00",
     "published_at": "2025-11-18T10:00:00+11:00",
-    "tags": ["Brand GunnPod", "Disposable", "Disposable Vapes", "Candy", "Citrus", "2000 Puffs"],
+    "tags": [
+      "Brand GunnPod",
+      "Disposable",
+      "Disposable Vapes",
+      "Candy",
+      "Citrus",
+      "2000 Puffs"
+    ],
     "variants": [
       {
         "id": 90000014,
@@ -452,7 +658,15 @@
         "available": true
       }
     ],
-    "options": [{"name": "Title", "position": 1, "values": ["Default Title"]}],
+    "options": [
+      {
+        "name": "Title",
+        "position": 1,
+        "values": [
+          "Default Title"
+        ]
+      }
+    ],
     "images": [
       {
         "src": "https://cdn.shopify.com/s/files/1/0693/7583/4882/products/gunnpod-blue-razz-lemonade.png",
@@ -471,7 +685,15 @@
     "created_at": "2025-11-20T10:00:00+11:00",
     "updated_at": "2026-02-10T10:00:00+11:00",
     "published_at": "2025-11-20T10:00:00+11:00",
-    "tags": ["Brand GunnPod", "Disposable", "Disposable Vapes", "Tropical", "Menthol", "Ice", "2000 Puffs"],
+    "tags": [
+      "Brand GunnPod",
+      "Disposable",
+      "Disposable Vapes",
+      "Tropical",
+      "Menthol",
+      "Ice",
+      "2000 Puffs"
+    ],
     "variants": [
       {
         "id": 90000015,
@@ -485,7 +707,15 @@
         "available": true
       }
     ],
-    "options": [{"name": "Title", "position": 1, "values": ["Default Title"]}],
+    "options": [
+      {
+        "name": "Title",
+        "position": 1,
+        "values": [
+          "Default Title"
+        ]
+      }
+    ],
     "images": [
       {
         "src": "https://cdn.shopify.com/s/files/1/0693/7583/4882/products/gunnpod-guava-ice.png",
@@ -504,7 +734,14 @@
     "created_at": "2025-11-23T10:00:00+11:00",
     "updated_at": "2026-02-10T10:00:00+11:00",
     "published_at": "2025-11-23T10:00:00+11:00",
-    "tags": ["Brand GunnPod", "Disposable", "Disposable Vapes", "Tropical", "Fruity", "2000 Puffs"],
+    "tags": [
+      "Brand GunnPod",
+      "Disposable",
+      "Disposable Vapes",
+      "Tropical",
+      "Fruity",
+      "2000 Puffs"
+    ],
     "variants": [
       {
         "id": 90000016,
@@ -518,7 +755,15 @@
         "available": true
       }
     ],
-    "options": [{"name": "Title", "position": 1, "values": ["Default Title"]}],
+    "options": [
+      {
+        "name": "Title",
+        "position": 1,
+        "values": [
+          "Default Title"
+        ]
+      }
+    ],
     "images": [
       {
         "src": "https://cdn.shopify.com/s/files/1/0693/7583/4882/products/gunnpod-mango-peach.png",
@@ -537,7 +782,13 @@
     "created_at": "2025-11-26T10:00:00+11:00",
     "updated_at": "2026-02-10T10:00:00+11:00",
     "published_at": "2025-11-26T10:00:00+11:00",
-    "tags": ["Brand GunnPod", "Disposable", "Disposable Vapes", "Fruity", "2000 Puffs"],
+    "tags": [
+      "Brand GunnPod",
+      "Disposable",
+      "Disposable Vapes",
+      "Fruity",
+      "2000 Puffs"
+    ],
     "variants": [
       {
         "id": 90000017,
@@ -551,7 +802,15 @@
         "available": true
       }
     ],
-    "options": [{"name": "Title", "position": 1, "values": ["Default Title"]}],
+    "options": [
+      {
+        "name": "Title",
+        "position": 1,
+        "values": [
+          "Default Title"
+        ]
+      }
+    ],
     "images": [
       {
         "src": "https://cdn.shopify.com/s/files/1/0693/7583/4882/products/gunnpod-strawberry-banana.png",
@@ -570,7 +829,15 @@
     "created_at": "2025-11-30T10:00:00+11:00",
     "updated_at": "2026-02-10T10:00:00+11:00",
     "published_at": "2025-11-30T10:00:00+11:00",
-    "tags": ["Brand GunnPod", "Disposable", "Disposable Vapes", "Fruity", "Menthol", "Ice", "2000 Puffs"],
+    "tags": [
+      "Brand GunnPod",
+      "Disposable",
+      "Disposable Vapes",
+      "Fruity",
+      "Menthol",
+      "Ice",
+      "2000 Puffs"
+    ],
     "variants": [
       {
         "id": 90000018,
@@ -584,7 +851,15 @@
         "available": true
       }
     ],
-    "options": [{"name": "Title", "position": 1, "values": ["Default Title"]}],
+    "options": [
+      {
+        "name": "Title",
+        "position": 1,
+        "values": [
+          "Default Title"
+        ]
+      }
+    ],
     "images": [
       {
         "src": "https://cdn.shopify.com/s/files/1/0693/7583/4882/products/gunnpod-watermelon-ice.png",
@@ -603,7 +878,14 @@
     "created_at": "2025-12-15T10:00:00+11:00",
     "updated_at": "2026-02-10T10:00:00+11:00",
     "published_at": "2025-12-15T10:00:00+11:00",
-    "tags": ["Brand HQD", "Disposable", "Disposable Vapes", "Berry", "Citrus", "1200 Puffs"],
+    "tags": [
+      "Brand HQD",
+      "Disposable",
+      "Disposable Vapes",
+      "Berry",
+      "Citrus",
+      "1200 Puffs"
+    ],
     "variants": [
       {
         "id": 90000019,
@@ -617,7 +899,15 @@
         "available": true
       }
     ],
-    "options": [{"name": "Title", "position": 1, "values": ["Default Title"]}],
+    "options": [
+      {
+        "name": "Title",
+        "position": 1,
+        "values": [
+          "Default Title"
+        ]
+      }
+    ],
     "images": [
       {
         "src": "https://cdn.shopify.com/s/files/1/0693/7583/4882/products/hqd-cuvie-plus-blueberry-lemonade.png",
@@ -636,7 +926,14 @@
     "created_at": "2025-12-18T10:00:00+11:00",
     "updated_at": "2026-02-10T10:00:00+11:00",
     "published_at": "2025-12-18T10:00:00+11:00",
-    "tags": ["Brand HQD", "Disposable", "Disposable Vapes", "Fruity", "Candy", "1200 Puffs"],
+    "tags": [
+      "Brand HQD",
+      "Disposable",
+      "Disposable Vapes",
+      "Fruity",
+      "Candy",
+      "1200 Puffs"
+    ],
     "variants": [
       {
         "id": 90000020,
@@ -650,7 +947,15 @@
         "available": true
       }
     ],
-    "options": [{"name": "Title", "position": 1, "values": ["Default Title"]}],
+    "options": [
+      {
+        "name": "Title",
+        "position": 1,
+        "values": [
+          "Default Title"
+        ]
+      }
+    ],
     "images": [
       {
         "src": "https://cdn.shopify.com/s/files/1/0693/7583/4882/products/hqd-cuvie-plus-grapey.png",
@@ -669,7 +974,15 @@
     "created_at": "2025-12-20T10:00:00+11:00",
     "updated_at": "2026-02-10T10:00:00+11:00",
     "published_at": "2025-12-20T10:00:00+11:00",
-    "tags": ["Brand HQD", "Disposable", "Disposable Vapes", "Tropical", "Menthol", "Ice", "1200 Puffs"],
+    "tags": [
+      "Brand HQD",
+      "Disposable",
+      "Disposable Vapes",
+      "Tropical",
+      "Menthol",
+      "Ice",
+      "1200 Puffs"
+    ],
     "variants": [
       {
         "id": 90000021,
@@ -683,7 +996,15 @@
         "available": true
       }
     ],
-    "options": [{"name": "Title", "position": 1, "values": ["Default Title"]}],
+    "options": [
+      {
+        "name": "Title",
+        "position": 1,
+        "values": [
+          "Default Title"
+        ]
+      }
+    ],
     "images": [
       {
         "src": "https://cdn.shopify.com/s/files/1/0693/7583/4882/products/hqd-cuvie-plus-mango-ice.png",
@@ -702,7 +1023,13 @@
     "created_at": "2025-12-23T10:00:00+11:00",
     "updated_at": "2026-02-10T10:00:00+11:00",
     "published_at": "2025-12-23T10:00:00+11:00",
-    "tags": ["Brand HQD", "Disposable", "Disposable Vapes", "Fruity", "1200 Puffs"],
+    "tags": [
+      "Brand HQD",
+      "Disposable",
+      "Disposable Vapes",
+      "Fruity",
+      "1200 Puffs"
+    ],
     "variants": [
       {
         "id": 90000022,
@@ -716,7 +1043,15 @@
         "available": true
       }
     ],
-    "options": [{"name": "Title", "position": 1, "values": ["Default Title"]}],
+    "options": [
+      {
+        "name": "Title",
+        "position": 1,
+        "values": [
+          "Default Title"
+        ]
+      }
+    ],
     "images": [
       {
         "src": "https://cdn.shopify.com/s/files/1/0693/7583/4882/products/hqd-cuvie-plus-strawberry-banana.png",
@@ -735,7 +1070,14 @@
     "created_at": "2025-12-27T10:00:00+11:00",
     "updated_at": "2026-02-10T10:00:00+11:00",
     "published_at": "2025-12-27T10:00:00+11:00",
-    "tags": ["Brand HQD", "Disposable", "Disposable Vapes", "Berry", "Fruity", "1200 Puffs"],
+    "tags": [
+      "Brand HQD",
+      "Disposable",
+      "Disposable Vapes",
+      "Berry",
+      "Fruity",
+      "1200 Puffs"
+    ],
     "variants": [
       {
         "id": 90000023,
@@ -749,7 +1091,15 @@
         "available": true
       }
     ],
-    "options": [{"name": "Title", "position": 1, "values": ["Default Title"]}],
+    "options": [
+      {
+        "name": "Title",
+        "position": 1,
+        "values": [
+          "Default Title"
+        ]
+      }
+    ],
     "images": [
       {
         "src": "https://cdn.shopify.com/s/files/1/0693/7583/4882/products/hqd-cuvie-plus-mix-berries.png",
@@ -768,7 +1118,15 @@
     "created_at": "2025-12-30T10:00:00+11:00",
     "updated_at": "2026-02-10T10:00:00+11:00",
     "published_at": "2025-12-30T10:00:00+11:00",
-    "tags": ["Brand HQD", "Disposable", "Disposable Vapes", "Fruity", "Menthol", "Ice", "1200 Puffs"],
+    "tags": [
+      "Brand HQD",
+      "Disposable",
+      "Disposable Vapes",
+      "Fruity",
+      "Menthol",
+      "Ice",
+      "1200 Puffs"
+    ],
     "variants": [
       {
         "id": 90000024,
@@ -782,7 +1140,15 @@
         "available": true
       }
     ],
-    "options": [{"name": "Title", "position": 1, "values": ["Default Title"]}],
+    "options": [
+      {
+        "name": "Title",
+        "position": 1,
+        "values": [
+          "Default Title"
+        ]
+      }
+    ],
     "images": [
       {
         "src": "https://cdn.shopify.com/s/files/1/0693/7583/4882/products/hqd-cuvie-plus-peach-ice.png",
@@ -801,7 +1167,13 @@
     "created_at": "2026-01-05T10:00:00+11:00",
     "updated_at": "2026-02-10T10:00:00+11:00",
     "published_at": "2026-01-05T10:00:00+11:00",
-    "tags": ["Brand Elux", "Disposable", "Disposable Vapes", "Fruity", "600 Puffs"],
+    "tags": [
+      "Brand Elux",
+      "Disposable",
+      "Disposable Vapes",
+      "Fruity",
+      "600 Puffs"
+    ],
     "variants": [
       {
         "id": 90000025,
@@ -815,7 +1187,15 @@
         "available": true
       }
     ],
-    "options": [{"name": "Title", "position": 1, "values": ["Default Title"]}],
+    "options": [
+      {
+        "name": "Title",
+        "position": 1,
+        "values": [
+          "Default Title"
+        ]
+      }
+    ],
     "images": [
       {
         "src": "https://cdn.shopify.com/s/files/1/0693/7583/4882/products/elux-firerose-nova-apple-peach-pear.png",
@@ -834,7 +1214,14 @@
     "created_at": "2026-01-07T10:00:00+11:00",
     "updated_at": "2026-02-10T10:00:00+11:00",
     "published_at": "2026-01-07T10:00:00+11:00",
-    "tags": ["Brand Elux", "Disposable", "Disposable Vapes", "Candy", "Berry", "600 Puffs"],
+    "tags": [
+      "Brand Elux",
+      "Disposable",
+      "Disposable Vapes",
+      "Candy",
+      "Berry",
+      "600 Puffs"
+    ],
     "variants": [
       {
         "id": 90000026,
@@ -848,7 +1235,15 @@
         "available": true
       }
     ],
-    "options": [{"name": "Title", "position": 1, "values": ["Default Title"]}],
+    "options": [
+      {
+        "name": "Title",
+        "position": 1,
+        "values": [
+          "Default Title"
+        ]
+      }
+    ],
     "images": [
       {
         "src": "https://cdn.shopify.com/s/files/1/0693/7583/4882/products/elux-firerose-nova-blue-razz-cherry.png",
@@ -867,7 +1262,14 @@
     "created_at": "2026-01-09T10:00:00+11:00",
     "updated_at": "2026-02-10T10:00:00+11:00",
     "published_at": "2026-01-09T10:00:00+11:00",
-    "tags": ["Brand Elux", "Disposable", "Disposable Vapes", "Candy", "Dessert", "600 Puffs"],
+    "tags": [
+      "Brand Elux",
+      "Disposable",
+      "Disposable Vapes",
+      "Candy",
+      "Dessert",
+      "600 Puffs"
+    ],
     "variants": [
       {
         "id": 90000027,
@@ -881,7 +1283,15 @@
         "available": true
       }
     ],
-    "options": [{"name": "Title", "position": 1, "values": ["Default Title"]}],
+    "options": [
+      {
+        "name": "Title",
+        "position": 1,
+        "values": [
+          "Default Title"
+        ]
+      }
+    ],
     "images": [
       {
         "src": "https://cdn.shopify.com/s/files/1/0693/7583/4882/products/elux-firerose-nova-cotton-candy.png",
@@ -900,7 +1310,13 @@
     "created_at": "2026-01-11T10:00:00+11:00",
     "updated_at": "2026-02-10T10:00:00+11:00",
     "published_at": "2026-01-11T10:00:00+11:00",
-    "tags": ["Brand Elux", "Disposable", "Disposable Vapes", "Fruity", "600 Puffs"],
+    "tags": [
+      "Brand Elux",
+      "Disposable",
+      "Disposable Vapes",
+      "Fruity",
+      "600 Puffs"
+    ],
     "variants": [
       {
         "id": 90000028,
@@ -914,7 +1330,15 @@
         "available": true
       }
     ],
-    "options": [{"name": "Title", "position": 1, "values": ["Default Title"]}],
+    "options": [
+      {
+        "name": "Title",
+        "position": 1,
+        "values": [
+          "Default Title"
+        ]
+      }
+    ],
     "images": [
       {
         "src": "https://cdn.shopify.com/s/files/1/0693/7583/4882/products/elux-firerose-nova-grape.png",
@@ -933,7 +1357,14 @@
     "created_at": "2026-01-13T10:00:00+11:00",
     "updated_at": "2026-02-10T10:00:00+11:00",
     "published_at": "2026-01-13T10:00:00+11:00",
-    "tags": ["Brand Elux", "Disposable", "Disposable Vapes", "Berry", "Fruity", "600 Puffs"],
+    "tags": [
+      "Brand Elux",
+      "Disposable",
+      "Disposable Vapes",
+      "Berry",
+      "Fruity",
+      "600 Puffs"
+    ],
     "variants": [
       {
         "id": 90000029,
@@ -947,7 +1378,15 @@
         "available": true
       }
     ],
-    "options": [{"name": "Title", "position": 1, "values": ["Default Title"]}],
+    "options": [
+      {
+        "name": "Title",
+        "position": 1,
+        "values": [
+          "Default Title"
+        ]
+      }
+    ],
     "images": [
       {
         "src": "https://cdn.shopify.com/s/files/1/0693/7583/4882/products/elux-firerose-nova-mr-blue.png",
@@ -966,7 +1405,13 @@
     "created_at": "2026-01-15T10:00:00+11:00",
     "updated_at": "2026-02-10T10:00:00+11:00",
     "published_at": "2026-01-15T10:00:00+11:00",
-    "tags": ["Brand Elux", "Disposable", "Disposable Vapes", "Fruity", "600 Puffs"],
+    "tags": [
+      "Brand Elux",
+      "Disposable",
+      "Disposable Vapes",
+      "Fruity",
+      "600 Puffs"
+    ],
     "variants": [
       {
         "id": 90000030,
@@ -980,7 +1425,15 @@
         "available": true
       }
     ],
-    "options": [{"name": "Title", "position": 1, "values": ["Default Title"]}],
+    "options": [
+      {
+        "name": "Title",
+        "position": 1,
+        "values": [
+          "Default Title"
+        ]
+      }
+    ],
     "images": [
       {
         "src": "https://cdn.shopify.com/s/files/1/0693/7583/4882/products/elux-firerose-nova-watermelon.png",
@@ -999,7 +1452,14 @@
     "created_at": "2026-01-20T10:00:00+11:00",
     "updated_at": "2026-02-10T10:00:00+11:00",
     "published_at": "2026-01-20T10:00:00+11:00",
-    "tags": ["Brand Lost Mary", "Disposable", "Disposable Vapes", "Tropical", "Fruity", "6000 Puffs"],
+    "tags": [
+      "Brand Lost Mary",
+      "Disposable",
+      "Disposable Vapes",
+      "Tropical",
+      "Fruity",
+      "6000 Puffs"
+    ],
     "variants": [
       {
         "id": 90000031,
@@ -1013,7 +1473,15 @@
         "available": true
       }
     ],
-    "options": [{"name": "Title", "position": 1, "values": ["Default Title"]}],
+    "options": [
+      {
+        "name": "Title",
+        "position": 1,
+        "values": [
+          "Default Title"
+        ]
+      }
+    ],
     "images": [
       {
         "src": "https://cdn.shopify.com/s/files/1/0693/7583/4882/products/lost-mary-bm6000-triple-mango.png",
@@ -1032,7 +1500,15 @@
     "created_at": "2026-01-22T10:00:00+11:00",
     "updated_at": "2026-02-10T10:00:00+11:00",
     "published_at": "2026-01-22T10:00:00+11:00",
-    "tags": ["Brand Lost Mary", "Disposable", "Disposable Vapes", "Berry", "Menthol", "Ice", "6000 Puffs"],
+    "tags": [
+      "Brand Lost Mary",
+      "Disposable",
+      "Disposable Vapes",
+      "Berry",
+      "Menthol",
+      "Ice",
+      "6000 Puffs"
+    ],
     "variants": [
       {
         "id": 90000032,
@@ -1046,7 +1522,15 @@
         "available": true
       }
     ],
-    "options": [{"name": "Title", "position": 1, "values": ["Default Title"]}],
+    "options": [
+      {
+        "name": "Title",
+        "position": 1,
+        "values": [
+          "Default Title"
+        ]
+      }
+    ],
     "images": [
       {
         "src": "https://cdn.shopify.com/s/files/1/0693/7583/4882/products/lost-mary-bm6000-blueberry-ice.png",
@@ -1065,7 +1549,15 @@
     "created_at": "2026-01-25T10:00:00+11:00",
     "updated_at": "2026-02-10T10:00:00+11:00",
     "published_at": "2026-01-25T10:00:00+11:00",
-    "tags": ["Brand Lost Mary", "Disposable", "Disposable Vapes", "Fruity", "Menthol", "Ice", "6000 Puffs"],
+    "tags": [
+      "Brand Lost Mary",
+      "Disposable",
+      "Disposable Vapes",
+      "Fruity",
+      "Menthol",
+      "Ice",
+      "6000 Puffs"
+    ],
     "variants": [
       {
         "id": 90000033,
@@ -1079,7 +1571,15 @@
         "available": true
       }
     ],
-    "options": [{"name": "Title", "position": 1, "values": ["Default Title"]}],
+    "options": [
+      {
+        "name": "Title",
+        "position": 1,
+        "values": [
+          "Default Title"
+        ]
+      }
+    ],
     "images": [
       {
         "src": "https://cdn.shopify.com/s/files/1/0693/7583/4882/products/lost-mary-bm6000-strawberry-ice.png",
@@ -1098,7 +1598,14 @@
     "created_at": "2026-01-27T10:00:00+11:00",
     "updated_at": "2026-02-10T10:00:00+11:00",
     "published_at": "2026-01-27T10:00:00+11:00",
-    "tags": ["Brand Lost Mary", "Disposable", "Disposable Vapes", "Candy", "Fruity", "6000 Puffs"],
+    "tags": [
+      "Brand Lost Mary",
+      "Disposable",
+      "Disposable Vapes",
+      "Candy",
+      "Fruity",
+      "6000 Puffs"
+    ],
     "variants": [
       {
         "id": 90000034,
@@ -1112,7 +1619,15 @@
         "available": true
       }
     ],
-    "options": [{"name": "Title", "position": 1, "values": ["Default Title"]}],
+    "options": [
+      {
+        "name": "Title",
+        "position": 1,
+        "values": [
+          "Default Title"
+        ]
+      }
+    ],
     "images": [
       {
         "src": "https://cdn.shopify.com/s/files/1/0693/7583/4882/products/lost-mary-bm6000-grape-jelly.png",
@@ -1131,7 +1646,13 @@
     "created_at": "2026-01-30T10:00:00+11:00",
     "updated_at": "2026-02-10T10:00:00+11:00",
     "published_at": "2026-01-30T10:00:00+11:00",
-    "tags": ["Brand Lost Mary", "Disposable", "Disposable Vapes", "Fruity", "6000 Puffs"],
+    "tags": [
+      "Brand Lost Mary",
+      "Disposable",
+      "Disposable Vapes",
+      "Fruity",
+      "6000 Puffs"
+    ],
     "variants": [
       {
         "id": 90000035,
@@ -1145,7 +1666,15 @@
         "available": true
       }
     ],
-    "options": [{"name": "Title", "position": 1, "values": ["Default Title"]}],
+    "options": [
+      {
+        "name": "Title",
+        "position": 1,
+        "values": [
+          "Default Title"
+        ]
+      }
+    ],
     "images": [
       {
         "src": "https://cdn.shopify.com/s/files/1/0693/7583/4882/products/lost-mary-bm6000-watermelon.png",
@@ -1164,7 +1693,14 @@
     "created_at": "2026-02-01T10:00:00+11:00",
     "updated_at": "2026-02-10T10:00:00+11:00",
     "published_at": "2026-02-01T10:00:00+11:00",
-    "tags": ["Brand Lost Mary", "Disposable", "Disposable Vapes", "Fruity", "Citrus", "6000 Puffs"],
+    "tags": [
+      "Brand Lost Mary",
+      "Disposable",
+      "Disposable Vapes",
+      "Fruity",
+      "Citrus",
+      "6000 Puffs"
+    ],
     "variants": [
       {
         "id": 90000036,
@@ -1178,7 +1714,15 @@
         "available": true
       }
     ],
-    "options": [{"name": "Title", "position": 1, "values": ["Default Title"]}],
+    "options": [
+      {
+        "name": "Title",
+        "position": 1,
+        "values": [
+          "Default Title"
+        ]
+      }
+    ],
     "images": [
       {
         "src": "https://cdn.shopify.com/s/files/1/0693/7583/4882/products/lost-mary-bm6000-cherry-peach-lemonade.png",
