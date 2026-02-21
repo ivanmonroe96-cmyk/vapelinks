@@ -23,30 +23,30 @@ const structuredData = {
   "@type": "BlogPosting",
   "headline": post.title,
   "description": post.excerpt,
-  "image": post.image.startsWith('http') ? post.image : `https://vapelink.com.au${post.image}`,
+  "image": post.image.startsWith('http') ? post.image : `https://vapelinks.com.au${post.image}`,
   "author": { "@type": "Organization", "name": "Vapelink Australia" },
   "publisher": {
     "@type": "Organization",
     "name": "Vapelink Australia",
-    "logo": { "@type": "ImageObject", "url": "https://vapelink.com.au/images/logo.svg" }
+    "logo": { "@type": "ImageObject", "url": "https://vapelinks.com.au/images/logo.svg" }
   },
   "datePublished": post.date,
   "dateModified": post.date,
-  "mainEntityOfPage": { "@type": "WebPage", "@id": `https://vapelink.com.au/blog/${post.slug}` },
+  "mainEntityOfPage": { "@type": "WebPage", "@id": `https://vapelinks.com.au/blog/${post.slug}` },
   "wordCount": wordCount,
   "articleSection": post.category,
   "keywords": post.tags.join(', '),
   "inLanguage": "en-AU",
-  "isPartOf": { "@type": "WebSite", "@id": "https://vapelink.com.au/#website" }
+  "isPartOf": { "@type": "WebSite", "@id": "https://vapelinks.com.au/#website" }
 };
 
 const breadcrumbData = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   "itemListElement": [
-    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://vapelink.com.au/" },
-    { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://vapelink.com.au/blog" },
-    { "@type": "ListItem", "position": 3, "name": post.title, "item": `https://vapelink.com.au/blog/${post.slug}` }
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://vapelinks.com.au/" },
+    { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://vapelinks.com.au/blog" },
+    { "@type": "ListItem", "position": 3, "name": post.title, "item": `https://vapelinks.com.au/blog/${post.slug}` }
   ]
 };
 ---

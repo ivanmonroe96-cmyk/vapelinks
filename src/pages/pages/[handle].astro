@@ -33,8 +33,8 @@ if (isFaqPage && page.body_html) {
       "@type": "FAQPage",
       "name": page.title,
       "description": plainDescription,
-      "url": `https://vapelink.com.au/pages/${page.handle}`,
-      "isPartOf": { "@type": "WebSite", "@id": "https://vapelink.com.au/#website" },
+      "url": `https://vapelinks.com.au/pages/${page.handle}`,
+      "isPartOf": { "@type": "WebSite", "@id": "https://vapelinks.com.au/#website" },
       "mainEntity": faqPairs.map((faq) => ({
         "@type": "Question",
         "name": faq.question,
@@ -46,8 +46,8 @@ if (isFaqPage && page.body_html) {
       "breadcrumb": {
         "@type": "BreadcrumbList",
         "itemListElement": [
-          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://vapelink.com.au/" },
-          { "@type": "ListItem", "position": 2, "name": page.title, "item": `https://vapelink.com.au/pages/${page.handle}` }
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://vapelinks.com.au/" },
+          { "@type": "ListItem", "position": 2, "name": page.title, "item": `https://vapelinks.com.au/pages/${page.handle}` }
         ]
       }
     };
@@ -65,13 +65,13 @@ if (isFaqPage && page.body_html) {
         "@type": "WebPage",
         "name": page.title,
         "description": plainDescription,
-        "url": `https://vapelink.com.au/pages/${page.handle}`,
-        "isPartOf": { "@type": "WebSite", "@id": "https://vapelink.com.au/#website" },
+        "url": `https://vapelinks.com.au/pages/${page.handle}`,
+        "isPartOf": { "@type": "WebSite", "@id": "https://vapelinks.com.au/#website" },
         "breadcrumb": {
           "@type": "BreadcrumbList",
           "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://vapelink.com.au/" },
-            { "@type": "ListItem", "position": 2, "name": page.title, "item": `https://vapelink.com.au/pages/${page.handle}` }
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://vapelinks.com.au/" },
+            { "@type": "ListItem", "position": 2, "name": page.title, "item": `https://vapelinks.com.au/pages/${page.handle}` }
           ]
         }
       })} />

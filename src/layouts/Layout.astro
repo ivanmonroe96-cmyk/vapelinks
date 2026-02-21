@@ -48,14 +48,14 @@ const navCollections = collectionsData
   <meta property="og:description" content={description} />
   <meta property="og:type" content={type} />
   <meta property="og:url" content={currentUrl} />
-  <meta property="og:image" content={image.startsWith('http') ? image : `https://vapelink.com.au${image}`} />
+  <meta property="og:image" content={image.startsWith('http') ? image : `https://vapelinks.com.au${image}`} />
   <meta property="og:site_name" content="Vapelink Australia" />
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content={siteTitle} />
   <meta name="twitter:description" content={description} />
-  <meta name="twitter:image" content={image.startsWith('http') ? image : `https://vapelink.com.au${image}`} />
+  <meta name="twitter:image" content={image.startsWith('http') ? image : `https://vapelinks.com.au${image}`} />
 
   <link rel="canonical" href={currentUrl} />
   <meta name="generator" content={Astro.generator} />
@@ -73,12 +73,12 @@ const navCollections = collectionsData
     "@graph": [
       {
         "@type": "Organization",
-        "@id": "https://vapelink.com.au/#organization",
+        "@id": "https://vapelinks.com.au/#organization",
         "name": "Vapelink Australia",
-        "url": "https://vapelink.com.au",
+        "url": "https://vapelinks.com.au",
         "logo": {
           "@type": "ImageObject",
-          "url": "https://vapelink.com.au/images/logo.svg"
+          "url": "https://vapelinks.com.au/images/logo.svg"
         },
         "contactPoint": {
           "@type": "ContactPoint",
@@ -97,16 +97,16 @@ const navCollections = collectionsData
       },
       {
         "@type": "WebSite",
-        "@id": "https://vapelink.com.au/#website",
-        "url": "https://vapelink.com.au",
+        "@id": "https://vapelinks.com.au/#website",
+        "url": "https://vapelinks.com.au",
         "name": "Vapelink Australia",
-        "publisher": { "@id": "https://vapelink.com.au/#organization" },
+        "publisher": { "@id": "https://vapelinks.com.au/#organization" },
         "inLanguage": "en-AU",
         "potentialAction": {
           "@type": "SearchAction",
           "target": {
             "@type": "EntryPoint",
-            "urlTemplate": "https://vapelink.com.au/search?q={search_term_string}"
+            "urlTemplate": "https://vapelinks.com.au/search?q={search_term_string}"
           },
           "query-input": "required name=search_term_string"
         }

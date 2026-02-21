@@ -6,7 +6,7 @@ import node from '@astrojs/node';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://vapelink.com.au',
+  site: 'https://vapelinks.com.au',
   adapter: node({ mode: 'standalone' }),
   integrations: [
     sitemap({
@@ -19,7 +19,7 @@ export default defineConfig({
       serialize(item) {
         const url = item.url;
         // Homepage
-        if (url === 'https://vapelink.com.au/' || url === 'https://vapelink.com.au') {
+        if (url === 'https://vapelinks.com.au/' || url === 'https://vapelinks.com.au') {
           item.priority = 1.0;
           item.changefreq = 'daily';
         }

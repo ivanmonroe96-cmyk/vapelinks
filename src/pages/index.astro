@@ -40,13 +40,13 @@ const vendors = [...new Set(productsData.map((p: any) => p.vendor).filter(Boolea
       "@graph": [
         {
           "@type": "Organization",
-          "@id": "https://vapelink.com.au/#organization",
+          "@id": "https://vapelinks.com.au/#organization",
           "name": "Vapelink Australia",
           "alternateName": "Vapelink",
-          "url": "https://vapelink.com.au",
+          "url": "https://vapelinks.com.au",
           "logo": {
             "@type": "ImageObject",
-            "url": "https://vapelink.com.au/images/logo.svg",
+            "url": "https://vapelinks.com.au/images/logo.svg",
             "width": 200,
             "height": 60
           },
@@ -65,26 +65,26 @@ const vendors = [...new Set(productsData.map((p: any) => p.vendor).filter(Boolea
         },
         {
           "@type": "WebSite",
-          "@id": "https://vapelink.com.au/#website",
-          "url": "https://vapelink.com.au",
+          "@id": "https://vapelinks.com.au/#website",
+          "url": "https://vapelinks.com.au",
           "name": "Vapelink Australia",
           "description": "Online vape shop based in Melbourne, Australia",
-          "publisher": { "@id": "https://vapelink.com.au/#organization" },
+          "publisher": { "@id": "https://vapelinks.com.au/#organization" },
           "potentialAction": {
             "@type": "SearchAction",
             "target": {
               "@type": "EntryPoint",
-              "urlTemplate": "https://vapelink.com.au/search?q={search_term_string}"
+              "urlTemplate": "https://vapelinks.com.au/search?q={search_term_string}"
             },
             "query-input": "required name=search_term_string"
           }
         },
         {
           "@type": "Store",
-          "@id": "https://vapelink.com.au/#store",
+          "@id": "https://vapelinks.com.au/#store",
           "name": "Vapelink Vape Shop",
-          "image": "https://vapelink.com.au/images/logo.svg",
-          "url": "https://vapelink.com.au",
+          "image": "https://vapelinks.com.au/images/logo.svg",
+          "url": "https://vapelinks.com.au",
           "email": "info@vapelinks.com.au",
           "address": {
             "@type": "PostalAddress",
@@ -110,7 +110,7 @@ const vendors = [...new Set(productsData.map((p: any) => p.vendor).filter(Boolea
             "@type": "ListItem",
             "position": 1,
             "name": "Home",
-            "item": "https://vapelink.com.au/"
+            "item": "https://vapelinks.com.au/"
           }]
         }
       ]

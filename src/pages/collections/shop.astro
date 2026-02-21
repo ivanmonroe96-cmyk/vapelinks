@@ -16,14 +16,14 @@ const PRODUCTS_PER_PAGE = 24;
       "@type": "CollectionPage",
       "name": "Shop All Vape Products",
       "description": "All vape products from Vapelink Australia — kits, disposables, e-liquids, coils, pods and accessories.",
-      "url": "https://vapelink.com.au/collections/shop",
+      "url": "https://vapelinks.com.au/collections/shop",
       "numberOfItems": productsData.length,
-      "isPartOf": { "@type": "WebSite", "@id": "https://vapelink.com.au/#website" },
+      "isPartOf": { "@type": "WebSite", "@id": "https://vapelinks.com.au/#website" },
       "breadcrumb": {
         "@type": "BreadcrumbList",
         "itemListElement": [
-          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://vapelink.com.au/" },
-          { "@type": "ListItem", "position": 2, "name": "Shop All Products", "item": "https://vapelink.com.au/collections/shop" }
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://vapelinks.com.au/" },
+          { "@type": "ListItem", "position": 2, "name": "Shop All Products", "item": "https://vapelinks.com.au/collections/shop" }
         ]
       },
       "mainEntity": {
@@ -32,7 +32,7 @@ const PRODUCTS_PER_PAGE = 24;
         "itemListElement": productsData.slice(0, 30).map((p: any, idx: number) => ({
           "@type": "ListItem",
           "position": idx + 1,
-          "url": `https://vapelink.com.au/products/${p.handle}`,
+          "url": `https://vapelinks.com.au/products/${p.handle}`,
           "name": p.title,
           "image": p.images?.[0]?.src || ''
         }))

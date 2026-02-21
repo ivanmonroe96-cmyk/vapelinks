@@ -15,21 +15,21 @@ const categories = [...new Set(blogPosts.map((p: any) => p.category))];
       "@type": "Blog",
       "name": "Vapelink Blog – Guides, Tips & Reviews",
       "description": "Expert vaping guides, tips, product comparisons and news from Vapelink Australia.",
-      "url": "https://vapelink.com.au/blog",
+      "url": "https://vapelinks.com.au/blog",
       "publisher": {
         "@type": "Organization",
         "name": "Vapelink Australia",
-        "logo": { "@type": "ImageObject", "url": "https://vapelink.com.au/images/logo.svg" }
+        "logo": { "@type": "ImageObject", "url": "https://vapelinks.com.au/images/logo.svg" }
       },
-      "isPartOf": { "@type": "WebSite", "@id": "https://vapelink.com.au/#website" },
+      "isPartOf": { "@type": "WebSite", "@id": "https://vapelinks.com.au/#website" },
       "inLanguage": "en-AU",
       "blogPost": sortedPosts.slice(0, 20).map((p: any) => ({
         "@type": "BlogPosting",
         "headline": p.title,
         "description": p.excerpt,
-        "url": `https://vapelink.com.au/blog/${p.slug}`,
+        "url": `https://vapelinks.com.au/blog/${p.slug}`,
         "datePublished": p.date,
-        "image": p.image.startsWith('http') ? p.image : `https://vapelink.com.au${p.image}`,
+        "image": p.image.startsWith('http') ? p.image : `https://vapelinks.com.au${p.image}`,
         "author": { "@type": "Organization", "name": "Vapelink Australia" }
       }))
     })} />
@@ -37,8 +37,8 @@ const categories = [...new Set(blogPosts.map((p: any) => p.category))];
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",
       "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://vapelink.com.au/" },
-        { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://vapelink.com.au/blog" }
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://vapelinks.com.au/" },
+        { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://vapelinks.com.au/blog" }
       ]
     })} />
   </Fragment>

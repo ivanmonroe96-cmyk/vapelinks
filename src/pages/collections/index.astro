@@ -20,14 +20,14 @@ const emptyCollections = collectionsData
       "@type": "CollectionPage",
       "name": "All Vape Collections",
       "description": "All vape collections at Vapelink Australia. Search by brand, category or product type.",
-      "url": "https://vapelink.com.au/collections",
+      "url": "https://vapelinks.com.au/collections",
       "numberOfItems": collections.length,
-      "isPartOf": { "@type": "WebSite", "@id": "https://vapelink.com.au/#website" },
+      "isPartOf": { "@type": "WebSite", "@id": "https://vapelinks.com.au/#website" },
       "breadcrumb": {
         "@type": "BreadcrumbList",
         "itemListElement": [
-          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://vapelink.com.au/" },
-          { "@type": "ListItem", "position": 2, "name": "Collections", "item": "https://vapelink.com.au/collections" }
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://vapelinks.com.au/" },
+          { "@type": "ListItem", "position": 2, "name": "Collections", "item": "https://vapelinks.com.au/collections" }
         ]
       },
       "mainEntity": {
@@ -36,7 +36,7 @@ const emptyCollections = collectionsData
         "itemListElement": collections.map((c: any, idx: number) => ({
           "@type": "ListItem",
           "position": idx + 1,
-          "url": `https://vapelink.com.au/collections/${c.handle}`,
+          "url": `https://vapelinks.com.au/collections/${c.handle}`,
           "name": c.title,
           "image": c.image?.src || ''
         }))
