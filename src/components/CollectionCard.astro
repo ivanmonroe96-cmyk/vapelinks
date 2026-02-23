@@ -1,6 +1,4 @@
 ---
-import fs from 'node:fs';
-import path from 'node:path';
 import productsRaw from '../data/products.json';
 import disposableVapes from '../data/disposable-vapes.json';
 const products = [...productsRaw, ...disposableVapes] as any[];
@@ -19,7 +17,7 @@ for (const p of products) {
 
 /**
  * Find a product image from the collection's own products.
- * Prefers local downloaded images, falls back to CDN src.
+ * Uses existing src values directly (Worker-safe, no filesystem access).
  */
 function getProductFallbackImage(col: any): string | null {
   const handles: string[] = col.product_handles || [];
@@ -27,29 +25,7 @@ function getProductFallbackImage(col: any): string | null {
     const p = productMap[h];
     if (!p?.images?.length) continue;
     const src = p.images[0].src as string;
-    // If already a local path, use it directly
-    if (src.startsWith('/images/')) {
-      return src;
-    }
-    // Try to find local image: public/images/products/{handle}_0.{ext}
-    try {
-      const ext = path.extname(new URL(src).pathname);
-      const localFile = `${h}_0${ext}`;
-      const localPath = path.join('public', 'images', 'products', localFile);
-      if (fs.existsSync(localPath)) {
-        return `/images/products/${localFile}`;
-      }
-    } catch {
-      // URL parsing failed — try common extensions
-      for (const ext of ['.jpg', '.png', '.webp']) {
-        const localFile = `${h}_0${ext}`;
-        const localPath = path.join('public', 'images', 'products', localFile);
-        if (fs.existsSync(localPath)) {
-          return `/images/products/${localFile}`;
-        }
-      }
-    }
-    // Fall back to the src as-is
+    // Use local paths directly where present, otherwise use upstream src.
     return src;
   }
   return null;

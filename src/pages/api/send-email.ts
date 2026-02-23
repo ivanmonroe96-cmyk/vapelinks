@@ -3,9 +3,16 @@ export const prerender = false;
 import type { APIRoute } from 'astro';
 import { Resend } from 'resend';
 
-const resend = new Resend(import.meta.env.RESEND_API_KEY);
 const FROM_EMAIL = import.meta.env.RESEND_FROM_EMAIL || 'Vapelink Australia <info@vapelinks.com.au>';
 const ADMIN_EMAIL = import.meta.env.RESEND_ADMIN_EMAIL || 'info@vapelinks.com.au';
+
+function getResendClient() {
+  const apiKey = import.meta.env.RESEND_API_KEY;
+  if (!apiKey) {
+    throw new Error('Missing RESEND_API_KEY');
+  }
+  return new Resend(apiKey);
+}
 
 /* ─────────────────────────────────────────────────────────
    Shared email layout wrapper — premium dark theme
@@ -152,6 +159,7 @@ function badge(text: string, color: string) {
    ───────────────────────────────────────────────────────── */
 export const POST: APIRoute = async ({ request }) => {
   try {
+    const resend = getResendClient();
     const body = await request.json();
     const { type, data } = body;
 
