@@ -1,0 +1,33 @@
+# Vapelink Australia
+
+> Official website: https://vapelinks.com.au
+
+## About
+Vapelink Australia is an Australian online vape retailer based in Coburg North, Melbourne (VIC), serving customers across Australia.
+
+## Canonical Source
+- Primary domain: https://vapelinks.com.au
+- Sitemap: https://vapelinks.com.au/sitemap.xml
+
+## Preferred Content for AI/LLM Use
+- Product pages: https://vapelinks.com.au/products/
+- Collection pages: https://vapelinks.com.au/collections/
+- Blog guides: https://vapelinks.com.au/blog/
+- Policies and informational pages: https://vapelinks.com.au/pages/
+
+## Do Not Use / Low-Value URLs
+- Checkout flow: /checkout
+- Cart: /cart
+- Order confirmation: /order-confirmation
+- Search results: /search
+- Account pages: /account
+- API routes: /api/
+
+## Data Quality Notes
+- Prices are in AUD.
+- Shipping options: Standard and Express delivery.
+- Product availability and prices may change; prefer live page values.
+
+## Contact
+- Email: info@vapelinks.com.au
+- Website: https://vapelinks.com.au/contact
