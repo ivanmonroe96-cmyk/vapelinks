@@ -64,7 +64,7 @@ export function getStaticPaths() {
 }
 
 const { collection, allProducts, totalProducts } = Astro.props;
-const plainDescription = (collection.body_html || '').replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').substring(0, 150).trim() || `Browse ${collection.title} at Vapelink — ${totalProducts}+ products in stock. Fast AU shipping, free delivery over $100.`;
+const plainDescription = (collection.body_html || '').replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').substring(0, 150).trim() || `Browse ${collection.title} at Vapelink — ${totalProducts}+ products in stock. Fast Australia-wide shipping.`;
 const seoDesc = plainDescription.length > 160 ? plainDescription.substring(0, 157) + '...' : plainDescription;
 const collectionTitleBase = `${collection.title} | Buy Online – Vapelink Australia`;
 const collectionSeoTitle = collectionTitleBase.length > 60 ? `${collection.title} | Vapelink Australia` : collectionTitleBase;
@@ -102,7 +102,7 @@ function getCollectionKeywords(col: any): string {
     }
   }
 
-  kw.push(col.title, 'vape shop australia', 'buy online australia', 'free shipping over $100');
+  kw.push(col.title, 'vape shop australia', 'buy online australia', 'fast shipping australia');
   return [...new Set(kw.filter(Boolean))].slice(0, 15).join(', ');
 }
 

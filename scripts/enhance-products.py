@@ -793,7 +793,7 @@ def build_seo_footer(product, brand, transactional_kw, product_type):
     price = product['variants'][0].get('price', '0.00')
 
     parts = []
-    parts.append(f'<p><strong>Why buy from Vapelink Australia?</strong> We offer fast shipping across Australia, with free delivery on orders over $100. Every {title} ships from our Australian warehouse, so you get your gear quickly and without the hassle of international shipping delays.</p>')
+    parts.append(f'<p><strong>Why buy from Vapelink Australia?</strong> Fast Australia-wide shipping on every order. Every {title} ships from our Australian warehouse, so you get your gear quickly and without the hassle of international shipping delays.</p>')
     parts.append(f'<p>Looking to <strong>{transactional_kw}</strong>? You\'re in the right place. Vapelink stocks genuine {brand or "premium"} products at competitive prices.</p>')
 
     return '\n'.join(parts)

@@ -1,7 +1,12 @@
 #!/usr/bin/env node
 /**
- * Scrapes all product, collection, page data and images from vapelink.com.au
- * Shopify JSON API endpoints and saves them locally.
+ * LEGACY SCRIPT — DO NOT USE IN PRODUCTION
+ *
+ * This script was used during the initial migration from Shopify to Astro.
+ * It scraped product, collection, page data and images from the old
+ * vapelink.com.au Shopify store and saved them locally.
+ *
+ * All data has been migrated. This script is kept for reference only.
  */
 import { writeFileSync, mkdirSync, existsSync } from 'fs';
 import { join, dirname } from 'path';

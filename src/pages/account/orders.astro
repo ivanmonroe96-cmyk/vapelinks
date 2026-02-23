@@ -105,7 +105,7 @@ import Layout from '../../layouts/Layout.astro';
 
             <div class="order-detail-summary">
               <div class="order-detail-summary-row"><span>Subtotal</span><span class="font-display">$${subtotal.toFixed(2)}</span></div>
-              <div class="order-detail-summary-row"><span>Shipping</span><span class="font-display">${shipping === 0 ? 'FREE' : '$' + shipping.toFixed(2)}</span></div>
+              <div class="order-detail-summary-row"><span>Shipping</span><span class="font-display">$${shipping.toFixed(2)}</span></div>
               <div class="order-detail-summary-row order-detail-summary-total"><span>Total</span><span class="font-display">$${total.toFixed(2)} AUD</span></div>
             </div>
 

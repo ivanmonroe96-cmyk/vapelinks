@@ -12,7 +12,14 @@ export const onRequest = defineMiddleware(async (context, next) => {
   const canonicalHost = 'vapelinks.com.au';
   const aliasHosts = new Set(['www.vapelinks.com.au', 'vapelink.com.au', 'www.vapelink.com.au']);
 
-  if (host && (host !== canonicalHost || aliasHosts.has(host) || protocol !== 'https')) {
+  // Skip redirect for local/dev environments
+  const skipHosts = new Set(['localhost', '127.0.0.1', '0.0.0.0']);
+  const bareHost = host.split(':')[0];
+  if (skipHosts.has(bareHost)) {
+    return next();
+  }
+
+  if (host && (aliasHosts.has(host) || protocol !== 'https')) {
     const target = `https://${canonicalHost}${url.pathname}${url.search}`;
     return context.redirect(target, 301);
   }

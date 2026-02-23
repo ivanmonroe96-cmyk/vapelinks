@@ -680,9 +680,7 @@ import siteData from '../data/site.json';
       window.dispatchEvent(new CustomEvent('cart-updated'));
     }
 
-    const FREE_SHIPPING_THRESHOLD = 100;
-    function getShippingPrice(method, subtotal) {
-      if (method === 'standard' && subtotal >= FREE_SHIPPING_THRESHOLD) return 0;
+    function getShippingPrice(method) {
       return method === 'express' ? 14.95 : 9.95;
     }
     let currentStep = 1;
@@ -738,14 +736,10 @@ import siteData from '../data/site.json';
 
       const selectedShipping = document.querySelector('input[name="shipping"]:checked');
       const shippingKey = selectedShipping ? selectedShipping.value : 'standard';
-      const shippingCost = getShippingPrice(shippingKey, subtotal);
-
-      // Update shipping option labels to show FREE when applicable
-      const stdPriceEl = document.querySelector('input[value="standard"]')?.closest('.shipping-option')?.querySelector('.shipping-price');
-      if (stdPriceEl) stdPriceEl.textContent = subtotal >= FREE_SHIPPING_THRESHOLD ? 'FREE' : '$9.95';
+      const shippingCost = getShippingPrice(shippingKey);
 
       if (subtotalEl) subtotalEl.textContent = `$${subtotal.toFixed(2)}`;
-      if (shippingEl) shippingEl.textContent = shippingCost === 0 ? 'FREE' : `$${shippingCost.toFixed(2)}`;
+      if (shippingEl) shippingEl.textContent = `$${shippingCost.toFixed(2)}`;
       if (totalEl) totalEl.textContent = `$${(subtotal + shippingCost).toFixed(2)} AUD`;
     }
 
@@ -839,7 +833,7 @@ import siteData from '../data/site.json';
       const paymentMethod = document.querySelector('input[name="payment"]:checked')?.value || 'bank';
       const shippingMethod = document.querySelector('input[name="shipping"]:checked')?.value || 'standard';
       const subtotal = cart.reduce((sum, item) => sum + (parseFloat(item.price || '0') * (item.qty || 1)), 0);
-      const shipCost = getShippingPrice(shippingMethod, subtotal);
+      const shipCost = getShippingPrice(shippingMethod);
 
       // Gather order data
       const orderData = {

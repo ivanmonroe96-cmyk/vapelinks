@@ -26,8 +26,8 @@ const plainDescription = (product.body_html || '').replace(/<[^>]*>/g, '').repla
 const productDescSnippet = plainDescription.substring(0, 120).trim();
 const pricePart = hasDiscount ? `Now $${price} (was $${comparePrice})` : `$${price} AUD`;
 const seoDescBase = productDescSnippet
-  ? `${productDescSnippet}${productDescSnippet.length >= 120 ? '...' : ''} — ${pricePart}. Free shipping over $100.`
-  : `Buy ${product.title}${product.vendor ? ` by ${product.vendor}` : ''} for ${pricePart} at Vapelink. Fast AU shipping, free over $100.`;
+  ? `${productDescSnippet}${productDescSnippet.length >= 120 ? '...' : ''} — ${pricePart}. Fast AU shipping.`
+  : `Buy ${product.title}${product.vendor ? ` by ${product.vendor}` : ''} for ${pricePart} at Vapelink. Fast Australia-wide shipping.`;
 const seoDescription = seoDescBase.length > 160 ? seoDescBase.substring(0, 157) + '...' : seoDescBase;
 
 // SEO title — brand + product + buy online, cap at 60 chars for Google

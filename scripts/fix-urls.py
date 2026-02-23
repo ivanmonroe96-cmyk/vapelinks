@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
-Fix broken Shopify URLs in all JSON data files.
-Rewrites old Shopify URL patterns to correct Astro paths.
+Fix broken URLs in all JSON data files.
+Rewrites old URL patterns to correct Astro paths.
+Originally used to clean up URLs after migration from the old platform.
 """
 import json
 import re

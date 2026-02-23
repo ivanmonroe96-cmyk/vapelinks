@@ -9,10 +9,15 @@ import siteData from '../data/site.json';
     <!-- No order data (direct visit) -->
     <div id="no-order" style="display:none;">
       <div class="confirmation-empty">
-        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-dim)" stroke-width="1.2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
-        <h2 class="font-display" style="font-size:1.2rem;font-weight:700;color:var(--color-text);margin-top:1rem;">No Order Found</h2>
-        <p style="color:var(--color-text-secondary);font-size:0.88rem;margin-top:0.35rem;">It looks like you haven't placed an order yet.</p>
-        <a href="/collections/shop" class="btn-primary" style="margin-top:1.25rem;padding:0.7rem 2rem;">Browse Products</a>
+        <div class="confirmation-empty-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+        </div>
+        <h2 class="font-display confirmation-empty-title">No Order Found</h2>
+        <p class="confirmation-empty-desc">It looks like you haven't placed an order yet, or the order details have expired.</p>
+        <a href="/collections/shop" class="btn-primary confirmation-empty-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          Browse Products
+        </a>
       </div>
     </div>
 
@@ -20,52 +25,61 @@ import siteData from '../data/site.json';
     <div id="order-content" style="display:none;">
       <!-- Success Header -->
       <div class="confirmation-header">
-        <div id="conf-header-icon" class="confirmation-check">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-        </div>
-        <h1 id="conf-title" class="font-display confirmation-title">Order Confirmed!</h1>
-        <p id="conf-subtitle" class="confirmation-subtitle">Thank you for your order. We've received your details and will process it shortly.</p>
-        <div class="confirmation-order-num">
-          <span>Order Number</span>
-          <strong id="conf-order-num" class="font-display">—</strong>
+        <div class="confirmation-header-pattern"></div>
+        <div class="confirmation-header-inner">
+          <div id="conf-header-icon" class="confirmation-check">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <h1 id="conf-title" class="font-display confirmation-title">Order Confirmed!</h1>
+          <p id="conf-subtitle" class="confirmation-subtitle">Thank you for your order. We've received your details and will process it shortly.</p>
+          <div class="confirmation-order-num">
+            <span>Order Number</span>
+            <strong id="conf-order-num" class="font-display">—</strong>
+          </div>
         </div>
       </div>
 
       <!-- Payment-specific section (Bank Transfer / PayID) -->
       <div id="bank-payment-section" class="payment-instruction-section" style="display:none;">
         <div class="payment-instruction-card bank-card">
-          <div class="payment-instruction-header">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 10h20"/><path d="M6 16h4"/></svg>
-            <h3 class="font-display">Bank Transfer / PayID</h3>
-          </div>
-
-          <div class="bank-pending-message">
-            <div class="bank-pending-icon">
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-            </div>
-            <h4 class="font-display" style="font-size:1.1rem;font-weight:700;color:var(--color-text);margin-top:1rem;">Bank Details Coming to Your Inbox</h4>
-            <p style="color:var(--color-text-secondary);font-size:0.92rem;line-height:1.7;margin-top:0.65rem;max-width:480px;">
-              Thank you for placing your order! Our team will review it and send the <strong style="color:var(--color-text);">bank transfer / PayID payment details</strong> to your email address shortly.
-            </p>
-
-            <div class="bank-pending-details">
-              <div class="bank-pending-row">
-                <span>Order Number</span>
-                <strong id="bank-reference" class="font-display" style="color:var(--color-accent);">—</strong>
+          <div class="payment-instruction-accent bank"></div>
+          <div class="payment-instruction-body">
+            <div class="payment-instruction-header">
+              <div class="payment-instruction-icon bank">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 10h20"/><path d="M6 16h4"/></svg>
               </div>
-              <div class="bank-pending-row">
-                <span>Amount Due</span>
-                <strong id="bank-amount" class="font-display" style="color:var(--color-accent);">—</strong>
-              </div>
-              <div class="bank-pending-row">
-                <span>Email</span>
-                <strong id="bank-pending-email" class="font-display" style="color:var(--color-text);">—</strong>
-              </div>
+              <h3 class="font-display payment-instruction-title">Bank Transfer / PayID</h3>
             </div>
 
-            <p style="color:var(--color-text-muted);font-size:0.82rem;margin-top:1.25rem;line-height:1.6;">
-              Please check your inbox (and spam folder) within the next few minutes. Once you receive the payment details, complete the transfer and send a screenshot of the payment to confirm your order.
-            </p>
+            <div class="bank-pending-message">
+              <div class="bank-pending-icon">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              </div>
+              <h4 class="font-display bank-pending-title">Bank Details Coming to Your Inbox</h4>
+              <p class="bank-pending-desc">
+                Thank you for placing your order! Our team will review it and send the <strong>bank transfer / PayID payment details</strong> to your email address shortly.
+              </p>
+
+              <div class="bank-pending-details">
+                <div class="bank-pending-row">
+                  <span>Order Number</span>
+                  <strong id="bank-reference" class="font-display" style="color:var(--color-accent);">—</strong>
+                </div>
+                <div class="bank-pending-row">
+                  <span>Amount Due</span>
+                  <strong id="bank-amount" class="font-display" style="color:var(--color-accent);">—</strong>
+                </div>
+                <div class="bank-pending-row">
+                  <span>Email</span>
+                  <strong id="bank-pending-email" class="font-display" style="color:var(--color-text);">—</strong>
+                </div>
+              </div>
+
+              <p class="bank-pending-footnote">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                Please check your inbox (and spam folder) within the next few minutes. Once you receive the payment details, complete the transfer and send a screenshot of the payment to confirm your order.
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -73,101 +87,108 @@ import siteData from '../data/site.json';
       <!-- Payment-specific section (Bitcoin) -->
       <div id="bitcoin-payment-section" class="payment-instruction-section" style="display:none;">
         <div class="payment-instruction-card bitcoin-card">
-          <div class="payment-instruction-header">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f7931a" stroke-width="2"><path d="M11.767 19.089c4.924.868 6.14-6.025 1.216-6.894m-1.216 6.894L5.86 18.047m5.908 1.042-.347 1.97m1.563-8.864c4.924.869 6.14-6.025 1.215-6.893m-1.215 6.893-3.94-.694m5.155-6.2L8.29 4.26m5.908 1.042.348-1.97M7.48 20.364l3.126-17.727"/></svg>
-            <h3 class="font-display">Bitcoin Payment</h3>
-          </div>
-          <p class="payment-instruction-desc">Scan the QR code below or copy the Bitcoin address to send your payment.</p>
-
-          <!-- BTC Amount and Timer -->
-          <div class="btc-payment-status">
-            <div class="btc-amount-box">
-              <span class="btc-amount-label">Amount Due (AUD)</span>
-              <span id="btc-aud-amount" class="btc-amount-value font-display">$0.00</span>
-            </div>
-            <div class="btc-timer-box" id="btc-timer-box">
-              <span class="btc-timer-label">Payment Window</span>
-              <span id="btc-timer" class="btc-timer-value font-display">30:00</span>
-            </div>
-            <div class="btc-status-box">
-              <span class="btc-status-label">Status</span>
-              <span id="btc-status" class="btc-status-value">
-                <span class="btc-status-dot waiting"></span>
-                Waiting for payment...
-              </span>
-            </div>
-          </div>
-
-          <!-- QR Code -->
-          <div class="btc-qr-container">
-            <div id="btc-qr-code" class="btc-qr-code"></div>
-            <p class="btc-qr-hint">Scan with your Bitcoin wallet app</p>
-          </div>
-
-          <!-- Bitcoin Address -->
-          <div class="btc-address-box">
-            <span class="btc-address-label">Bitcoin Address</span>
-            <div class="btc-address-row">
-              <code id="btc-address" class="btc-address-text">—</code>
-              <button id="btc-copy-btn" class="btc-copy-btn" title="Copy to clipboard">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                <span id="btc-copy-text">Copy</span>
-              </button>
-            </div>
-          </div>
-
-          <!-- Payment Progress -->
-          <div id="btc-progress-section" class="btc-progress-section">
-            <div class="btc-progress-bar-wrap">
-              <div id="btc-progress-bar" class="btc-progress-bar"></div>
-            </div>
-            <div class="btc-progress-steps">
-              <div class="btc-progress-step active" id="btc-step-1">
-                <span class="btc-step-dot"></span>
-                <span class="btc-step-text">Waiting</span>
+          <div class="payment-instruction-accent bitcoin"></div>
+          <div class="payment-instruction-body">
+            <div class="payment-instruction-header">
+              <div class="payment-instruction-icon bitcoin">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11.767 19.089c4.924.868 6.14-6.025 1.216-6.894m-1.216 6.894L5.86 18.047m5.908 1.042-.347 1.97m1.563-8.864c4.924.869 6.14-6.025 1.215-6.893m-1.215 6.893-3.94-.694m5.155-6.2L8.29 4.26m5.908 1.042.348-1.97M7.48 20.364l3.126-17.727"/></svg>
               </div>
-              <div class="btc-progress-step" id="btc-step-2">
-                <span class="btc-step-dot"></span>
-                <span class="btc-step-text">Detected</span>
+              <h3 class="font-display payment-instruction-title">Bitcoin Payment</h3>
+            </div>
+            <p class="payment-instruction-desc">Scan the QR code below or copy the Bitcoin address to send your payment.</p>
+
+            <!-- BTC Amount and Timer -->
+            <div class="btc-payment-status">
+              <div class="btc-amount-box">
+                <span class="btc-amount-label">Amount Due (AUD)</span>
+                <span id="btc-aud-amount" class="btc-amount-value font-display">$0.00</span>
               </div>
-              <div class="btc-progress-step" id="btc-step-3">
-                <span class="btc-step-dot"></span>
-                <span class="btc-step-text">Confirmed</span>
+              <div class="btc-timer-box" id="btc-timer-box">
+                <span class="btc-timer-label">Payment Window</span>
+                <span id="btc-timer" class="btc-timer-value font-display">30:00</span>
+              </div>
+              <div class="btc-status-box">
+                <span class="btc-status-label">Status</span>
+                <span id="btc-status" class="btc-status-value">
+                  <span class="btc-status-dot waiting"></span>
+                  Waiting for payment...
+                </span>
               </div>
             </div>
-          </div>
 
-          <!-- Completed state (hidden initially) -->
-          <div id="btc-completed" class="btc-completed" style="display:none;">
-            <div class="btc-completed-icon">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            <!-- QR Code -->
+            <div class="btc-qr-container">
+              <div id="btc-qr-code" class="btc-qr-code"></div>
+              <p class="btc-qr-hint">Scan with your Bitcoin wallet app</p>
             </div>
-            <h4 class="font-display" style="font-size:1.05rem;font-weight:700;color:var(--color-text);margin-top:0.75rem;">Payment Confirmed!</h4>
-            <p style="font-size:0.85rem;color:var(--color-text-secondary);margin-top:0.25rem;">Your Bitcoin payment has been received and your order is now being processed.</p>
-            <p style="font-size:0.82rem;color:var(--color-text-muted);margin-top:0.5rem;">Payment confirmed. Please keep your order number for reference.</p>
+
+            <!-- Bitcoin Address -->
+            <div class="btc-address-box">
+              <span class="btc-address-label">Bitcoin Address</span>
+              <div class="btc-address-row">
+                <code id="btc-address" class="btc-address-text">—</code>
+                <button id="btc-copy-btn" class="btc-copy-btn" title="Copy to clipboard">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  <span id="btc-copy-text">Copy</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Payment Progress -->
+            <div id="btc-progress-section" class="btc-progress-section">
+              <div class="btc-progress-bar-wrap">
+                <div id="btc-progress-bar" class="btc-progress-bar"></div>
+              </div>
+              <div class="btc-progress-steps">
+                <div class="btc-progress-step active" id="btc-step-1">
+                  <span class="btc-step-dot"></span>
+                  <span class="btc-step-text">Waiting</span>
+                </div>
+                <div class="btc-progress-step" id="btc-step-2">
+                  <span class="btc-step-dot"></span>
+                  <span class="btc-step-text">Detected</span>
+                </div>
+                <div class="btc-progress-step" id="btc-step-3">
+                  <span class="btc-step-dot"></span>
+                  <span class="btc-step-text">Confirmed</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Completed state (hidden initially) -->
+            <div id="btc-completed" class="btc-completed" style="display:none;">
+              <div class="btc-completed-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <h4 class="font-display btc-completed-title">Payment Confirmed!</h4>
+              <p class="btc-completed-desc">Your Bitcoin payment has been received and your order is now being processed.</p>
+            </div>
           </div>
         </div>
       </div>
 
+      <!-- Order Details Grid -->
       <div class="confirmation-grid">
         <!-- Order Details -->
         <div class="confirmation-details">
           <!-- Customer Info -->
           <div class="conf-section">
             <h3 class="font-display conf-section-title">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              <div class="conf-section-icon">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              </div>
               Customer Details
             </h3>
             <div class="conf-info-grid">
-              <div>
+              <div class="conf-info-item">
                 <span class="conf-label">Name</span>
                 <span id="conf-name" class="conf-value">—</span>
               </div>
-              <div>
+              <div class="conf-info-item">
                 <span class="conf-label">Email</span>
                 <span id="conf-email" class="conf-value">—</span>
               </div>
-              <div>
+              <div class="conf-info-item">
                 <span class="conf-label">Phone</span>
                 <span id="conf-phone" class="conf-value">—</span>
               </div>
@@ -177,7 +198,9 @@ import siteData from '../data/site.json';
           <!-- Shipping -->
           <div class="conf-section">
             <h3 class="font-display conf-section-title">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+              <div class="conf-section-icon">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+              </div>
               Shipping Address
             </h3>
             <p id="conf-address" class="conf-value" style="line-height:1.6;">—</p>
@@ -186,7 +209,9 @@ import siteData from '../data/site.json';
           <!-- Shipping Method -->
           <div class="conf-section">
             <h3 class="font-display conf-section-title">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><path d="m16 8 4 2v6H16"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+              <div class="conf-section-icon">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><path d="m16 8 4 2v6H16"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+              </div>
               Delivery Method
             </h3>
             <span id="conf-shipping" class="conf-value">—</span>
@@ -195,7 +220,9 @@ import siteData from '../data/site.json';
           <!-- Payment -->
           <div class="conf-section">
             <h3 class="font-display conf-section-title">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/></svg>
+              <div class="conf-section-icon">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/></svg>
+              </div>
               Payment Method
             </h3>
             <span id="conf-payment" class="conf-value">—</span>
@@ -204,7 +231,9 @@ import siteData from '../data/site.json';
           <!-- Notes -->
           <div id="conf-notes-section" class="conf-section" style="display:none;">
             <h3 class="font-display conf-section-title">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+              <div class="conf-section-icon">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+              </div>
               Order Notes
             </h3>
             <p id="conf-notes" class="conf-value" style="line-height:1.6;">—</p>
@@ -213,7 +242,10 @@ import siteData from '../data/site.json';
 
         <!-- Items Summary -->
         <div class="confirmation-items-card">
-          <h3 class="font-display conf-section-title" style="margin-bottom:1rem;">Items Ordered</h3>
+          <h3 class="font-display conf-items-heading">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            Items Ordered
+          </h3>
           <div id="conf-items" class="conf-items-list"></div>
           <hr class="conf-divider" />
           <div class="conf-total-row">
@@ -234,59 +266,73 @@ import siteData from '../data/site.json';
 
       <!-- Next Steps (dynamic based on payment) -->
       <div id="next-steps-bank" class="confirmation-next-steps" style="display:none;">
-        <div class="next-step-card">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-          <div>
-            <h4 class="font-display" style="font-size:0.88rem;font-weight:700;color:var(--color-text);">Check Your Email</h4>
-            <p style="font-size:0.78rem;color:var(--color-text-secondary);margin-top:0.15rem;">We'll send the bank transfer details to your email address shortly. Please check your inbox and spam folder.</p>
+        <h3 class="font-display next-steps-heading">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          What Happens Next
+        </h3>
+        <div class="next-steps-grid">
+          <div class="next-step-card">
+            <div class="next-step-number">1</div>
+            <div class="next-step-content">
+              <h4 class="font-display next-step-title">Check Your Email</h4>
+              <p class="next-step-desc">We'll send the bank transfer details to your email address shortly. Please check your inbox and spam folder.</p>
+            </div>
           </div>
-        </div>
-        <div class="next-step-card">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-          <div>
-            <h4 class="font-display" style="font-size:0.88rem;font-weight:700;color:var(--color-text);">Make Payment & Send Receipt</h4>
-            <p style="font-size:0.78rem;color:var(--color-text-secondary);margin-top:0.15rem;">Once you receive the bank details, transfer the amount and send a screenshot of the payment to confirm your order.</p>
+          <div class="next-step-card">
+            <div class="next-step-number">2</div>
+            <div class="next-step-content">
+              <h4 class="font-display next-step-title">Make Payment & Send Receipt</h4>
+              <p class="next-step-desc">Once you receive the bank details, transfer the amount and send a screenshot of the payment to confirm your order.</p>
+            </div>
           </div>
-        </div>
-        <div class="next-step-card">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          <div>
-            <h4 class="font-display" style="font-size:0.88rem;font-weight:700;color:var(--color-text);">Processing Time</h4>
-            <p style="font-size:0.78rem;color:var(--color-text-secondary);margin-top:0.15rem;">Once we confirm your payment, we'll pack and ship within 1–2 business days. You'll get a tracking number by email.</p>
+          <div class="next-step-card">
+            <div class="next-step-number">3</div>
+            <div class="next-step-content">
+              <h4 class="font-display next-step-title">Processing & Shipping</h4>
+              <p class="next-step-desc">Once we confirm your payment, we'll pack and ship within 1–2 business days. You'll get a tracking number by email.</p>
+            </div>
           </div>
         </div>
       </div>
 
       <div id="next-steps-bitcoin" class="confirmation-next-steps" style="display:none;">
-        <div class="next-step-card">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f7931a" stroke-width="2"><path d="M11.767 19.089c4.924.868 6.14-6.025 1.216-6.894m-1.216 6.894L5.86 18.047m5.908 1.042-.347 1.97m1.563-8.864c4.924.869 6.14-6.025 1.215-6.893m-1.215 6.893-3.94-.694m5.155-6.2L8.29 4.26m5.908 1.042.348-1.97M7.48 20.364l3.126-17.727"/></svg>
-          <div>
-            <h4 class="font-display" style="font-size:0.88rem;font-weight:700;color:var(--color-text);">Send Bitcoin Payment</h4>
-            <p style="font-size:0.78rem;color:var(--color-text-secondary);margin-top:0.15rem;">Scan the QR code or copy the Bitcoin address above and send the exact amount from your wallet.</p>
+        <h3 class="font-display next-steps-heading">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f7931a" stroke-width="2"><path d="M11.767 19.089c4.924.868 6.14-6.025 1.216-6.894m-1.216 6.894L5.86 18.047m5.908 1.042-.347 1.97m1.563-8.864c4.924.869 6.14-6.025 1.215-6.893m-1.215 6.893-3.94-.694m5.155-6.2L8.29 4.26m5.908 1.042.348-1.97M7.48 20.364l3.126-17.727"/></svg>
+          What Happens Next
+        </h3>
+        <div class="next-steps-grid">
+          <div class="next-step-card">
+            <div class="next-step-number btc">1</div>
+            <div class="next-step-content">
+              <h4 class="font-display next-step-title">Send Bitcoin Payment</h4>
+              <p class="next-step-desc">Scan the QR code or copy the Bitcoin address above and send the exact amount from your wallet.</p>
+            </div>
           </div>
-        </div>
-        <div class="next-step-card">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          <div>
-            <h4 class="font-display" style="font-size:0.88rem;font-weight:700;color:var(--color-text);">Automatic Detection</h4>
-            <p style="font-size:0.78rem;color:var(--color-text-secondary);margin-top:0.15rem;">Our system will automatically detect your payment. Stay on this page to see real-time confirmation status.</p>
+          <div class="next-step-card">
+            <div class="next-step-number btc">2</div>
+            <div class="next-step-content">
+              <h4 class="font-display next-step-title">Automatic Detection</h4>
+              <p class="next-step-desc">Our system will automatically detect your payment. Stay on this page to see real-time confirmation status.</p>
+            </div>
           </div>
-        </div>
-        <div class="next-step-card">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-          <div>
-            <h4 class="font-display" style="font-size:0.88rem;font-weight:700;color:var(--color-text);">Keep Your Order Number</h4>
-            <p style="font-size:0.78rem;color:var(--color-text-secondary);margin-top:0.15rem;">Save this page and your order number so our team can quickly assist you if needed.</p>
+          <div class="next-step-card">
+            <div class="next-step-number btc">3</div>
+            <div class="next-step-content">
+              <h4 class="font-display next-step-title">Keep Your Order Number</h4>
+              <p class="next-step-desc">Save this page and your order number so our team can quickly assist you if needed.</p>
+            </div>
           </div>
         </div>
       </div>
 
       <!-- Actions -->
       <div class="confirmation-actions">
-        <a href="/collections/shop" class="btn-primary" style="padding:0.75rem 2rem;">
+        <a href="/collections/shop" class="btn-primary confirmation-action-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
           Continue Shopping
         </a>
-        <a href="/" class="btn-secondary" style="padding:0.75rem 2rem;text-decoration:none;">
+        <a href="/" class="btn-secondary confirmation-action-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
           Back to Home
         </a>
       </div>
@@ -295,74 +341,123 @@ import siteData from '../data/site.json';
 
   <style is:global>
     .confirmation-page {
-      padding-top: var(--space-xl);
-      padding-bottom: var(--space-3xl);
+      padding-top: 1.5rem;
+      padding-bottom: 4rem;
       min-height: 60vh;
     }
 
+    /* ── Empty State ── */
     .confirmation-empty {
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
-      padding: 4rem 1rem;
+      padding: 5rem 1rem;
+    }
+    .confirmation-empty-icon {
+      width: 72px;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--color-surface-alt);
+      border: 1px solid var(--color-border);
+      border-radius: 50%;
+      color: var(--color-text-dim);
+      margin-bottom: 1.25rem;
+    }
+    .confirmation-empty-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--color-text);
+    }
+    .confirmation-empty-desc {
+      color: var(--color-text-secondary);
+      font-size: 0.88rem;
+      margin-top: 0.35rem;
+      max-width: 400px;
+    }
+    .confirmation-empty-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+      padding: 0.75rem 2rem;
     }
 
     /* ── Success Header ── */
     .confirmation-header {
+      position: relative;
       text-align: center;
       margin-bottom: 2.5rem;
+      padding: 3rem 1.5rem 2.5rem;
+      background: linear-gradient(180deg, #F0FDF4 0%, #DCFCE7 50%, var(--color-bg) 100%);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
     }
+    [data-theme="dark"] .confirmation-header {
+      background: linear-gradient(180deg, rgba(22,163,74,0.08) 0%, rgba(22,163,74,0.03) 50%, var(--color-surface) 100%);
+    }
+    .confirmation-header-pattern {
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle at 1px 1px, rgba(22,163,74,0.06) 1px, transparent 0);
+      background-size: 28px 28px;
+      pointer-events: none;
+    }
+    .confirmation-header-inner { position: relative; z-index: 1; }
     .confirmation-check {
-      width: 64px;
-      height: 64px;
+      width: 68px;
+      height: 68px;
       border-radius: 50%;
       background: var(--color-accent);
       display: flex;
       align-items: center;
       justify-content: center;
       margin: 0 auto 1.25rem;
-      box-shadow: 0 4px 20px rgba(22, 163, 74, 0.3);
+      box-shadow: 0 6px 24px rgba(22, 163, 74, 0.35);
     }
     .confirmation-check.btc-waiting {
       background: #f7931a;
-      box-shadow: 0 4px 20px rgba(247, 147, 26, 0.3);
+      box-shadow: 0 6px 24px rgba(247, 147, 26, 0.35);
     }
     .confirmation-title {
-      font-size: 1.75rem;
+      font-size: clamp(1.5rem, 3.5vw, 1.85rem);
       font-weight: 800;
       color: var(--color-text);
       letter-spacing: -0.02em;
     }
     .confirmation-subtitle {
       color: var(--color-text-secondary);
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       margin-top: 0.5rem;
       max-width: 520px;
       margin-left: auto;
       margin-right: auto;
-      line-height: 1.6;
+      line-height: 1.65;
     }
     .confirmation-order-num {
       display: inline-flex;
       flex-direction: column;
       align-items: center;
-      gap: 0.25rem;
-      margin-top: 1.25rem;
-      padding: 0.85rem 1.75rem;
-      background: var(--color-surface-alt);
+      gap: 0.3rem;
+      margin-top: 1.5rem;
+      padding: 0.85rem 2rem;
+      background: var(--color-surface);
       border: 1px solid var(--color-border);
-      border-radius: var(--radius-md);
+      border-radius: var(--radius-lg);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
     }
     .confirmation-order-num span {
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       font-weight: 600;
       color: var(--color-text-muted);
       text-transform: uppercase;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.08em;
     }
     .confirmation-order-num strong {
-      font-size: 1.15rem;
+      font-size: 1.2rem;
       color: var(--color-accent);
     }
 
@@ -372,23 +467,52 @@ import siteData from '../data/site.json';
     }
     .payment-instruction-card {
       background: var(--color-surface);
-      border: 1.5px solid var(--color-border);
-      border-radius: var(--radius-lg);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+    }
+    .payment-instruction-accent {
+      height: 3px;
+    }
+    .payment-instruction-accent.bank {
+      background: linear-gradient(90deg, var(--color-accent), #059669);
+    }
+    .payment-instruction-accent.bitcoin {
+      background: linear-gradient(90deg, #f7931a, #f59e0b);
+    }
+    .payment-instruction-body {
       padding: 2rem;
-    }
-    .payment-instruction-card.bank-card {
-      border-color: var(--color-accent);
-    }
-    .payment-instruction-card.bitcoin-card {
-      border-color: #f7931a;
     }
     .payment-instruction-header {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
-      margin-bottom: 0.75rem;
+      gap: 0.85rem;
+      margin-bottom: 1rem;
     }
-    .payment-instruction-header h3 {
+    .payment-instruction-icon {
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-lg);
+      flex-shrink: 0;
+    }
+    .payment-instruction-icon.bank {
+      background: linear-gradient(135deg, #F0FDF4, #DCFCE7);
+      color: var(--color-accent);
+    }
+    [data-theme="dark"] .payment-instruction-icon.bank {
+      background: rgba(22,163,74,0.12);
+    }
+    .payment-instruction-icon.bitcoin {
+      background: linear-gradient(135deg, #FEF3C7, #FDE68A);
+      color: #f7931a;
+    }
+    [data-theme="dark"] .payment-instruction-icon.bitcoin {
+      background: rgba(247,147,26,0.12);
+    }
+    .payment-instruction-title {
       font-size: 1.1rem;
       font-weight: 700;
       color: var(--color-text);
@@ -397,23 +521,42 @@ import siteData from '../data/site.json';
       font-size: 0.88rem;
       color: var(--color-text-secondary);
       margin-bottom: 1.5rem;
-      line-height: 1.5;
+      line-height: 1.6;
     }
 
     /* Bank Pending Message */
     .bank-pending-message {
       text-align: center;
-      padding: 2rem 1rem;
+      padding: 1.5rem 1rem;
     }
     .bank-pending-icon {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 80px;
-      height: 80px;
+      width: 76px;
+      height: 76px;
       border-radius: 50%;
       background: var(--color-accent-soft);
+      color: var(--color-accent);
       margin: 0 auto;
+    }
+    .bank-pending-title {
+      font-size: 1.08rem;
+      font-weight: 700;
+      color: var(--color-text);
+      margin-top: 1rem;
+    }
+    .bank-pending-desc {
+      color: var(--color-text-secondary);
+      font-size: 0.9rem;
+      line-height: 1.7;
+      margin-top: 0.65rem;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .bank-pending-desc strong {
+      color: var(--color-text);
     }
     .bank-pending-details {
       display: flex;
@@ -423,7 +566,7 @@ import siteData from '../data/site.json';
       max-width: 380px;
       background: var(--color-surface-alt);
       border: 1px solid var(--color-border);
-      border-radius: var(--radius-md);
+      border-radius: var(--radius-lg);
       overflow: hidden;
     }
     .bank-pending-row {
@@ -439,50 +582,22 @@ import siteData from '../data/site.json';
       color: var(--color-text-secondary);
       font-weight: 500;
     }
-
-    /* Important Note */
-    .payment-important-note {
+    .bank-pending-footnote {
       display: flex;
-      gap: 0.85rem;
-      padding: 1.15rem 1.25rem;
-      background: #fef3c7;
-      border: 1.5px solid #f59e0b;
-      border-radius: var(--radius-md);
-      margin-bottom: 1.25rem;
       align-items: flex-start;
-    }
-    [data-theme="dark"] .payment-important-note {
-      background: rgba(245, 158, 11, 0.1);
-    }
-    .payment-important-note svg {
-      flex-shrink: 0;
-      margin-top: 0.1rem;
-    }
-    .note-title {
-      font-size: 0.88rem;
-      font-weight: 700;
-      color: #92400e;
-      margin-bottom: 0.3rem;
-    }
-    [data-theme="dark"] .note-title {
-      color: #fbbf24;
-    }
-    .note-text {
-      font-size: 0.82rem;
-      color: #78350f;
-      line-height: 1.6;
-    }
-    [data-theme="dark"] .note-text {
-      color: var(--color-text-secondary);
-    }
-    .payment-email-note {
-      display: flex;
-      align-items: center;
       gap: 0.5rem;
-      font-size: 0.82rem;
-      color: var(--color-accent);
-      font-weight: 600;
-      padding-top: 0.5rem;
+      color: var(--color-text-muted);
+      font-size: 0.8rem;
+      margin-top: 1.25rem;
+      line-height: 1.6;
+      text-align: left;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .bank-pending-footnote svg {
+      flex-shrink: 0;
+      margin-top: 0.2rem;
     }
 
     /* ── Bitcoin Payment ── */
@@ -498,13 +613,13 @@ import siteData from '../data/site.json';
     .btc-amount-box, .btc-timer-box, .btc-status-box {
       background: var(--color-surface-alt);
       border: 1px solid var(--color-border);
-      border-radius: var(--radius-md);
+      border-radius: var(--radius-lg);
       padding: 1rem;
       text-align: center;
     }
     .btc-amount-label, .btc-timer-label, .btc-status-label {
       display: block;
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       font-weight: 600;
       color: var(--color-text-muted);
       text-transform: uppercase;
@@ -567,7 +682,7 @@ import siteData from '../data/site.json';
       height: 200px;
       background: #fff;
       border: 2px solid var(--color-border);
-      border-radius: var(--radius-md);
+      border-radius: var(--radius-lg);
       padding: 12px;
       margin: 0 auto;
     }
@@ -587,7 +702,7 @@ import siteData from '../data/site.json';
     }
     .btc-address-label {
       display: block;
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       font-weight: 600;
       color: var(--color-text-muted);
       text-transform: uppercase;
@@ -600,8 +715,8 @@ import siteData from '../data/site.json';
       gap: 0.5rem;
       background: var(--color-surface-alt);
       border: 1px solid var(--color-border);
-      border-radius: var(--radius-md);
-      padding: 0.75rem 1rem;
+      border-radius: var(--radius-lg);
+      padding: 0.85rem 1rem;
     }
     .btc-address-text {
       flex: 1;
@@ -615,19 +730,20 @@ import siteData from '../data/site.json';
       display: flex;
       align-items: center;
       gap: 0.35rem;
-      padding: 0.45rem 0.85rem;
+      padding: 0.5rem 0.95rem;
       background: var(--color-accent);
       color: #fff;
       border: none;
-      border-radius: var(--radius-sm);
+      border-radius: var(--radius-md);
       font-size: 0.78rem;
       font-weight: 600;
       cursor: pointer;
       white-space: nowrap;
-      transition: background 0.15s;
+      transition: background 0.15s, transform 0.15s;
     }
     .btc-copy-btn:hover {
       background: var(--color-accent-hover, #15803d);
+      transform: translateY(-1px);
     }
 
     /* BTC Progress */
@@ -635,9 +751,9 @@ import siteData from '../data/site.json';
       margin-bottom: 1.5rem;
     }
     .btc-progress-bar-wrap {
-      height: 4px;
+      height: 5px;
       background: var(--color-border);
-      border-radius: 4px;
+      border-radius: 5px;
       overflow: hidden;
       margin-bottom: 0.75rem;
     }
@@ -645,7 +761,7 @@ import siteData from '../data/site.json';
       width: 10%;
       height: 100%;
       background: #f7931a;
-      border-radius: 4px;
+      border-radius: 5px;
       transition: width 0.5s ease, background 0.3s;
     }
     .btc-progress-bar.confirmed {
@@ -677,17 +793,28 @@ import siteData from '../data/site.json';
 
     .btc-completed {
       text-align: center;
-      padding: 1.5rem;
+      padding: 1.75rem;
     }
     .btc-completed-icon {
-      width: 56px;
-      height: 56px;
+      width: 60px;
+      height: 60px;
       border-radius: 50%;
       background: var(--color-accent);
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 20px rgba(22, 163, 74, 0.3);
+      box-shadow: 0 6px 24px rgba(22, 163, 74, 0.35);
+    }
+    .btc-completed-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--color-text);
+      margin-top: 0.85rem;
+    }
+    .btc-completed-desc {
+      font-size: 0.85rem;
+      color: var(--color-text-secondary);
+      margin-top: 0.3rem;
     }
 
     /* ── Grid ── */
@@ -704,13 +831,21 @@ import siteData from '../data/site.json';
       }
     }
 
+    /* ── Details ── */
+    .confirmation-details {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      padding: 1.75rem;
+    }
+
     /* ── Sections ── */
     .conf-section {
-      padding: 1.25rem 0;
+      padding: 1.15rem 0;
       border-bottom: 1px solid var(--color-border);
     }
     .conf-section:first-child { padding-top: 0; }
-    .conf-section:last-child { border-bottom: none; }
+    .conf-section:last-child { border-bottom: none; padding-bottom: 0; }
     .conf-section-title {
       display: flex;
       align-items: center;
@@ -720,6 +855,20 @@ import siteData from '../data/site.json';
       color: var(--color-text);
       margin-bottom: 0.65rem;
     }
+    .conf-section-icon {
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #F0FDF4, #DCFCE7);
+      border-radius: var(--radius-md);
+      color: var(--color-accent);
+      flex-shrink: 0;
+    }
+    [data-theme="dark"] .conf-section-icon {
+      background: rgba(22,163,74,0.1);
+    }
     .conf-info-grid {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
@@ -728,13 +877,19 @@ import siteData from '../data/site.json';
     @media (max-width: 640px) {
       .conf-info-grid { grid-template-columns: 1fr; }
     }
+    .conf-info-item {
+      padding: 0.65rem 0.75rem;
+      background: var(--color-surface-alt);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--color-border);
+    }
     .conf-label {
       display: block;
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       font-weight: 600;
       color: var(--color-text-muted);
       text-transform: uppercase;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.05em;
       margin-bottom: 0.2rem;
     }
     .conf-value {
@@ -744,25 +899,38 @@ import siteData from '../data/site.json';
 
     /* ── Items Card ── */
     .confirmation-items-card {
-      background: var(--color-surface-alt);
+      background: var(--color-surface);
       border: 1px solid var(--color-border);
-      border-radius: var(--radius-lg);
+      border-radius: var(--radius-xl);
       padding: 1.75rem;
       height: fit-content;
+    }
+    .conf-items-heading {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--color-text);
+      margin-bottom: 1rem;
     }
     .conf-items-list {
       display: flex;
       flex-direction: column;
-      gap: 0.65rem;
+      gap: 0.75rem;
     }
     .conf-item {
       display: flex;
       align-items: center;
-      gap: 0.65rem;
+      gap: 0.75rem;
+      padding: 0.5rem;
+      background: var(--color-surface-alt);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--color-border);
     }
     .conf-item-img {
-      width: 44px;
-      height: 44px;
+      width: 48px;
+      height: 48px;
       object-fit: contain;
       border-radius: var(--radius-sm);
       border: 1px solid var(--color-border);
@@ -774,7 +942,7 @@ import siteData from '../data/site.json';
       min-width: 0;
     }
     .conf-item-title {
-      font-size: 0.78rem;
+      font-size: 0.8rem;
       font-weight: 600;
       color: var(--color-text);
       display: -webkit-box;
@@ -785,11 +953,12 @@ import siteData from '../data/site.json';
     .conf-item-qty {
       font-size: 0.72rem;
       color: var(--color-text-muted);
+      margin-top: 0.15rem;
     }
     .conf-item-price {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 0.82rem;
-      font-weight: 600;
+      font-size: 0.85rem;
+      font-weight: 700;
       color: var(--color-text);
       flex-shrink: 0;
     }
@@ -802,9 +971,18 @@ import siteData from '../data/site.json';
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0.3rem 0;
+      padding: 0.35rem 0;
       font-size: 0.85rem;
       color: var(--color-text-secondary);
+    }
+    .conf-grand-total {
+      margin-top: 0.25rem;
+      padding: 0.75rem;
+      background: linear-gradient(135deg, #F0FDF4, #DCFCE7);
+      border-radius: var(--radius-md);
+    }
+    [data-theme="dark"] .conf-grand-total {
+      background: rgba(22,163,74,0.08);
     }
     .conf-grand-total span:first-child {
       font-size: 1rem;
@@ -813,32 +991,73 @@ import siteData from '../data/site.json';
     }
     .conf-grand-total span:last-child {
       font-size: 1.15rem;
-      font-weight: 700;
-      color: var(--color-text);
+      font-weight: 800;
+      color: var(--color-accent);
     }
 
     /* ── Next Steps ── */
     .confirmation-next-steps {
+      margin-bottom: 2.5rem;
+    }
+    .next-steps-heading {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--color-text);
+      margin-bottom: 1rem;
+    }
+    .next-steps-grid {
       display: grid;
       grid-template-columns: 1fr;
       gap: 0.85rem;
-      margin-bottom: 2rem;
     }
     @media (min-width: 768px) {
-      .confirmation-next-steps { grid-template-columns: repeat(3, 1fr); }
+      .next-steps-grid { grid-template-columns: repeat(3, 1fr); }
     }
     .next-step-card {
       display: flex;
       gap: 0.85rem;
       align-items: flex-start;
-      padding: 1.15rem;
+      padding: 1.25rem;
       background: var(--color-surface);
       border: 1px solid var(--color-border);
-      border-radius: var(--radius-md);
+      border-radius: var(--radius-xl);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
-    .next-step-card svg {
+    .next-step-card:hover {
+      border-color: rgba(22,163,74,0.25);
+      box-shadow: 0 4px 16px rgba(22,163,74,0.06);
+    }
+    .next-step-number {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--color-accent), #059669);
+      color: #fff;
+      font-family: var(--font-display);
+      font-size: 0.78rem;
+      font-weight: 800;
+      border-radius: 50%;
       flex-shrink: 0;
-      margin-top: 0.15rem;
+    }
+    .next-step-number.btc {
+      background: linear-gradient(135deg, #f7931a, #f59e0b);
+    }
+    .next-step-content { flex: 1; }
+    .next-step-title {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--color-text);
+    }
+    .next-step-desc {
+      font-size: 0.78rem;
+      color: var(--color-text-secondary);
+      margin-top: 0.2rem;
+      line-height: 1.6;
     }
 
     /* ── Actions ── */
@@ -847,6 +1066,13 @@ import siteData from '../data/site.json';
       justify-content: center;
       gap: 1rem;
       flex-wrap: wrap;
+    }
+    .confirmation-action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 2rem;
+      text-decoration: none;
     }
   </style>
 
@@ -910,8 +1136,7 @@ import siteData from '../data/site.json';
       const shipEl = document.getElementById('conf-shipping');
       if (shipEl) {
         const label = shippingLabels[order.shipping] || order.shipping;
-        const isFree = typeof order.shippingCost === 'number' && order.shippingCost === 0;
-        shipEl.textContent = isFree ? `${label} — FREE` : label;
+        shipEl.textContent = label;
       }
 
       // Payment
@@ -946,13 +1171,13 @@ import siteData from '../data/site.json';
         }).join('');
       }
 
-      // Use the shipping cost saved at checkout (respects free shipping logic)
+      // Shipping cost — always show the price
       const shipCost = typeof order.shippingCost === 'number' ? order.shippingCost : (shippingPrices[order.shipping] || 0);
       const subtotalEl = document.getElementById('conf-subtotal');
       const shipCostEl = document.getElementById('conf-ship-cost');
       const totalEl = document.getElementById('conf-total');
       if (subtotalEl) subtotalEl.textContent = `$${subtotal.toFixed(2)}`;
-      if (shipCostEl) shipCostEl.textContent = shipCost === 0 ? 'FREE' : `$${shipCost.toFixed(2)}`;
+      if (shipCostEl) shipCostEl.textContent = `$${shipCost.toFixed(2)}`;
       const grandTotal = subtotal + shipCost;
       if (totalEl) totalEl.textContent = `$${grandTotal.toFixed(2)} AUD`;
 
@@ -985,7 +1210,7 @@ import siteData from '../data/site.json';
 
       // Show bank next steps
       const bankSteps = document.getElementById('next-steps-bank');
-      if (bankSteps) bankSteps.style.display = 'grid';
+      if (bankSteps) bankSteps.style.display = 'block';
     }
 
     function renderBitcoinPayment(order: any, total: number) {
@@ -1042,7 +1267,7 @@ import siteData from '../data/site.json';
 
       // Show bitcoin next steps
       const btcSteps = document.getElementById('next-steps-bitcoin');
-      if (btcSteps) btcSteps.style.display = 'grid';
+      if (btcSteps) btcSteps.style.display = 'block';
     }
 
     function startBtcTimer(order: any) {

@@ -122,7 +122,7 @@ function itemsTable(items: any[]) {
 }
 
 function totalBlock(subtotal: string, shippingMethod: string, shippingCost: any, total: string) {
-  const shippingDisplay = shippingCost === 0 || shippingCost === '0' || shippingCost === '0.00' ? 'FREE' : '$' + shippingCost;
+  const shippingDisplay = '$' + (shippingCost || '0.00');
   return `
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#0f172a;border-radius:12px;padding:16px;border:1px solid #334155;">
       <tr>

@@ -10,7 +10,7 @@ export const SEO_KEYWORDS = {
     EJUICE: {
       primary: "buy vape juice online australia",
       secondary: [
-        "e-liquid australia free shipping",
+        "e-liquid australia fast shipping",
         "cheap vape juice australia",
         "best e-liquid australia 2026",
         "vape juice australia afterpay",
@@ -46,7 +46,7 @@ export const SEO_KEYWORDS = {
         "sub ohm coils australia",
         "mesh coils australia",
         "best vape coils for flavour",
-        "vape coils free shipping australia",
+        "vape coils express shipping australia",
         "replacement coil heads australia",
         "bulk vape coils australia",
       ],
@@ -90,7 +90,7 @@ export const SEO_KEYWORDS = {
       primary: "vape accessories australia",
       secondary: [
         "buy vape accessories online australia",
-        "vaping accessories free shipping",
+        "vaping accessories fast shipping australia",
         "vape tool kit australia",
         "vape carry case australia",
         "vape bands australia",
@@ -161,7 +161,7 @@ export const SEO_KEYWORDS = {
         "cheap vape kit australia",
         "beginner vape kit australia",
         "buy vape kit online australia",
-        "vape starter kit free shipping",
+        "vape starter kit fast shipping australia",
         "vape pen starter kit australia",
         "easy vape kit for beginners",
         "vape kit afterpay australia",
@@ -188,7 +188,7 @@ export const SEO_KEYWORDS = {
         "regulated box mod australia",
         "dual battery vape mod australia",
         "single battery mod australia",
-        "vape mod free shipping australia",
+        "vape mod fast shipping australia",
         "small vape mod australia",
       ],
       lsi: [
@@ -241,7 +241,7 @@ export const SEO_KEYWORDS = {
         "cheap pod system australia",
         "pod mod australia",
         "mtl pod vape australia",
-        "pod vape free shipping australia",
+        "pod vape express shipping australia",
         "draw activated pod vape",
       ],
       lsi: [
@@ -294,7 +294,7 @@ export const SEO_KEYWORDS = {
         "best sub ohm tank australia 2026",
         "cheap sub ohm tank australia",
         "mesh tank australia",
-        "vape tank free shipping australia",
+        "vape tank fast shipping australia",
         "top fill vape tank australia",
         "leak proof vape tank",
       ],
@@ -960,7 +960,7 @@ export const SEO_KEYWORDS = {
   generic: [
     "vape shop australia",
     "online vape store australia",
-    "vape australia free shipping",
+    "vape australia fast shipping",
     "buy vape online australia",
     "australian vape shop",
     "vape store australia",

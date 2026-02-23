@@ -26,15 +26,30 @@ function getProductFallbackImage(col: any): string | null {
   for (const h of handles) {
     const p = productMap[h];
     if (!p?.images?.length) continue;
-    // Check for local image first: public/images/products/{handle}_0.{ext}
     const src = p.images[0].src as string;
-    const ext = path.extname(new URL(src).pathname);
-    const localFile = `${h}_0${ext}`;
-    const localPath = path.join('public', 'images', 'products', localFile);
-    if (fs.existsSync(localPath)) {
-      return `/images/products/${localFile}`;
+    // If already a local path, use it directly
+    if (src.startsWith('/images/')) {
+      return src;
     }
-    // Fall back to CDN URL
+    // Try to find local image: public/images/products/{handle}_0.{ext}
+    try {
+      const ext = path.extname(new URL(src).pathname);
+      const localFile = `${h}_0${ext}`;
+      const localPath = path.join('public', 'images', 'products', localFile);
+      if (fs.existsSync(localPath)) {
+        return `/images/products/${localFile}`;
+      }
+    } catch {
+      // URL parsing failed — try common extensions
+      for (const ext of ['.jpg', '.png', '.webp']) {
+        const localFile = `${h}_0${ext}`;
+        const localPath = path.join('public', 'images', 'products', localFile);
+        if (fs.existsSync(localPath)) {
+          return `/images/products/${localFile}`;
+        }
+      }
+    }
+    // Fall back to the src as-is
     return src;
   }
   return null;
