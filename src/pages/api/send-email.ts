@@ -3,11 +3,12 @@ export const prerender = false;
 import type { APIRoute } from 'astro';
 import { Resend } from 'resend';
 
-const FROM_EMAIL = import.meta.env.RESEND_FROM_EMAIL || 'Vapelink Australia <info@vapelinks.com.au>';
-const ADMIN_EMAIL = import.meta.env.RESEND_ADMIN_EMAIL || 'info@vapelinks.com.au';
+function getEnv(locals: any, key: string) {
+  return locals?.runtime?.env?.[key] || import.meta.env[key];
+}
 
-function getResendClient() {
-  const apiKey = import.meta.env.RESEND_API_KEY;
+function getResendClient(locals: any) {
+  const apiKey = getEnv(locals, 'RESEND_API_KEY');
   if (!apiKey) {
     throw new Error('Missing RESEND_API_KEY');
   }
@@ -157,9 +158,11 @@ function badge(text: string, color: string) {
 /* ─────────────────────────────────────────────────────────
    API Route
    ───────────────────────────────────────────────────────── */
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request, locals }) => {
   try {
-    const resend = getResendClient();
+    const resend = getResendClient(locals);
+    const FROM_EMAIL = getEnv(locals, 'RESEND_FROM_EMAIL') || 'Vapelink Australia <info@vapelinks.com.au>';
+    const ADMIN_EMAIL = getEnv(locals, 'RESEND_ADMIN_EMAIL') || 'info@vapelinks.com.au';
     const body = await request.json();
     const { type, data } = body;
 
