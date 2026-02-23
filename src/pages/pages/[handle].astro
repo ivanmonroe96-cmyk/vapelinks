@@ -2,6 +2,8 @@
 import Layout from '../../layouts/Layout.astro';
 import pagesData from '../../data/pages.json';
 
+export const prerender = true;
+
 export function getStaticPaths() {
   return pagesData.map((page: any) => ({
     params: { handle: page.handle },

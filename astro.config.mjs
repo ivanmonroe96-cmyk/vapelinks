@@ -2,12 +2,13 @@
 import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
-import node from '@astrojs/node';
+import cloudflare from '@astrojs/cloudflare';
 
 // https://astro.build/config
 export default defineConfig({
   site: 'https://vapelinks.com.au',
-  adapter: node({ mode: 'standalone' }),
+  output: 'server',
+  adapter: cloudflare(),
   integrations: [
     sitemap({
       filter: (page) =>

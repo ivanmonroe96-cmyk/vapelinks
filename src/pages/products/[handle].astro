@@ -6,6 +6,8 @@ import disposableVapes from '../../data/disposable-vapes.json';
 import { SEO_KEYWORDS } from '../../data/seo-keywords.js';
 import { generateReviews, getStarDistribution } from '../../utils/reviews.js';
 
+export const prerender = true;
+
 export function getStaticPaths() {
   const productsData = [...productsRaw, ...disposableVapes] as any[];
   return productsData.map((product: any) => ({
