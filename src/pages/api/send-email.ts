@@ -227,6 +227,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
         result = await resend.emails.send({
           from: FROM_EMAIL,
           to: [ADMIN_EMAIL],
+          replyTo: data.email || undefined,
           subject: `New Order ${data.orderNumber} — $${data.total} AUD (${data.paymentMethod})`,
           html: emailLayout(content, `New order ${data.orderNumber} from ${data.firstName} — $${data.total} AUD`),
         });
@@ -439,6 +440,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
         result = await resend.emails.send({
           from: FROM_EMAIL,
           to: [ADMIN_EMAIL],
+          replyTo: data.email || undefined,
           subject: `BTC Confirmed — ${data.orderNumber} ($${data.total} AUD)`,
           html: emailLayout(content, `Bitcoin payment confirmed for order ${data.orderNumber} — $${data.total} AUD. Ready to ship!`),
         });

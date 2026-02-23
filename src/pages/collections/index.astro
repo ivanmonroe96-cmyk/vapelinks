@@ -3,6 +3,8 @@ import Layout from '../../layouts/Layout.astro';
 import CollectionCard from '../../components/CollectionCard.astro';
 import collectionsData from '../../data/collections.json';
 
+export const prerender = true;
+
 const collections = collectionsData
   .filter((c: any) => c.products_count > 0)
   .sort((a: any, b: any) => b.products_count - a.products_count);
