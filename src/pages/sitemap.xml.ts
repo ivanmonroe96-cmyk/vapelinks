@@ -15,6 +15,22 @@ function normalizePath(pathname: string) {
   return pathname;
 }
 
+function hasLowQualitySlug(pathname: string) {
+  const lower = pathname.toLowerCase();
+  return (
+    lower.includes('/copy-of-') ||
+    lower.includes('healthcabinhealthcabin') ||
+    lower.includes('/products/copy-of-') ||
+    lower.length > 180
+  );
+}
+
+function isIndexablePath(pathname: string) {
+  if (!pathname) return false;
+  if (hasLowQualitySlug(pathname)) return false;
+  return true;
+}
+
 function escapeXml(value: string) {
   return value
     .replace(/&/g, '&amp;')
@@ -69,7 +85,8 @@ export const GET: APIRoute = () => {
     ]),
   ]
     .map(normalizePath)
-    .filter((path) => !excluded.has(path));
+    .filter((path) => !excluded.has(path))
+    .filter(isIndexablePath);
 
   const urls = uniquePaths
     .map((path) => {

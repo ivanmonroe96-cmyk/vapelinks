@@ -175,4 +175,17 @@ import Layout from '../../layouts/Layout.astro';
   .order-detail-summary-total { font-size: 0.95rem; font-weight: 700; color: var(--color-text); padding-top: 0.5rem; border-top: 1px solid var(--color-border); margin-top: 0.3rem; }
   .order-detail-shipping-info { padding: 0.85rem 1.75rem; border-top: 1px solid var(--color-border); font-size: 0.78rem; color: var(--color-text-secondary); }
   .order-detail-shipping-label { font-weight: 600; color: var(--color-text-muted); margin-right: 0.5rem; }
+
+  @media (max-width: 640px) {
+    .orders-header { padding: 1.4rem 1rem; }
+    .lookup-card { padding: 1rem; }
+    .lookup-row { flex-direction: column; }
+    .lookup-input { min-width: 0; width: 100%; }
+    .lookup-row .btn-primary { width: 100%; justify-content: center; }
+    .order-detail-header,
+    .order-detail-items,
+    .order-detail-summary,
+    .order-detail-shipping-info { padding-left: 1rem; padding-right: 1rem; }
+    .order-detail-total-wrap { text-align: left; }
+  }
 </style>

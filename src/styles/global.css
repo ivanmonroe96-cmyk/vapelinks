@@ -113,6 +113,7 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  overflow-x: clip;
 }
 
 body {
@@ -122,11 +123,15 @@ body {
   letter-spacing: -0.012em;
   color: var(--color-text);
   background: var(--color-bg);
+  overflow-x: clip;
 }
 
 img { display: block; max-width: 100%; height: auto; }
+svg, video, canvas, iframe { max-width: 100%; }
+a, p, li, h1, h2, h3, h4, h5, h6 { overflow-wrap: anywhere; }
 a { color: inherit; }
 button { font-family: inherit; }
+input, select, textarea, button { max-width: 100%; }
 
 /* ── Typography ────────────────────────────────────── */
 .font-display { font-family: var(--font-display); }
@@ -473,6 +478,9 @@ a:focus-visible {
   border-collapse: collapse;
   margin: 1.25em 0;
   font-size: 0.92rem;
+  display: block;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 .prose-content th, .prose-content td {
   padding: 0.75rem 1rem;
@@ -609,6 +617,8 @@ a:focus-visible {
 }
 
 @media (max-width: 480px) {
+  .container { padding-left: 0.85rem; padding-right: 0.85rem; }
+  .breadcrumb-current { max-width: 140px; }
   .pagination-inner { gap: 0.1rem; padding: 3px; }
   .page-btn { min-width: 32px; height: 32px; font-size: 0.78rem; }
   .page-nav { height: 32px; padding: 0 0.6rem; font-size: 0.75rem; }
