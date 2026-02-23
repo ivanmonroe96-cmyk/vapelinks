@@ -131,7 +131,7 @@ import Layout from '../layouts/Layout.astro';
           <div class="cart-row">
             <div class="cart-col-product">
               <div class="cart-row-product">
-                ${imgSrc ? `<a href="/products/${item.handle}" class="cart-row-img-link"><img src="${imgSrc}" alt="" class="cart-row-img" onerror="this.style.display='none'" /></a>` : ''}
+                ${imgSrc ? `<a href="/products/${item.handle}" class="cart-row-img-link"><img src="${imgSrc}" alt="${item.title || 'Cart product image'}" class="cart-row-img" onerror="this.style.display='none'" /></a>` : ''}
                 <div class="cart-row-info">
                   <a href="/products/${item.handle}" class="cart-row-title">${item.title}</a>
                   <span class="cart-row-unit-mobile">$${unitPrice.toFixed(2)} AUD</span>

@@ -21,20 +21,29 @@ const price = product.variants[0]?.price || '0.00';
 const comparePrice = product.variants[0]?.compare_at_price;
 const hasDiscount = comparePrice && parseFloat(comparePrice) > parseFloat(price);
 const discountPercent = hasDiscount ? Math.round((1 - parseFloat(price) / parseFloat(comparePrice)) * 100) : 0;
+const primaryImage = product.images?.[0]?.local || product.images?.[0]?.src || '/images/hero-bg.jpg';
+const primaryImageAlt = product.images?.[0]?.alt || `${product.title} product image`;
 
 const plainDescription = (product.body_html || '').replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
 
+function trimAtWord(value: string, maxLen: number) {
+  if (value.length <= maxLen) return value;
+  const cut = value.slice(0, maxLen - 1);
+  const lastSpace = cut.lastIndexOf(' ');
+  return `${(lastSpace > 30 ? cut.slice(0, lastSpace) : cut).trim()}…`;
+}
+
 // Build SEO description — extract meaningful content, cap at 155 chars
-const productDescSnippet = plainDescription.substring(0, 120).trim();
+const productDescSnippet = plainDescription.substring(0, 125).trim();
 const pricePart = hasDiscount ? `Now $${price} (was $${comparePrice})` : `$${price} AUD`;
 const seoDescBase = productDescSnippet
-  ? `${productDescSnippet}${productDescSnippet.length >= 120 ? '...' : ''} — ${pricePart}. Fast AU shipping.`
+  ? `${productDescSnippet}${productDescSnippet.length >= 125 ? '...' : ''} — ${pricePart}. Fast Australia-wide shipping.`
   : `Buy ${product.title}${product.vendor ? ` by ${product.vendor}` : ''} for ${pricePart} at Vapelink. Fast Australia-wide shipping.`;
-const seoDescription = seoDescBase.length > 160 ? seoDescBase.substring(0, 157) + '...' : seoDescBase;
+const seoDescription = trimAtWord(seoDescBase, 160);
 
 // SEO title — brand + product + buy online, cap at 60 chars for Google
 const titleBase = `${product.title}${product.vendor ? ` – ${product.vendor}` : ''} | Vapelink Australia`;
-const seoTitle = titleBase.length > 60 ? `${product.title} | Buy Online – Vapelink` : titleBase;
+const seoTitle = trimAtWord(titleBase.length > 60 ? `${product.title} | Buy Online – Vapelink Australia` : titleBase, 60);
 
 // Strip product images from body_html to avoid showing them twice (gallery + description)
 const cleanBodyHtml = (product.body_html || '').replace(/<img[^>]*>/gi, '');
@@ -52,7 +61,7 @@ const structuredData = {
   "@type": "Product",
   "name": product.title,
   "description": seoDescription,
-  "image": product.images.map((img: any) => img.src),
+  "image": (product.images?.length ? product.images.map((img: any) => img.src || img.local).filter(Boolean) : [primaryImage]),
   "sku": product.variants[0]?.sku || product.handle,
   "mpn": product.variants[0]?.sku || product.handle,
   "brand": { "@type": "Brand", "name": product.vendor || "Vapelink" },
@@ -230,7 +239,7 @@ function getProductKeywords(prod: any): string {
 const seoKeywords = getProductKeywords(product);
 ---
 
-<Layout title={seoTitle} description={seoDescription} image={product.images[0]?.src} type="product">
+<Layout title={seoTitle} description={seoDescription} image={primaryImage} type="product">
   <Fragment slot="head">
     <meta name="keywords" content={seoKeywords} />
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
@@ -270,7 +279,7 @@ const seoKeywords = getProductKeywords(product);
               <img
                 id="main-image"
                 src={product.images[0].local}
-                alt={product.images[0].alt}
+                alt={product.images[0].alt || primaryImageAlt}
                 class="pdp-main-image"
                 onerror={`this.onerror=null;this.src='${product.images[0].src}'`}
               />
@@ -285,7 +294,7 @@ const seoKeywords = getProductKeywords(product);
                   >
                     <img
                       src={img.local}
-                      alt={img.alt}
+                      alt={img.alt || `${product.title} image ${i + 1}`}
                       loading="lazy"
                       onerror={`this.onerror=null;this.src='${img.src}'`}
                     />

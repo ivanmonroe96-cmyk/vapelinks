@@ -109,9 +109,11 @@ function getCollectionKeywords(col: any): string {
 }
 
 const collectionKeywords = getCollectionKeywords(collection);
+const collectionFeatureImage = collection.image?.local || collection.image?.src || allProducts?.[0]?.images?.[0]?.src || '/images/hero-bg.jpg';
+const collectionImageAlt = collection.image?.alt || `${collection.title} collection image`;
 ---
 
-<Layout title={collectionSeoTitle} description={seoDesc} image={collection.image?.src}>
+<Layout title={collectionSeoTitle} description={seoDesc} image={collectionFeatureImage}>
 
   <!-- Collection Schema.org Structured Data -->
   <Fragment slot="head">
@@ -167,7 +169,7 @@ const collectionKeywords = getCollectionKeywords(collection);
           <div class="collection-thumb">
             <img
               src={collection.image.local}
-              alt={collection.image.alt}
+              alt={collectionImageAlt}
               class="collection-thumb-img"
               onerror={`this.onerror=null;this.src='${collection.image.src}'`}
             />

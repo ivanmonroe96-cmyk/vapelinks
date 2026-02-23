@@ -724,7 +724,7 @@ import siteData from '../data/site.json';
         subtotal += lineTotal;
         return `
           <div class="checkout-item">
-            ${item.image ? `<img src="${item.image}" alt="" class="checkout-item-img" onerror="this.style.display='none'" />` : ''}
+            ${item.image ? `<img src="${item.image}" alt="${item.title || 'Checkout product image'}" class="checkout-item-img" onerror="this.style.display='none'" />` : ''}
             <div class="checkout-item-info">
               <div class="checkout-item-title">${item.title}</div>
               <div class="checkout-item-meta">Qty: ${item.qty || 1}</div>

@@ -93,7 +93,7 @@ import Layout from '../../layouts/Layout.astro';
             <div class="order-detail-items">
               ${(o.items || []).map((i: any) => `
                 <div class="order-detail-item">
-                  ${i.image ? `<img src="${i.image}" alt="" class="order-detail-item-img" onerror="this.style.display='none'" />` : '<div class="order-detail-item-img-placeholder"></div>'}
+                  ${i.image ? `<img src="${i.image}" alt="${i.title || 'Order product image'}" class="order-detail-item-img" onerror="this.style.display='none'" />` : '<div class="order-detail-item-img-placeholder"></div>'}
                   <div class="order-detail-item-info">
                     <a href="/products/${i.handle}" class="order-detail-item-title">${i.title}</a>
                     <span class="order-detail-item-meta">Qty: ${i.qty || 1} × $${parseFloat(i.price || '0').toFixed(2)}</span>

@@ -13,7 +13,7 @@ interface Props {
 const {
   title,
   description = "Vapelink is a Melbourne-based online vape shop. We stock vape kits, disposable vapes, e-liquids, coils, pods and accessories. Fast Australia-wide shipping with Standard & Express delivery options.",
-  image = '/images/logo.svg',
+  image = '/images/hero-bg.jpg',
   canonicalUrl,
   type = 'website',
   noindex = false
@@ -21,6 +21,33 @@ const {
 
 const siteTitle = title.includes('Vapelink') ? title : `${title} – Vapelink Australia`;
 const currentUrl = canonicalUrl || Astro.url.href;
+
+function cleanMetaText(value: string) {
+  return String(value || '')
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function trimAtWord(value: string, maxLen: number) {
+  if (value.length <= maxLen) return value;
+  const cut = value.slice(0, maxLen - 1);
+  const lastSpace = cut.lastIndexOf(' ');
+  return `${(lastSpace > 35 ? cut.slice(0, lastSpace) : cut).trim()}…`;
+}
+
+const SEO_TITLE_MAX = 60;
+const SEO_DESC_MAX = 160;
+const SEO_DESC_MIN = 140;
+
+const seoTitle = trimAtWord(cleanMetaText(siteTitle), SEO_TITLE_MAX);
+let seoDescription = trimAtWord(cleanMetaText(description), SEO_DESC_MAX);
+if (!noindex && seoDescription.length < SEO_DESC_MIN) {
+  seoDescription = trimAtWord(`${seoDescription} Shop genuine vape products online at Vapelink Australia.`, SEO_DESC_MAX);
+}
+
+const seoImage = image.startsWith('http') ? image : `https://vapelinks.com.au${image}`;
+const seoImageAlt = `${seoTitle} featured image`;
 
 import siteData from '../data/site.json';
 import collectionsData from '../data/collections.json';
@@ -36,32 +63,35 @@ const navCollections = collectionsData
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{siteTitle}</title>
-  <meta name="description" content={description} />
+  <title>{seoTitle}</title>
+  <meta name="description" content={seoDescription} />
   {noindex && <meta name="robots" content="noindex, nofollow" />}
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
   <!-- Open Graph -->
-  <meta property="og:title" content={siteTitle} />
-  <meta property="og:description" content={description} />
+  <meta property="og:title" content={seoTitle} />
+  <meta property="og:description" content={seoDescription} />
   <meta property="og:type" content={type} />
   <meta property="og:url" content={currentUrl} />
-  <meta property="og:image" content={image.startsWith('http') ? image : `https://vapelinks.com.au${image}`} />
+  <meta property="og:image" content={seoImage} />
+  <meta property="og:image:alt" content={seoImageAlt} />
   <meta property="og:site_name" content="Vapelink Australia" />
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content={siteTitle} />
-  <meta name="twitter:description" content={description} />
-  <meta name="twitter:image" content={image.startsWith('http') ? image : `https://vapelinks.com.au${image}`} />
+  <meta name="twitter:title" content={seoTitle} />
+  <meta name="twitter:description" content={seoDescription} />
+  <meta name="twitter:image" content={seoImage} />
+  <meta name="twitter:image:alt" content={seoImageAlt} />
 
   <link rel="canonical" href={currentUrl} />
   <meta name="generator" content={Astro.generator} />
 
   <!-- Geo & Locale -->
   <meta name="geo.region" content="AU-VIC" />
+  <meta name="geo.country" content="AU" />
   <meta name="geo.placename" content="Melbourne" />
   <meta name="geo.position" content="-37.7749;144.9632" />
   <meta name="ICBM" content="-37.7749, 144.9632" />
@@ -1557,7 +1587,7 @@ const navCollections = collectionsData
         const imgSrc = item.image || '';
         return `
           <div class="cart-item">
-            ${imgSrc ? `<img src="${imgSrc}" alt="" class="cart-item-img" onerror="this.style.display='none'"/>` : ''}
+            ${imgSrc ? `<img src="${imgSrc}" alt="${item.title || 'Cart product image'}" class="cart-item-img" onerror="this.style.display='none'"/>` : ''}
             <div class="cart-item-info">
               <a href="/products/${item.handle}" class="cart-item-title" style="text-decoration:none;">${item.title}</a>
               <div class="cart-item-price">$${itemTotal.toFixed(2)} AUD</div>

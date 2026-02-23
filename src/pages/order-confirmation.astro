@@ -1160,7 +1160,7 @@ import siteData from '../data/site.json';
           subtotal += lineTotal;
           return `
             <div class="conf-item">
-              ${item.image ? `<img src="${item.image}" alt="" class="conf-item-img" onerror="this.style.display='none'" />` : ''}
+              ${item.image ? `<img src="${item.image}" alt="${item.title || 'Order product image'}" class="conf-item-img" onerror="this.style.display='none'" />` : ''}
               <div class="conf-item-info">
                 <div class="conf-item-title">${item.title}</div>
                 <div class="conf-item-qty">Qty: ${item.qty || 1} × $${parseFloat(item.price || '0').toFixed(2)}</div>
