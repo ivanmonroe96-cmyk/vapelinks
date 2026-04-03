@@ -39,6 +39,28 @@ import siteData from '../data/site.json';
         </div>
       </div>
 
+      <!-- Live Chat Notification — Top Priority -->
+      <div class="livechat-notice">
+        <div class="livechat-notice-pulse"></div>
+        <div class="livechat-notice-inner">
+          <div class="livechat-notice-badge">
+            <span class="livechat-badge-dot"></span>
+            SUPPORT ONLINE
+          </div>
+          <div class="livechat-notice-icon">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <h3 class="font-display livechat-notice-title">Need Instant Payment & Order Confirmation?</h3>
+          <p class="livechat-notice-desc">
+            <strong>Don't wait for emails!</strong> Contact our support team on Live Chat for instant payments and immediate order confirmation.
+          </p>
+          <button type="button" id="open-livechat" class="livechat-notice-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            Chat with Us Now — Get Instant Help
+          </button>
+        </div>
+      </div>
+
       <!-- Payment-specific section (Bank Transfer / PayID) -->
       <div id="bank-payment-section" class="payment-instruction-section" style="display:none;">
         <div class="payment-instruction-card bank-card">
@@ -321,26 +343,6 @@ import siteData from '../data/site.json';
               <h4 class="font-display next-step-title">Keep Your Order Number</h4>
               <p class="next-step-desc">Save this page and your order number so our team can quickly assist you if needed.</p>
             </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Live Chat Notification -->
-      <div class="livechat-notice">
-        <div class="livechat-notice-accent"></div>
-        <div class="livechat-notice-body">
-          <div class="livechat-notice-icon">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-          </div>
-          <div class="livechat-notice-content">
-            <h3 class="font-display livechat-notice-title">Need Instant Payment & Order Confirmation?</h3>
-            <p class="livechat-notice-desc">
-              Don't wait for emails! Contact our support team on <strong>Live Chat</strong> for instant payments and immediate order confirmation. Our team is ready to assist you right now.
-            </p>
-            <button type="button" id="open-livechat" class="livechat-notice-btn">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-              Chat with Us Now
-            </button>
           </div>
         </div>
       </div>
@@ -1095,79 +1097,114 @@ import siteData from '../data/site.json';
       text-decoration: none;
     }
 
-    /* ── Live Chat Notice ── */
+    /* ── Live Chat Notice — Bold & Prominent ── */
     .livechat-notice {
-      margin-top: 2rem;
+      position: relative;
+      margin-top: 1.5rem;
       margin-bottom: 2rem;
       border-radius: var(--radius-xl);
       overflow: hidden;
-      border: 1px solid #22c55e40;
-      background: var(--color-surface);
-      box-shadow: 0 0 0 1px rgba(22,163,74,0.05), 0 4px 24px rgba(22,163,74,0.08);
+      background: linear-gradient(135deg, #16a34a, #15803d 40%, #166534);
+      box-shadow: 0 8px 32px rgba(22,163,74,0.35), 0 0 0 1px rgba(22,163,74,0.2);
+      animation: livechat-glow 3s ease-in-out infinite alternate;
     }
-    .livechat-notice-accent {
-      height: 4px;
-      background: linear-gradient(90deg, #22c55e, #16a34a);
+    @keyframes livechat-glow {
+      from { box-shadow: 0 8px 32px rgba(22,163,74,0.3), 0 0 0 1px rgba(22,163,74,0.2); }
+      to { box-shadow: 0 8px 40px rgba(22,163,74,0.5), 0 0 0 2px rgba(22,163,74,0.35); }
     }
-    .livechat-notice-body {
+    .livechat-notice-pulse {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 30% 50%, rgba(255,255,255,0.08), transparent 70%);
+      pointer-events: none;
+    }
+    .livechat-notice-inner {
+      position: relative;
       display: flex;
-      align-items: flex-start;
-      gap: 1.25rem;
-      padding: 1.5rem 1.75rem;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 2rem 2rem 1.75rem;
+      gap: 0.75rem;
+    }
+    .livechat-notice-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #bbf7d0;
+      background: rgba(255,255,255,0.12);
+      padding: 0.3rem 0.9rem;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+    .livechat-badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #4ade80;
+      box-shadow: 0 0 6px #4ade80;
+      animation: livechat-dot-pulse 1.5s ease-in-out infinite;
+    }
+    @keyframes livechat-dot-pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
     }
     .livechat-notice-icon {
-      flex-shrink: 0;
-      width: 52px;
-      height: 52px;
+      width: 64px;
+      height: 64px;
       display: flex;
       align-items: center;
       justify-content: center;
-      border-radius: 14px;
-      background: #22c55e15;
-      border: 1.5px solid #22c55e30;
-      color: #22c55e;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      border: 2px solid rgba(255,255,255,0.2);
     }
-    .livechat-notice-content { flex: 1; }
     .livechat-notice-title {
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--color-text);
-      margin: 0 0 0.4rem;
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: #fff;
+      margin: 0;
+      letter-spacing: -0.3px;
     }
     .livechat-notice-desc {
-      font-size: 0.85rem;
-      color: var(--color-text-secondary);
+      font-size: 0.92rem;
+      color: #dcfce7;
       line-height: 1.65;
-      margin: 0 0 1rem;
+      margin: 0;
+      max-width: 520px;
     }
     .livechat-notice-desc strong {
-      color: #22c55e;
-      font-weight: 600;
+      color: #fff;
+      font-weight: 700;
     }
     .livechat-notice-btn {
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      padding: 0.65rem 1.5rem;
-      background: linear-gradient(135deg, #22c55e, #16a34a);
-      color: #fff;
+      margin-top: 0.5rem;
+      padding: 0.85rem 2rem;
+      background: #fff;
+      color: #15803d;
       border: none;
-      border-radius: 10px;
-      font-size: 0.88rem;
-      font-weight: 600;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      font-weight: 700;
       cursor: pointer;
       transition: transform 0.15s ease, box-shadow 0.15s ease;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
     }
     .livechat-notice-btn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 4px 14px rgba(22,163,74,0.35);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(0,0,0,0.25);
     }
     @media (max-width: 600px) {
-      .livechat-notice-body {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-      }
+      .livechat-notice-inner { padding: 1.5rem 1.25rem; }
+      .livechat-notice-title { font-size: 1.1rem; }
+      .livechat-notice-btn { width: 100%; justify-content: center; }
     }
   </style>
 
