@@ -824,7 +824,7 @@ import siteData from '../data/site.json';
     });
 
     // Place order
-    placeBtn?.addEventListener('click', () => {
+    placeBtn?.addEventListener('click', async () => {
       if (!agreeBox?.checked) return;
 
       const cart = getCart();
@@ -898,29 +898,23 @@ import siteData from '../data/site.json';
         notes: orderData.notes
       };
 
-      // Send admin notification
+      // Send order emails via Resend API (await both before navigating)
       try {
-        fetch('/api/send-email', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ type: 'admin-order', data: emailPayload })
-        })
-          .then(function(r) { return r.json(); })
-          .then(function(d) { if (d.error) console.error('Admin email error:', d.error); })
-          .catch(function(e) { console.error('Admin email fetch error:', e); });
+        await Promise.allSettled([
+          fetch('/api/send-email', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ type: 'admin-order', data: emailPayload })
+          }).then(function(r) { return r.json(); })
+            .then(function(d) { if (d.error) console.error('Admin email error:', d.error); }),
+          fetch('/api/send-email', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ type: 'customer-confirmation', data: emailPayload })
+          }).then(function(r) { return r.json(); })
+            .then(function(d) { if (d.error) console.error('Customer email error:', d.error); })
+        ]);
       } catch(e) { console.error('Email send error:', e); }
-
-      // Send customer confirmation email
-      try {
-        fetch('/api/send-email', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ type: 'customer-confirmation', data: emailPayload })
-        })
-          .then(function(r) { return r.json(); })
-          .then(function(d) { if (d.error) console.error('Customer email error:', d.error); })
-          .catch(function(e) { console.error('Customer email fetch error:', e); });
-      } catch(e) { console.error('Customer email error:', e); }
 
       // Clear cart
       saveCart([]);
