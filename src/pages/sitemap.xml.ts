@@ -7,7 +7,7 @@ import pagesData from '../data/pages.json';
 
 export const prerender = true;
 
-const SITE = 'https://vapelinks.com.au';
+const SITE = 'https://vapelinkstore.com.au';
 
 function normalizePath(pathname: string) {
   if (!pathname) return '/';

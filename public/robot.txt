@@ -8,5 +8,5 @@ Disallow: /account
 Disallow: /api/
 Disallow: /404
 
-Sitemap: https://vapelinks.com.au/sitemap.xml
-Host: vapelinks.com.au
+Sitemap: https://vapelinkstore.com.au/sitemap.xml
+Host: vapelinkstore.com.au

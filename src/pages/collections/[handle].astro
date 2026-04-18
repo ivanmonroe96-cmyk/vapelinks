@@ -123,18 +123,18 @@ const collectionImageAlt = collection.image?.alt || `${collection.title} collect
       "@type": "CollectionPage",
       "name": collection.title,
       "description": seoDesc,
-      "url": `https://vapelinks.com.au/collections/${collection.handle}`,
+      "url": `https://vapelinkstore.com.au/collections/${collection.handle}`,
       "numberOfItems": totalProducts,
       "isPartOf": {
         "@type": "WebSite",
-        "@id": "https://vapelinks.com.au/#website"
+        "@id": "https://vapelinkstore.com.au/#website"
       },
       "breadcrumb": {
         "@type": "BreadcrumbList",
         "itemListElement": [
-          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://vapelinks.com.au/" },
-          { "@type": "ListItem", "position": 2, "name": "Collections", "item": "https://vapelinks.com.au/collections" },
-          { "@type": "ListItem", "position": 3, "name": collection.title, "item": `https://vapelinks.com.au/collections/${collection.handle}` }
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://vapelinkstore.com.au/" },
+          { "@type": "ListItem", "position": 2, "name": "Collections", "item": "https://vapelinkstore.com.au/collections" },
+          { "@type": "ListItem", "position": 3, "name": collection.title, "item": `https://vapelinkstore.com.au/collections/${collection.handle}` }
         ]
       },
       "mainEntity": {
@@ -143,7 +143,7 @@ const collectionImageAlt = collection.image?.alt || `${collection.title} collect
         "itemListElement": allProducts.slice(0, 30).map((p: any, idx: number) => ({
           "@type": "ListItem",
           "position": idx + 1,
-          "url": `https://vapelinks.com.au/products/${p.handle}`,
+          "url": `https://vapelinkstore.com.au/products/${p.handle}`,
           "name": p.title,
           "image": p.images?.[0]?.src || ''
         }))

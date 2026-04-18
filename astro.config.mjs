@@ -6,7 +6,7 @@ import cloudflare from '@astrojs/cloudflare';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://vapelinks.com.au',
+  site: 'https://vapelinkstore.com.au',
   output: 'server',
   adapter: cloudflare(),
   integrations: [
@@ -20,7 +20,7 @@ export default defineConfig({
       serialize(item) {
         const url = item.url;
         // Homepage
-        if (url === 'https://vapelinks.com.au/' || url === 'https://vapelinks.com.au') {
+        if (url === 'https://vapelinkstore.com.au/' || url === 'https://vapelinkstore.com.au') {
           item.priority = 1.0;
           item.changefreq = 'daily';
         }

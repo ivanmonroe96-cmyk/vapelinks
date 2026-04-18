@@ -70,7 +70,7 @@ function emailLayout(content: string, preheader: string = '') {
           <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
             <tr><td style="border-top:1px solid #1e293b;padding-top:24px;text-align:center;">
               <p style="font-size:12px;color:#475569;line-height:1.6;margin:0 0 8px;">
-                <a href="https://vapelinks.com.au" style="color:#22c55e;text-decoration:none;font-weight:500;">vapelinks.com.au</a>
+                <a href="https://vapelinkstore.com.au" style="color:#22c55e;text-decoration:none;font-weight:500;">vapelinkstore.com.au</a>
               </p>
               <p style="font-size:11px;color:#334155;line-height:1.5;margin:0;">
                 Vapelink Australia &middot; Premium Vape Products<br/>
@@ -161,8 +161,8 @@ function badge(text: string, color: string) {
 export const POST: APIRoute = async ({ request, locals }) => {
   try {
     const resend = getResendClient(locals);
-    const FROM_EMAIL = getEnv(locals, 'RESEND_FROM_EMAIL') || 'Vapelink Australia <info@vapelinks.com.au>';
-    const ADMIN_EMAIL = getEnv(locals, 'RESEND_ADMIN_EMAIL') || 'info@vapelinks.com.au';
+    const FROM_EMAIL = getEnv(locals, 'RESEND_FROM_EMAIL') || 'Vapelink Australia <info@vapelinkstore.com.au>';
+    const ADMIN_EMAIL = getEnv(locals, 'RESEND_ADMIN_EMAIL') || 'info@vapelinkstore.com.au';
     const body = await request.json();
     const { type, data } = body;
 
@@ -327,12 +327,12 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
           <!-- CTA -->
           <tr><td style="padding:0 32px 32px;text-align:center;">
-            <a href="https://vapelinks.com.au" style="display:inline-block;background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;font-size:14px;font-weight:600;padding:14px 32px;border-radius:10px;text-decoration:none;letter-spacing:0.3px;">Continue Shopping</a>
+            <a href="https://vapelinkstore.com.au" style="display:inline-block;background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;font-size:14px;font-weight:600;padding:14px 32px;border-radius:10px;text-decoration:none;letter-spacing:0.3px;">Continue Shopping</a>
           </td></tr>
 
           <!-- Support -->
           <tr><td style="padding:0 32px 28px;text-align:center;">
-            <p style="font-size:12px;color:#64748b;margin:0;">Questions? Reply to this email or contact <a href="mailto:info@vapelinks.com.au" style="color:#22c55e;text-decoration:none;">info@vapelinks.com.au</a></p>
+            <p style="font-size:12px;color:#64748b;margin:0;">Questions? Reply to this email or contact <a href="mailto:info@vapelinkstore.com.au" style="color:#22c55e;text-decoration:none;">info@vapelinkstore.com.au</a></p>
           </td></tr>`;
 
         result = await resend.emails.send({
@@ -397,7 +397,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
           </td></tr>
 
           <tr><td style="padding:0 32px 32px;text-align:center;">
-            <a href="https://vapelinks.com.au" style="display:inline-block;background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;font-size:14px;font-weight:600;padding:14px 32px;border-radius:10px;text-decoration:none;">Visit Our Store</a>
+            <a href="https://vapelinkstore.com.au" style="display:inline-block;background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;font-size:14px;font-weight:600;padding:14px 32px;border-radius:10px;text-decoration:none;">Visit Our Store</a>
           </td></tr>`;
 
         await resend.emails.send({

@@ -4,7 +4,7 @@
  *
  * This script was used during the initial migration from Shopify to Astro.
  * It scraped product, collection, page data and images from the old
- * vapelink.com.au Shopify store and saved them locally.
+ * vapelinkstore.com.au Shopify store and saved them locally.
  *
  * All data has been migrated. This script is kept for reference only.
  */
@@ -18,7 +18,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
 const DATA_DIR = join(ROOT, 'src', 'data');
 const IMG_DIR = join(ROOT, 'public', 'images');
-const BASE_URL = 'https://vapelink.com.au';
+const BASE_URL = 'https://vapelinkstore.com.au';
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
 
 // Ensure directories
@@ -207,7 +207,7 @@ async function downloadHomepageAssets() {
     console.log(`  ⚠️ Logo failed: ${e.message}`);
   }
   // Download favicon
-  const faviconUrl = '//vapelink.com.au/cdn/shop/files/favicon_152x.png?v=1628657664';
+  const faviconUrl = '//vapelinkstore.com.au/cdn/shop/files/favicon_152x.png?v=1628657664';
   try {
     await downloadFile(faviconUrl, join(ROOT, 'public', 'favicon.png'));
     console.log('  ✅ Favicon downloaded');

@@ -1,4 +1,4 @@
-// SEO Keyword Mapping Database for vapelink.com.au
+// SEO Keyword Mapping Database for vapelinkstore.com.au
 // Generated: 2026-02-11
 // Focus: Australian vape market, buyer-intent, long-tail, low-difficulty keywords
 

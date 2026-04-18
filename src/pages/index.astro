@@ -40,18 +40,18 @@ const vendors = [...new Set(productsData.map((p: any) => p.vendor).filter(Boolea
       "@graph": [
         {
           "@type": "Organization",
-          "@id": "https://vapelinks.com.au/#organization",
+          "@id": "https://vapelinkstore.com.au/#organization",
           "name": "Vapelink Australia",
           "alternateName": "Vapelink",
-          "url": "https://vapelinks.com.au",
+          "url": "https://vapelinkstore.com.au",
           "logo": {
             "@type": "ImageObject",
-            "url": "https://vapelinks.com.au/images/logo.svg",
+            "url": "https://vapelinkstore.com.au/images/logo.svg",
             "width": 200,
             "height": 60
           },
           "description": "Melbourne-based online vape shop. Vape kits, disposable vapes, e-liquids, coils and accessories shipped Australia-wide.",
-          "email": "info@vapelinks.com.au",
+          "email": "info@vapelinkstore.com.au",
           "address": {
             "@type": "PostalAddress",
             "addressLocality": "Coburg North",
@@ -65,27 +65,27 @@ const vendors = [...new Set(productsData.map((p: any) => p.vendor).filter(Boolea
         },
         {
           "@type": "WebSite",
-          "@id": "https://vapelinks.com.au/#website",
-          "url": "https://vapelinks.com.au",
+          "@id": "https://vapelinkstore.com.au/#website",
+          "url": "https://vapelinkstore.com.au",
           "name": "Vapelink Australia",
           "description": "Online vape shop based in Melbourne, Australia",
-          "publisher": { "@id": "https://vapelinks.com.au/#organization" },
+          "publisher": { "@id": "https://vapelinkstore.com.au/#organization" },
           "potentialAction": {
             "@type": "SearchAction",
             "target": {
               "@type": "EntryPoint",
-              "urlTemplate": "https://vapelinks.com.au/search?q={search_term_string}"
+              "urlTemplate": "https://vapelinkstore.com.au/search?q={search_term_string}"
             },
             "query-input": "required name=search_term_string"
           }
         },
         {
           "@type": "Store",
-          "@id": "https://vapelinks.com.au/#store",
+          "@id": "https://vapelinkstore.com.au/#store",
           "name": "Vapelink Vape Shop",
-          "image": "https://vapelinks.com.au/images/logo.svg",
-          "url": "https://vapelinks.com.au",
-          "email": "info@vapelinks.com.au",
+          "image": "https://vapelinkstore.com.au/images/logo.svg",
+          "url": "https://vapelinkstore.com.au",
+          "email": "info@vapelinkstore.com.au",
           "address": {
             "@type": "PostalAddress",
             "streetAddress": "Coburg North",
@@ -110,7 +110,7 @@ const vendors = [...new Set(productsData.map((p: any) => p.vendor).filter(Boolea
             "@type": "ListItem",
             "position": 1,
             "name": "Home",
-            "item": "https://vapelinks.com.au/"
+            "item": "https://vapelinkstore.com.au/"
           }]
         }
       ]

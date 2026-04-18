@@ -46,7 +46,7 @@ if (!noindex && seoDescription.length < SEO_DESC_MIN) {
   seoDescription = trimAtWord(`${seoDescription} Shop genuine vape products online at Vapelink Australia.`, SEO_DESC_MAX);
 }
 
-const seoImage = image.startsWith('http') ? image : `https://vapelinks.com.au${image}`;
+const seoImage = image.startsWith('http') ? image : `https://vapelinkstore.com.au${image}`;
 const seoImageAlt = `${seoTitle} featured image`;
 
 import siteData from '../data/site.json';
@@ -103,16 +103,16 @@ const navCollections = collectionsData
     "@graph": [
       {
         "@type": "Organization",
-        "@id": "https://vapelinks.com.au/#organization",
+        "@id": "https://vapelinkstore.com.au/#organization",
         "name": "Vapelink Australia",
-        "url": "https://vapelinks.com.au",
+        "url": "https://vapelinkstore.com.au",
         "logo": {
           "@type": "ImageObject",
-          "url": "https://vapelinks.com.au/images/logo.svg"
+          "url": "https://vapelinkstore.com.au/images/logo.svg"
         },
         "contactPoint": {
           "@type": "ContactPoint",
-          "email": "info@vapelinks.com.au",
+          "email": "info@vapelinkstore.com.au",
           "contactType": "customer service",
           "areaServed": "AU",
           "availableLanguage": "English"
@@ -127,16 +127,16 @@ const navCollections = collectionsData
       },
       {
         "@type": "WebSite",
-        "@id": "https://vapelinks.com.au/#website",
-        "url": "https://vapelinks.com.au",
+        "@id": "https://vapelinkstore.com.au/#website",
+        "url": "https://vapelinkstore.com.au",
         "name": "Vapelink Australia",
-        "publisher": { "@id": "https://vapelinks.com.au/#organization" },
+        "publisher": { "@id": "https://vapelinkstore.com.au/#organization" },
         "inLanguage": "en-AU",
         "potentialAction": {
           "@type": "SearchAction",
           "target": {
             "@type": "EntryPoint",
-            "urlTemplate": "https://vapelinks.com.au/search?q={search_term_string}"
+            "urlTemplate": "https://vapelinkstore.com.au/search?q={search_term_string}"
           },
           "query-input": "required name=search_term_string"
         }
@@ -448,7 +448,7 @@ const navCollections = collectionsData
         <div>
           <h3 class="font-display footer-heading">Get in Touch</h3>
           <div class="footer-contact">
-            <a href="mailto:info@vapelinks.com.au" class="contact-item">
+            <a href="mailto:info@vapelinkstore.com.au" class="contact-item">
               <span class="contact-icon">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
               </span>
